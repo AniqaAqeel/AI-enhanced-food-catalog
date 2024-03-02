@@ -4,6 +4,7 @@ module.exports = () => {
 	const connectionParams = {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
+		dbName: "authentication_info"
 	};
 	try {
 		mongoose.connect(process.env.DB, connectionParams);
