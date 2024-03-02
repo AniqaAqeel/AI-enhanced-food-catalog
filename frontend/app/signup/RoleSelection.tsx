@@ -1,5 +1,7 @@
 "use client";
 import React, { useState } from "react";
+import PersonIcon from '@mui/icons-material/Person';
+import RestaurantIcon from '@mui/icons-material/Restaurant';
 
 export function RoleSelection({
   setRole,
@@ -9,31 +11,38 @@ export function RoleSelection({
   setStage: (stage: string) => void;
 }) {
   return (
-    <div className="bg-primary h-screen">
-      <h1 className="text-3xl font-bold ">
-        Choose your role
-      </h1>
-      <div className="flex flex-col justify-around items-center h-96">
+    <div className="items-center justify-center flex h-screen bg-gray-50 ">
+    <div className="  md:max-w-full w-full md:w-1/2 lg:w-1/3 rounded-xl md:min-h-96 bg-white lg:min-h-96 md:border-gray-100 md:border-2 md:shadow-inner lg:max-w-full">
+      <div className="flex flex-col justify-around items-center h-96 mb-10">
+        <h1 className="text-4xl text-primary font-extrabold m-8">Who are you?</h1>
         <button
           onClick={() => {
-            setRole("student");
-            //setStage("signup");
+            setRole("customer");
+              setStage("signup");
           }}
-          className="bg-black p-4 w-full"
+          className="text-xl p-3 bg-transparent border-2 opacity-80 border-primary  hover:bg-primary rounded-xl  w-3/4 text-primary hover:text-slate-50"
         >
-          I m a student
+            <div className="flex justify-around  items-center font-semibold ">
+          Customer
+
+          <PersonIcon />
+          </div>
         </button>
         <button
           onClick={() => {
-            setRole("teacher");
-            //setStage("signup");
+            setRole("restaurant owner");
+            setStage("signup");
           }}
-          className=" bg-black p-4 w-full"
+          className="text-xl p-3 bg-transparent border-2 opacity-80 border-primary  hover:bg-primary rounded-xl  w-3/4 text-primary hover:text-slate-50"
         >
-          I m a teacher
+          <div className="flex justify-around items-center   font-semibold ">
+          Restaurant
+          <RestaurantIcon  />
+          </div>
         </button>
         
       </div>
+    </div>
     </div>
   );
 }
