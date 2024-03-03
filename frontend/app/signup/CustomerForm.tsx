@@ -4,7 +4,7 @@ import axios from "axios";
 import Link from "next/link";
 import React, { useState } from "react";
 import Alert from '@mui/material/Alert';
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export  function CustomerForm() {
   const [email, setEmail] = useState("");
