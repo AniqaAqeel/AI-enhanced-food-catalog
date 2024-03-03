@@ -5,10 +5,10 @@ import styles from "./styles.module.css";
 
 const Signup = () => {
 	const [data, setData] = useState({
-		firstName: "",
-		lastName: "",
+		name: "",
 		email: "",
 		password: "",
+		desc: "",
 	});
 	const [error, setError] = useState("");
 	const navigate = useNavigate();
@@ -20,10 +20,12 @@ const Signup = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
+			console.log("ok")
 			const url = "http://localhost:8080/api/users";
 			const { data: res } = await axios.post(url, data);
 			navigate("/login");
 			console.log(res.message);
+			
 		} catch (error) {
 			if (
 				error.response &&
@@ -51,19 +53,10 @@ const Signup = () => {
 						<h1>Create Account</h1>
 						<input
 							type="text"
-							placeholder="First Name"
-							name="firstName"
+							placeholder="Your Name"
+							name="name"
 							onChange={handleChange}
-							value={data.firstName}
-							required
-							className={styles.input}
-						/>
-						<input
-							type="text"
-							placeholder="Last Name"
-							name="lastName"
-							onChange={handleChange}
-							value={data.lastName}
+							value={data.name}
 							required
 							className={styles.input}
 						/>
@@ -82,6 +75,15 @@ const Signup = () => {
 							name="password"
 							onChange={handleChange}
 							value={data.password}
+							required
+							className={styles.input}
+						/>
+						<input
+							type="text"
+							placeholder="Describe yourself in a few words"
+							name="desc"
+							onChange={handleChange}
+							value={data.desc}
 							required
 							className={styles.input}
 						/>

@@ -4,7 +4,9 @@ const app = express();
 const cors = require("cors");
 const connection = require("./db");
 const userRoutes = require("./routes/users");
-const authRoutes = require("./routes/auth");
+const authUserRoutes = require("./routes/authUser");
+const authResOwnerRoutes = require("./routes/authResOwner");
+const resownerRoutes = require("./routes/resowners");
 
 // database connection
 connection();
@@ -15,7 +17,9 @@ app.use(cors());
 
 // routes
 app.use("/api/users", userRoutes);
-app.use("/api/auth", authRoutes);
+app.use("/api/resowners", resownerRoutes);
+app.use("/api/users/auth", authUserRoutes);
+app.use("/api/resowners/auth", authResOwnerRoutes);
 
 const port = process.env.PORT || 8080;
 app.listen(port, console.log(`Listening on port ${port}...`));
