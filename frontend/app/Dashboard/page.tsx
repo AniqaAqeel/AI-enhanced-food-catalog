@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
-import { SigninForm } from "./SigninForm";
+import { Home } from "./home";
 
 export default function Page()
 {
     return (
-        <SigninForm />
+        <Home />
     )
 }
