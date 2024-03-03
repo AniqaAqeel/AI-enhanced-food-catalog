@@ -1,8 +1,45 @@
 import { InputField } from "@/components/Input";
+import axios from "axios";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import Alert from '@mui/material/Alert';
 
 export  function CustomerForm() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [error, setError] = useState("");
+  const [success,setSucess] = useState("");
+  const handleSubmit = async (e:any) => {
+		e.preventDefault();
+		try {
+			console.log("ok")
+			const url = "http://localhost:8080/api/users";
+			const { data: res } = await axios.post(url, {
+        name: name,
+        email: email,
+        password: password,
+        desc: "customer"
+      });
+			
+			console.log(res.message);
+      setSucess(res.message);
+      setError("");
+			
+		} catch (error:any) {
+			if (
+				error.response &&
+				error.response.status >= 400 &&
+				error.response.status <= 500
+			) {
+				setError(error.response.data.message);
+			}
+      else{
+        setError("An error occured, please try again later");
+      }
+		}
+	};
+
     return(
         <section className="bg-gray-50 ">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -13,38 +50,37 @@ export  function CustomerForm() {
           {/* <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo"> */}
           {/* <Image src="/flowbite.svg" alt="logo" width={32} height={32} className="w-8 h-8 mr-2" /> */}
           Welcome!
+
+
         </Link>
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0  ">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
+            {error &&     <Alert severity="error">{error}</Alert>}
+            {success &&     <Alert severity="success">{success}</Alert>}
               Create an account
             </h1>
             <form className="space-y-4 md:space-y-6" action="#">
               <InputField
-                label="First Name"
+                label="Name"
                 placeholder="Enter your first name"
                 required={true}
-                
+                OnChange={setName}
               />
-              <InputField
-                label="Last Name"
-                placeholder="Enter your last name"
-                required={true}
-                
-                
-              />
+              
               <InputField
                 label="Your email"
                 placeholder="Enter your email"
                 required={true}
                 type="email"
-                
+                OnChange={setEmail}
               />
               <InputField
                 label="Password"
                 placeholder="••••••••"
                 required={true}
                 type="password"
+                OnChange={setPassword}
               />
 
               <div className="flex items-center justify-between">
@@ -72,6 +108,7 @@ export  function CustomerForm() {
               <button
                 type="submit"
                 className="w-full text-white bg-primary  focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                onClick={handleSubmit}              
               >
                 Create an account
               </button>

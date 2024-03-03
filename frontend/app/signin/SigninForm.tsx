@@ -3,6 +3,7 @@ import axios from "axios";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useAuth } from "../AuthContext";
+import Alert from '@mui/material/Alert';
 
 export function SigninForm() {
   const [email, setEmail] = useState("");
@@ -14,10 +15,11 @@ export function SigninForm() {
 		try {
 			const url = "http://localhost:8080/api/users/auth";
 			const { data: res } = await axios.post(url, {
-        email,
-        password
+        email:email,
+        password:password
       });
       setToken(res.data);
+      console.log(res.data);
 			
 		} catch (error:any) {
 			if (
@@ -37,8 +39,7 @@ export function SigninForm() {
           prefetch={true}
           className="flex items-center mb-6 text-2xl font-semibold text-gray-900 "
         >
-          {/* <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo"> */}
-          {/* <Image src="/flowbite.svg" alt="logo" width={32} height={32} className="w-8 h-8 mr-2" /> */}
+          
           Welcome!
         </Link>
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0  ">
@@ -46,6 +47,7 @@ export function SigninForm() {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
               Sign in to your account
             </h1>
+            {error &&     <Alert severity="error">{error}</Alert>}
             <form className="space-y-4 md:space-y-6" action="#">
               <InputField
                 label="Email address"
