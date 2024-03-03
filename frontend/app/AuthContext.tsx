@@ -19,6 +19,7 @@ interface TAuthContext {
 
 export const AuthContext = createContext<any>({});
 const unprotected_routes = ["/signin","/signup","/"];
+const unaccessible_routes_during_login = ["/signin","/signup"];
 export const useAuth= () => useContext<TAuthContext>(AuthContext);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -32,6 +33,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             if (!unprotected_routes.includes(pathname))
             {
                 router.replace("/signin");
+            }
+        }
+        else if (token) 
+        {
+            if (unaccessible_routes_during_login.includes(pathname))
+            {
+                router.replace("/dashboard");
             }
         }
     },[user,token,pathname]);

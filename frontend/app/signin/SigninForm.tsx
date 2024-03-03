@@ -4,12 +4,14 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useAuth } from "../AuthContext";
 import Alert from '@mui/material/Alert';
+import { useRouter } from "next/navigation";
 
 export function SigninForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const {setToken} = useAuth();
+  const {setToken,setUser} = useAuth();
+  const router = useRouter();
   const handleSubmit = async (e:any) => {
 		e.preventDefault();
 		try {
@@ -18,8 +20,15 @@ export function SigninForm() {
         email:email,
         password:password
       });
-      setToken(res.data);
-      console.log(res.data);
+      setToken(res.data.token);
+      setUser({
+        email:res.data.user.email,
+        name:res.data.user.name,
+        role:"customer"
+      })
+      setError("");
+      router.replace("/dashboard");
+      
 			
 		} catch (error:any) {
 			if (
