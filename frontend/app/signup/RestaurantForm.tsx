@@ -4,12 +4,13 @@ import axios from "axios";
 import Link from "next/link";
 import React, { useState } from "react";
 import Alert from '@mui/material/Alert';
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
-export  function CustomerForm() {
+export  function RestaurantForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [phone,setphone] = useState("");
   const [error, setError] = useState("");
   const [success,setSucess] = useState("");
   const router = useRouter();
@@ -17,20 +18,22 @@ export  function CustomerForm() {
 		e.preventDefault();
 		try {
 			console.log("ok")
-			const url = "http://localhost:8080/api/users";
+			const url = "http://localhost:8080/api/resowners";
 			const { data: res } = await axios.post(url, {
         name: name,
         email: email,
         password: password,
-        desc: "customer"
+        phone_no: phone,
       });
 			
 			console.log(res.message);
       setSucess(res.message);
       setError("");
+      //wait for 2 sec
       setTimeout(() => {
         router.push("/signin");
       }, 2000);
+      
 			
 		} catch (error:any) {
 			if (
@@ -48,7 +51,7 @@ export  function CustomerForm() {
 
     return(
         <section className="bg-gray-50 ">
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-full lg:py-0">
         <Link href="/" prefetch={true} 
 
           className="flex items-center mb-6 text-2xl font-semibold text-gray-900 "
@@ -64,7 +67,7 @@ export  function CustomerForm() {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
             {error &&     <Alert severity="error">{error}</Alert>}
             {success &&     <Alert severity="success">{success}</Alert>}
-              Create an account
+              Create an account for restaurant
             </h1>
             <form className="space-y-4 md:space-y-6" action="#">
               <InputField
@@ -73,7 +76,13 @@ export  function CustomerForm() {
                 required={true}
                 OnChange={setName}
               />
-              
+              <InputField
+                label="Phone"
+                placeholder="Enter your phone"
+                required={true}
+                OnChange={setphone}
+                value={phone}
+              />
               <InputField
                 label="Your email"
                 placeholder="Enter your email"

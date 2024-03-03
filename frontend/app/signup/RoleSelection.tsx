@@ -30,7 +30,7 @@ export function RoleSelection({
         </button>
         <button
           onClick={() => {
-            setRole("restaurant owner");
+            setRole("restaurant");
             setStage("signup");
           }}
           className="text-xl p-3 bg-transparent border-2 opacity-80 border-primary  hover:bg-primary rounded-xl  w-3/4 text-primary hover:text-slate-50"
