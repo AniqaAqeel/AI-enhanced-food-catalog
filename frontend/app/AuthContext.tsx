@@ -18,7 +18,7 @@ interface TAuthContext {
 }
 
 export const AuthContext = createContext<any>({});
-const unprotected_routes = ["/signin","/signup","/"];
+const unprotected_routes = ["/signin","/signup","/", "/forget-password"];
 const unaccessible_routes_during_login = ["/signin","/signup"];
 export const useAuth= () => useContext<TAuthContext>(AuthContext);
 

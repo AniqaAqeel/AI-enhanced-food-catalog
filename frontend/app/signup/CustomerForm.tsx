@@ -5,6 +5,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import Alert from '@mui/material/Alert';
 import { useRouter } from "next/navigation";
+import { validateEmail, validatePassword } from "@/utils/validate";
 
 export  function CustomerForm() {
   const [email, setEmail] = useState("");
@@ -47,11 +48,11 @@ export  function CustomerForm() {
 	};
 
     return(
-        <section className="bg-gray-50 ">
+        <section className="bg-accent ">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <Link href="/" prefetch={true} 
 
-          className="flex items-center mb-6 text-2xl font-semibold text-gray-900 "
+          className="flex items-center mb-6 text-2xl font-semibold text-secondary "
         >
           {/* <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo"> */}
           {/* <Image src="/flowbite.svg" alt="logo" width={32} height={32} className="w-8 h-8 mr-2" /> */}
@@ -61,25 +62,28 @@ export  function CustomerForm() {
         </Link>
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0  ">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
+            <h1 className="text-xl font-bold leading-tight tracking-tight text-secondary md:text-2xl ">
             {error &&     <Alert severity="error">{error}</Alert>}
             {success &&     <Alert severity="success">{success}</Alert>}
               Create an account
             </h1>
             <form className="space-y-4 md:space-y-6" action="#">
               <InputField
-                label="Name"
-                placeholder="Enter your first name"
+                label="Username"
+                placeholder="Enter your username"
                 required={true}
+                value={name}
                 OnChange={setName}
               />
               
               <InputField
-                label="Your email"
+                label="Email"
                 placeholder="Enter your email"
                 required={true}
                 type="email"
                 OnChange={setEmail}
+                value={email}
+                validate={validateEmail}
               />
               <InputField
                 label="Password"
@@ -87,6 +91,8 @@ export  function CustomerForm() {
                 required={true}
                 type="password"
                 OnChange={setPassword}
+                value={password}
+                validate={validatePassword}
               />
 
               <div className="flex items-center justify-between">

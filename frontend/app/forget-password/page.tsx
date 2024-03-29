@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
-import { LandingPage } from "./Landingpage";
+import { ChangePassword } from "./changePassword";
 
 export default function Page()
 {
     return (
-        <LandingPage />
+        <ChangePassword />
     )
 }

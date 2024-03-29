@@ -15,8 +15,14 @@ const config: Config = {
       },
       colors:
       {
-        "primary": "#f97316",
-        "secondary": "#8B5CF6",
+        "primary": "#F27D41",
+        "secondary": "#333233",
+        "accent": "#fefefe",
+        "neutral": "#6b7280",
+        "error": "#f44336",
+        "success": "#4caf50",
+        "validate": "#3b82f6",
+        
       }
     },
   },

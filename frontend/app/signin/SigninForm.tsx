@@ -5,30 +5,23 @@ import React, { useState } from "react";
 import { useAuth } from "../AuthContext";
 import Alert from '@mui/material/Alert';
 import { useRouter } from "next/navigation";
+import { validateEmail } from "@/utils/validate";
 
 export function SigninForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const {setToken,setUser} = useAuth();
+  const { setToken ,setUser} = useAuth();
   const router = useRouter();
-  const handleSubmit = async (e:any) => {
-		e.preventDefault();
-		try {
-			const url = "http://localhost:8080/api/users/auth";
-			const { data: res } = await axios.post(url, {
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    try {
+      const url = "http://localhost:8080/api/users/auth";
+      const { data: res } = await axios.post(url, {
         email:email,
         password:password
       });
-      setToken(res.data.token);
-      setUser({
-        email:res.data.user.email,
-        name:res.data.user.name,
-        role:"customer"
-      })
-      setError("");
-      router.replace("/dashboard");
-      
+      setToken(res.data);
 			
 		} catch (error:any) {
 			if (
@@ -49,6 +42,7 @@ export function SigninForm() {
           className="flex items-center mb-6 text-2xl font-semibold text-gray-900 "
         >
           
+
           Welcome!
         </Link>
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0  ">
@@ -64,6 +58,7 @@ export function SigninForm() {
                 required={true}
                 type="email"
                 value={email}
+                validate={validateEmail}
                 OnChange={setEmail}
               />
               <InputField

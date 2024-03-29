@@ -71,20 +71,20 @@ export  function RestaurantForm() {
             </h1>
             <form className="space-y-4 md:space-y-6" action="#">
               <InputField
-                label="Name"
-                placeholder="Enter your first name"
+                label="Name:"
+                placeholder="Enter restaurant name"
                 required={true}
                 OnChange={setName}
               />
               <InputField
-                label="Phone"
+                label="Phone number:"
                 placeholder="Enter your phone"
                 required={true}
                 OnChange={setphone}
                 value={phone}
               />
               <InputField
-                label="Your email"
+                label="Email:"
                 placeholder="Enter your email"
                 required={true}
                 type="email"
