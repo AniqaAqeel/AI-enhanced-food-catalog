@@ -42,16 +42,19 @@ export function LandingPage() {
       </div>
 
       <header className="absolute top-0 left-0 right-0 bg-home mt-4">
-        <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+        <div className="flex flex-wrap justify-around items-center  mx-auto max-w-screen-xl">
+          <div className="flex-grow ml-9">
           <Link href="/LandingPage" className="flex items-center">
+            <div className="flex justify-between" >
             <span className="flex flex-wrap justify-between items-center self-center text-secondary text-3xl font-bold whitespace-nowrap">
-              <h1 className="text-primary ml-[-40px] me-4">
-                <RestaurantIcon />
-              </h1>
+                <RestaurantIcon className="text-primary  " />              
               DishCraft
             </span>
+          </div>
           </Link>
-          <div className="flex items-center ml-[-100px] ">
+          </div>
+          
+          <div className="flex items-center mr-9 ">
             <Link
               href="/signin"
               className="text-accent bg-transparent border-2 opacity-80 border-accent  hover:bg-accent hover:text-primary focus:ring-1 focus:ring-accent font-semibold rounded-xl text-l px-4 lg:px-4 py-2 lg:py-2 mr-2"
