@@ -15,23 +15,37 @@ export function ChangePassword() {
           prefetch={true}
           className="flex items-center mb-6 text-2xl font-semibold text-gray-900 "
         >
-          {/* {error && <Alert severity="error">{error}</Alert>} */}
-
-          Welcome!
         </Link>
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0  ">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
+            <h1 className="text-xl font-bold items-center leading-tight tracking-tight text-gray-900 md:text-2xl ">
               Change your password
             </h1>
             <form className="space-y-4 md:space-y-6" >
+          
               <InputField
-                label="Enter e-mail address"
-                placeholder="Enter email address"
+                label="Current password"
+                placeholder="Enter current password"
                 required={true}
                 // type="password"
                 // value={password}
               />
+              <InputField
+                label="New password"
+                placeholder="Enter new password"
+                required={true}
+                // type="password"
+                // value={password}
+                />
+
+              <InputField
+                label="Confirm password"
+                placeholder="Confirm new password"
+                required={true}
+                // type="password"
+                // value={password}
+                />
+
   
               
 
