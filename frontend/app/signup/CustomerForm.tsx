@@ -106,7 +106,7 @@ export  function CustomerForm() {
                     htmlFor="remember"
                     className="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400"
                   >
-                    Remember me
+                    Remember me !
                   </label>
                 </div>
                 <Link 
