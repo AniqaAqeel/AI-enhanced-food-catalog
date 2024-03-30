@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const { ResOwner, validate } = require("../models/resowner");
 const bcrypt = require("bcrypt");
+const { User } = require("../models/user");
 
 router.post("/", async (req, res) => {
 	try {
@@ -17,7 +18,7 @@ router.post("/", async (req, res) => {
 		const salt = await bcrypt.genSalt(Number(process.env.SALT));
 		const hashPassword = await bcrypt.hash(req.body.password, salt);
 
-		await new ResOwner({ ...req.body, password: hashPassword }).save();
+		await new User({ ...req.body, password: hashPassword,role:"resowner" }).save();
 		res.status(201).send({ message: "User created successfully" });
 	} catch (error) {
 		console.log(error)

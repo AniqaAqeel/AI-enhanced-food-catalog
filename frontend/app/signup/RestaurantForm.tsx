@@ -5,6 +5,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import Alert from '@mui/material/Alert';
 import { useRouter } from "next/navigation";
+import { validateEmail, validatePassword, validatePhone } from "@/utils/validate";
 
 export  function RestaurantForm() {
   const [email, setEmail] = useState("");
@@ -75,6 +76,7 @@ export  function RestaurantForm() {
                 placeholder="Enter restaurant name"
                 required={true}
                 OnChange={setName}
+                value={name}
               />
               <InputField
                 label="Phone number:"
@@ -82,6 +84,7 @@ export  function RestaurantForm() {
                 required={true}
                 OnChange={setphone}
                 value={phone}
+                validate={validatePhone}
               />
               <InputField
                 label="Email:"
@@ -89,13 +92,17 @@ export  function RestaurantForm() {
                 required={true}
                 type="email"
                 OnChange={setEmail}
+                value={email}
+                validate={validateEmail}
               />
               <InputField
                 label="Password"
                 placeholder="••••••••"
                 required={true}
                 type="password"
+                value={password}
                 OnChange={setPassword}
+                validate={validatePassword}
               />
 
               <div className="flex items-center justify-between">
@@ -123,7 +130,8 @@ export  function RestaurantForm() {
               <button
                 type="submit"
                 className="w-full text-white bg-primary  focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                onClick={handleSubmit}              
+                onClick={handleSubmit}      
+                        
               >
                 Create an account
               </button>

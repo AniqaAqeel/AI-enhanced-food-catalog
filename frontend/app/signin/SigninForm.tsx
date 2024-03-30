@@ -21,7 +21,12 @@ export function SigninForm() {
         email:email,
         password:password
       });
-      setToken(res.data);
+      setToken(res.data.token);
+      setUser({
+        email: res.data.user.email,
+        name: res.data.user.name,
+        role: res.data.user.role,
+      });
 			
 		} catch (error:any) {
 			if (

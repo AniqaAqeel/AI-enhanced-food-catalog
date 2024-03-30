@@ -16,3 +16,12 @@ export const validateEmail = (email: string) => {
     }
     return "Email must be valid";
 }
+
+export const validatePhone = (phone: string) => {
+    //Phone number must be valid
+    const phoneRegex = /^\d{11}$/;
+    if (phoneRegex.test(phone)) {
+        return "";
+    }
+    return "Phone number must be valid";
+}
