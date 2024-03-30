@@ -1,15 +1,15 @@
 const router = require("express").Router();
-const { ResOwner, validate } = require("../models/resowner");
 const bcrypt = require("bcrypt");
-const { User } = require("../models/user");
+const { User,validate } = require("../models/user");
 
 router.post("/", async (req, res) => {
 	try {
+		req.body.role = "resowner";
 		const { error } = validate(req.body);
 		if (error)
 			return res.status(400).send({ message: error.details[0].message });
 
-		const user = await ResOwner.findOne({ email: req.body.email });
+		const user = await User.findOne({ email: req.body.email });
 		if (user)
 			return res
 				.status(409)

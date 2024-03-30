@@ -31,7 +31,7 @@ export  function CustomerForm() {
       setError("");
       setTimeout(() => {
         router.push("/signin");
-      }, 2000);
+      },500);
 			
 		} catch (error:any) {
 			if (
