@@ -91,7 +91,7 @@ export function Home() {
       
     </div>
     </div>
-    <div className="pt-10 h-[18vh] w-full base relative bg-accent">
+    <div className="pt-12 h-[17vh] w-full base relative bg-accent">
       <div className=" pl-20 text-left text-3xl font-semibold text-secondary">Browse Food Catalogs</div>
       </div>
     <div className="px-20 bg-accent">
