@@ -80,7 +80,6 @@ export function Home() {
         alt="logo"
         style={{ marginTop: "0px" }}
         className=" bg-cover bg-no-repeat h-[75vh] object-cover max-w-full "
-        fill
         
     />
       <div className=" pl-20 items-start absolute inset-0 z-10 flex flex-col w-full justify-center text-center small:p-32 gap-6 ">

@@ -1,14 +1,20 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
+import HomeIcon from '@mui/icons-material/Home';
+import PersonIcon from '@mui/icons-material/Person';
+import LocalMallIcon from '@mui/icons-material/LocalMall';
 
 export default function NavBar() {
   return (
     <div className="sticky top-0 inset-x-0 z-50 group">
-      <header className="relative h-16 mx-auto border-b duration-200 bg-accent border-ui-border-base">
+      <header className="relative h-12 mx-auto border-b duration-200 bg-accent border-ui-border-base">
         <nav className="md:mx-auto md:px-20 flex justify-between w-full h-full text-small-regular">
           <div className="flex-1 justify-between items-center self-center basis-0 text-secondary  hover:text-primary whitespace-nowrap hover:text-ui-fg-base">
+            <div className="flex items-center h-full gap-x-1">
+            <HomeIcon className="text-secordary w-5" />
             Home
+          </div>
           </div>
 
           <div className="flex items-center h-full">
@@ -21,18 +27,26 @@ export default function NavBar() {
             </Link>
           </div>
 
-          <div className="flex items-center gap-x-6 h-full flex-1 basis-0 justify-end">
+          <div className="flex items-center gap-x-8 h-full flex-1 basis-0 justify-end">
             <Link
               href="/account"
               className="hover:text-ui-fg-base text-secondary  hover:text-primary"
             >
+              <div className="flex items-center h-full gap-x-1">
+              <PersonIcon className="text-secordary w-5" />
               Account
+              </div>
             </Link>
+            
             <Link
               href="/cart"
               className="hover:text-ui-fg-base flex gap-2 text-secondary  hover:text-primary"
             >
+              <div className="flex items-center h-full gap-x-1">
+              <LocalMallIcon className="text-secordary w-4" />
               Cart (0)
+              </div>
+              
             </Link>
           </div>
         </nav>
