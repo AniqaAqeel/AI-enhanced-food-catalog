@@ -1,3 +1,3 @@
 import InputField from "./InputField";
-
-export { InputField}
+import SearchBar from "./searchbar";
+export { InputField,SearchBar}
