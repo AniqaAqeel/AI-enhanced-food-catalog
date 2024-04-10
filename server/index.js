@@ -7,8 +7,11 @@ const userRoutes = require("./routes/users");
 const authUserRoutes = require("./routes/authUser");
 const authResOwnerRoutes = require("./routes/authResOwner");
 const resownerRoutes = require("./routes/resowners");
-const updatePassword = require("./routes/updatePassword")
-const resetPassword = require("./routes/resetPassword")
+const updatePassword = require("./routes/updatePassword");
+const resetPassword = require("./routes/resetPassword");
+
+
+const auth = require("./routes/auth");
 
 // database connection
 connection();
@@ -20,8 +23,11 @@ app.use(cors());
 // routes
 app.use("/api/users", userRoutes);
 app.use("/api/resowners", resownerRoutes);
-app.use("/api/users/auth", authUserRoutes);
-app.use("/api/resowners/auth", authResOwnerRoutes);
+// app.use("/api/users/auth", authUserRoutes);
+// app.use("/api/resowners/auth", authResOwnerRoutes);
+
+//testing new route for authentication
+app.use("/api/auth", auth);
 
 // for users only for now
 app.use("/api/users/updatePassword", updatePassword);
