@@ -4,12 +4,12 @@ const { ResOwner, validate } = require("../models/resowner");
 
 router.post("/", async (req, res) => {
 	try {
-		req.body.role = "resowner";
 		const { error } = validate(req.body);
-		if (error)
+		if (error) {
+			console.log(req.body)
 			return res.status(400).send({ message: error.details[0].message });
-
-		const user = await User.findOne({ email: req.body.email });
+		}
+		const user = await ResOwner.findOne({ email: req.body.email });
 		if (user)
 			return res
 				.status(409)
