@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const { ResOwner, validate } = require("../models/resowner");
-const { Restaurant } = require("../models/restaurant")
+const { Restaurant, validateRestaurant } = require("../models/restaurant")
 
 router.post("/", async (req, res) => {
 	try {
@@ -26,7 +26,7 @@ router.post("/", async (req, res) => {
 			owner_id: newUser._id, 
 			res_name: "dummy", 
 			cuisine: "dummy", 
-			weighted_rating: "dummy", 
+			weighted_rating: 10, 
 			warning_msg: "dummy", 
 		}).save();
 

@@ -42,3 +42,4 @@
 
 ### TO-EDIT-LATER:
 - Dummy values in resowners.js when adding new restaurant
+- Have to make validation function for resaurant collection
