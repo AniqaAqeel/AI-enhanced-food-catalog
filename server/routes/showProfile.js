@@ -7,12 +7,12 @@ const findUserIdFromToken = require("../utils/findUserIdFromToken")
 
 router.get("/", async (req, res) => {
 	try {
-        const token_temp = req.body.token;
+        const token_temp = req.query.token;
         const userId = findUserIdFromToken(token_temp);
 		let person;
 		let outJson;
 
-		if (req.body.role === "user"){
+		if (req.query.role === "user"){
 			person = await User.findOne({ "_id": userId })
 		} else {
 			person = await ResOwner.findOne({ "_id": userId })
@@ -22,14 +22,14 @@ router.get("/", async (req, res) => {
 		if (!person) 
 			return res.status(401).send({ message: "User not logged in" });
 
-		// if (user.email != req.body.email) 
+		// if (user.email != req.query.email) 
 		// 	return res.status(401).send({ message: "Invalid email" });
 		outJson = {
 			name: person.name,
 			email: person.email
 		}
 
-		if (req.body.role === "user") {
+		if (req.query.role === "user") {
 			outJson.desc = person.desc
 		} else {
 			outJson.phone_no = person.phone_no
