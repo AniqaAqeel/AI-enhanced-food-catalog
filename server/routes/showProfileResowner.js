@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const Joi = require("joi");
 const findUserIdFromToken = require("../utils/findUserIdFromToken")
 
-router.post("/", async (req, res) => {
+router.get("/", async (req, res) => {
 	try {
         const token_temp = req.body.token;
         const userId = findUserIdFromToken(token_temp);
