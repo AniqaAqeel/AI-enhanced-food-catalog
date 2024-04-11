@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { ResOwner } = require("../models/resowner");
+const { User } = require("../models/user");
 const bcrypt = require("bcrypt");
 const Joi = require("joi");
 const findUserIdFromToken = require("../utils/findUserIdFromToken")
@@ -9,20 +9,20 @@ router.post("/", async (req, res) => {
         const token_temp = req.body.token;
         const userId = findUserIdFromToken(token_temp);
 
-		const resowner = await ResOwner.findOne({ "_id": userId });
+		const user = await User.findOne({ "_id": userId })
 		
-		if (!resowner) 
+		if (!user) 
 			return res.status(401).send({ message: "User not logged in" });
 
 		// if (user.email != req.body.email) 
 		// 	return res.status(401).send({ message: "Invalid email" });
 		
-
+		
 		res.status(200).send( 
 			{
-				name: resowner.name,
-				email: resowner.email,
-				phone_no: resowner.phone_no
+				name: user.name,
+				email: user.email,
+				desc: user.desc
 			}
 		 );
 	} catch (error) {
