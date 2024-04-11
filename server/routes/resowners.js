@@ -1,15 +1,15 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
-const { User,validate } = require("../models/user");
+const { ResOwner, validate } = require("../models/resowner");
 
 router.post("/", async (req, res) => {
 	try {
-		req.body.role = "resowner";
 		const { error } = validate(req.body);
-		if (error)
+		if (error) {
+			console.log(req.body)
 			return res.status(400).send({ message: error.details[0].message });
-
-		const user = await User.findOne({ email: req.body.email });
+		}
+		const user = await ResOwner.findOne({ email: req.body.email });
 		if (user)
 			return res
 				.status(409)
@@ -18,7 +18,7 @@ router.post("/", async (req, res) => {
 		const salt = await bcrypt.genSalt(Number(process.env.SALT));
 		const hashPassword = await bcrypt.hash(req.body.password, salt);
 
-		await new User({ ...req.body, password: hashPassword,role:"resowner" }).save();
+		await new ResOwner({ ...req.body, password: hashPassword,role:"resowner" }).save();
 		res.status(201).send({ message: "User created successfully" });
 	} catch (error) {
 		console.log(error)
