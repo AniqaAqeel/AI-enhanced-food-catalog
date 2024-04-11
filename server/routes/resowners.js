@@ -21,6 +21,7 @@ router.post("/", async (req, res) => {
 
 		const newUser = await new ResOwner({ ...req.body, password: hashPassword,role:"resowner" }).save();
 
+		//dummy values input for now---------------------------------------------------------------------------------->>>>>>>>>>>>>>>>>>>>>>
 		await new Restaurant({
 			owner_id: newUser._id, 
 			res_name: "dummy", 
