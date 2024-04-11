@@ -31,7 +31,7 @@ app.use("/api/users/resetPassword", resetPassword);
 app.use("/api/resowners", resownerRoutes);
 
 //for both
-app.use("/api/auth", auth);
+app.use("/api/users/auth", auth);
 
 
 // junk
