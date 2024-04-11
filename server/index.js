@@ -9,6 +9,8 @@ const authResOwnerRoutes = require("./routes/authResOwner");
 const resownerRoutes = require("./routes/resowners");
 const updatePassword = require("./routes/updatePassword");
 const resetPassword = require("./routes/resetPassword");
+const showProfile = require("./routes/showProfile");
+// const showProfileResowners = require("./routes/showProfileResowner");
 
 
 const auth = require("./routes/auth");
@@ -24,11 +26,14 @@ app.use(cors());
 
 //users
 app.use("/api/users", userRoutes);
+app.use("/api/users/showProfile", showProfile);
 app.use("/api/users/updatePassword", updatePassword);
 app.use("/api/users/resetPassword", resetPassword);
 
 //resowners
 app.use("/api/resowners", resownerRoutes);
+app.use("/api/resowners/showProfile", showProfile);
+
 
 //for both
 app.use("/api/users/auth", auth);

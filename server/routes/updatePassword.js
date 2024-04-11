@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { User } = require("../models/user");
 const jwt = require("jsonwebtoken");
-const x = require("bcrypt");
+const bcrypt = require("bcrypt");
 const findUserIdFromToken = require("../utils/findUserIdFromToken")
 
 // Route to update user password
@@ -11,7 +11,7 @@ router.post("/", async (req, res) => {
         const token = req.body.token;
         const userId = findUserIdFromToken(token);
 
-		user = await User.findOne({ "_id": userId })
+		const user = await User.findOne({ "_id": userId })
 		
 		if (!user) 
 			return res.status(401).send({ message: "User not logged in" });
