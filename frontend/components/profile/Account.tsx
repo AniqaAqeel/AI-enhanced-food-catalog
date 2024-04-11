@@ -97,7 +97,7 @@ export const AccountDropdown = () => {
             user?.role=== "resowner" && <>
             <div className="flex-direction: column justify-start  text-secondary">
             <MenuItem>
-                <Link href="/restaurantaccount">
+                <Link href="/uploadcsv">
                 <div className="flex items-center gap-x-1 justify-between  text-secondary">
                 <FileUploadIcon className="justify-start text-secordary w-5 " />
     

@@ -37,9 +37,7 @@ export default function NavBar() {
 
           
           <div className="flex items-center gap-x-8 h-full flex-1 text-black basis-0 justify-end">
-          <div className="flex items-center h-full gap-x-1 hover:text-primary">
-              <AccountDropdown />
-            </div>
+
           <Link
               href="/cart"
               className="hover:text-ui-fg-base flex gap-2 text-secondary  hover:text-primary"
@@ -49,6 +47,10 @@ export default function NavBar() {
                 Cart (0)
               </div>
             </Link>
+          <div className="flex items-center h-full gap-x-1 hover:text-primary">
+              <AccountDropdown />
+            </div>
+          
 
             
 

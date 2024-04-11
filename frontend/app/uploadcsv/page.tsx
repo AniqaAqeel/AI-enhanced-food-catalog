@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
-import { Customeraccount } from "./Customeraccount";
+import { Uploadcsv } from "./Uploadcsv";
 
 export default function Page()
 {
     return (
-        <Customeraccount />
+        <Uploadcsv />
     )
 }

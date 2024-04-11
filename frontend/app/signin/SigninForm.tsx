@@ -21,6 +21,7 @@ export function SigninForm() {
         email:email,
         password:password
       });
+      console.log(res);
       setToken(res.data.token);
       setUser({
         email: res.data.user.email,
