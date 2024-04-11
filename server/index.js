@@ -25,7 +25,7 @@ app.use(cors());
 //users
 app.use("/api/users", userRoutes);
 app.use("/api/users/updatePassword", updatePassword);
-app.use("/api/users/resetPassword", resetPassword)
+app.use("/api/users/resetPassword", resetPassword);
 
 //resowners
 app.use("/api/resowners", resownerRoutes);
