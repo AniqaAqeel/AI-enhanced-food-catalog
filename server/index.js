@@ -26,7 +26,6 @@ app.use(cors());
 
 //users
 app.use("/api/users", userRoutes);
-app.use("/api/users/showProfile", showProfile);
 app.use("/api/users/updatePassword", updatePassword);
 app.use("/api/users/resetPassword", resetPassword);
 
@@ -37,6 +36,7 @@ app.use("/api/resowners/showProfile", showProfile);
 
 //for both
 app.use("/api/users/auth", auth);
+app.use("/api/showProfile", showProfile);
 
 
 // junk
