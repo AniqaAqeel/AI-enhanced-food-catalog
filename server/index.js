@@ -21,17 +21,22 @@ app.use(express.json());
 app.use(cors());
 
 // routes
-app.use("/api/users", userRoutes);
-app.use("/api/resowners", resownerRoutes);
-// app.use("/api/users/auth", authUserRoutes);
-// app.use("/api/resowners/auth", authResOwnerRoutes);
 
-//testing new route for authentication
+//users
+app.use("/api/users", userRoutes);
+app.use("/api/users/updatePassword", updatePassword);
+app.use("/api/users/resetPassword", resetPassword)
+
+//resowners
+app.use("/api/resowners", resownerRoutes);
+
+//for both
 app.use("/api/auth", auth);
 
-// for users only for now
-app.use("/api/users/updatePassword", updatePassword);
-app.use("/api/users/resetPassword", resetPassword);
+
+// junk
+// app.use("/api/users/auth", authUserRoutes);
+// app.use("/api/resowners/auth", authResOwnerRoutes);
 
 const port = process.env.PORT || 8080;
 app.listen(port, console.log(`Listening on port ${port}...`));
