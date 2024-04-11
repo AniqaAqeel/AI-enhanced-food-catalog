@@ -7,14 +7,17 @@ const Joi = require("joi");
 router.post("/", async (req, res) => {
 	try {
         let person;
+		let role;
 		const { error } = validate(req.body);
 		if (error)
 			return res.status(400).send({ message: error.details[0].message });
 
 		person = await User.findOne({ email: req.body.email });
+		role = "user"
 
 		if (!person) {
             person = await ResOwner.findOne({ email: req.body.email });
+			role = "resowner"
         }
             
 		if (!person)
@@ -36,7 +39,7 @@ router.post("/", async (req, res) => {
 			user:{
 				name:person.name,
 				email:person.email,
-				role:person.role
+				role:role
 			}
 		}, message: "logged in successfully" });
 	} catch (error) {
