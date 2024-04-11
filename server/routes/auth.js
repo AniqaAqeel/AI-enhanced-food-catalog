@@ -11,9 +11,9 @@ router.post("/", async (req, res) => {
 		if (error)
 			return res.status(400).send({ message: error.details[0].message });
 
-		if (req.body.role === "user") {
-            person = await User.findOne({ email: req.body.email });
-        } else {
+		person = await User.findOne({ email: req.body.email });
+
+		if (!person) {
             person = await ResOwner.findOne({ email: req.body.email });
         }
             
@@ -47,7 +47,6 @@ router.post("/", async (req, res) => {
 
 const validate = (data) => {
 	const schema = Joi.object({
-        role: Joi.string().valid('user', 'resowner').required().label("Role"),
 		email: Joi.string().email().required().label("Email"),
 		password: Joi.string().required().label("Password"),
 	});
