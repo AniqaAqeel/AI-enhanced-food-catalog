@@ -44,7 +44,6 @@ app.use("/api/resowners/showProfile", showProfile);
 app.use("/api/resowners/imageRestaurant", imageRestaurant);
 app.use("/api/resowners/csvUpload", csvUpload);
 
-
 //for both
 app.use("/api/users/auth", auth);
 app.use("/api/showProfile", showProfile);
