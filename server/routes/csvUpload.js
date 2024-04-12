@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const cors = require('cors');
 const multer = require('multer');
+const { ResOwner } = require("../models/resowner")
 const fs = require('fs');
 const csvParser = require('csv-parser');
 require('dotenv').config();
