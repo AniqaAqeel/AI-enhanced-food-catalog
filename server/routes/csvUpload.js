@@ -20,13 +20,13 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.post('/', upload.single('file'), async (req, res) => {
-    const token = req.body.token;
-    const userId = findUserIdFromToken(token);
+    // const token = req.body.token;
+    // const userId = findUserIdFromToken(token);
 
-    const resowner = await ResOwner.findOne({ "_id": userId })
+    // const resowner = await ResOwner.findOne({ "_id": userId })
     
-    if (!resowner) 
-        return res.status(401).send({ message: "User not logged in" });
+    // if (!resowner) 
+    //     return res.status(401).send({ message: "User not logged in" });
 
     if (!req.file) {
         return res.status(400).json({ message: 'No file uploaded' });

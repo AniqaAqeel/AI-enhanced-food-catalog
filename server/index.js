@@ -15,8 +15,7 @@ const viewMainPage = require("./routes/viewMainPage");
 const viewRestaurant = require("./routes/viewRestaurant");
 const rateRestaurant = require("./routes/rateRestaurant");
 const imageRestaurant = require("./routes/imageRestaurant");
-const csvUpload = require("./routes/csvUpload")
-const csvProcess = require("./routes/csvProcess")
+const csvUpload = require("./routes/csvUpload");
 
 
 const auth = require("./routes/auth");
@@ -43,8 +42,7 @@ app.use("/api/users/rateRestaurant", rateRestaurant);
 app.use("/api/resowners", resownerRoutes);
 app.use("/api/resowners/showProfile", showProfile);
 app.use("/api/resowners/imageRestaurant", imageRestaurant);
-app.use("/api/resowners/csvUpload", csvUpload)
-app.use("api/resowners/csvProcess", csvProcess)
+app.use("/api/resowners/csvUpload", csvUpload);
 
 
 //for both
