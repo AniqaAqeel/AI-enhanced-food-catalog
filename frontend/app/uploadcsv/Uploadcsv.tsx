@@ -46,11 +46,11 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 70 },
   { field: "item", headerName: "Item", width: 130, editable: true },
-  { field: "price", headerName: "Price", width: 130, type: "number" },
+  { field: "price", headerName: "Price", width: 130, type: "number",editable: true },
   {
     field: "tag",
     headerName: "Tags",
-    width: 90,
+    width: 90,editable: true
   },
 ];
 interface EnhancedTableToolbarProps {
@@ -67,7 +67,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
       }}
-      className="text-black"
+      className="text-secondary"
     >
       {numSelected > 0 ? (
         <Typography
@@ -163,14 +163,14 @@ export function Uploadcsv() {
             Submit
           </Button>
         </div>
-        <Divider orientation="horizontal" flexItem />
-        {/* <div className="flex flex-row gap-5 px-20">
+        {/* <Divider orientation="horizontal" flexItem /> */}
+        <div className="flex flex-row gap-5 px-20">
             {file && (
             <Alert severity="success">
               {filename} uploaded successfully
             </Alert>
           )}
-          </div> */}
+          </div>
         <div
           style={{
             height: "auto",
@@ -186,6 +186,7 @@ export function Uploadcsv() {
           />
           <DataGrid
             rows={data}
+
             columns={columns}
             initialState={{
               pagination: {
