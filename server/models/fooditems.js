@@ -10,3 +10,5 @@ const foodItemSchema = new Schema({
 });
 
 const FoodItem = mongoose.model("food_items", foodItemSchema);
+
+module.exports = { FoodItem };

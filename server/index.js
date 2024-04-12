@@ -12,6 +12,7 @@ const resetPassword = require("./routes/resetPassword");
 const showProfile = require("./routes/showProfile");
 const orderPlacement = require("./routes/orderPlacement");
 const viewMainPage = require("./routes/viewMainPage");
+const viewRestaurant = require("./routes/viewRestaurant");
 
 
 const auth = require("./routes/auth");
@@ -31,6 +32,7 @@ app.use("/api/users/updatePassword", updatePassword);
 app.use("/api/users/resetPassword", resetPassword);
 app.use("/api/users/orderPlacement", orderPlacement);
 app.use("/api/users/viewMainPage", viewMainPage);
+app.use("/api/users/viewRestaurant", viewRestaurant);
 
 //resowners
 app.use("/api/resowners", resownerRoutes);
