@@ -38,6 +38,10 @@ router.post("/", (req, res, next) => {
     }
 
     const imageName = req.file.filename;
+    const extension = path.extname(imageName);
+    if (![".png", ".jpg", ".jpeg",".webp"].includes(extension)) {
+      return res.status(400).json({ message: "Invalid image format" });
+    }
     const token = req.body.token;
     const userId = findUserIdFromToken(token);
 
@@ -53,13 +57,14 @@ router.post("/", (req, res, next) => {
     if (tempFile) {
       const oldFilePath = path.join(image_dir, tempFile);
       const newFileName = userId;
-      const newFilePath = path.join(image_dir, (newFileName + "." + imageName.split('.').pop()));
+      const newFilePath = path.join(image_dir, (newFileName));
 
       await fs.promises.rename(oldFilePath, newFilePath);
 
-      const image = await fs.promises.readFile(newFilePath);
-      res.set('Content-Type', 'image/*'); 
-      res.send(image);
+      // const image = await fs.promises.readFile(newFilePath);
+      // res.set('Content-Type', 'image/*'); 
+      // res.send(image);
+      res.status(200).json({ message: "Image uploaded successfully" });
     } else {
       res.status(404).json({ message: "Image not found" });
     }
