@@ -20,7 +20,7 @@ const SearchBar = () => {
         <div className="items-start px-2 " >
             <div className="item-center relative mr-3 ">
                 <div className="absolute  top-2 left-2 items-center" ref={clickPoint}>
-                < SearchIcon className=" w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 20 20" clip-rule="evenodd" fill-rule = "evenodd"/>
+                < SearchIcon className=" w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 20 20" clipRule="evenodd" fill-rule = "evenodd"/>
 
                     
                     

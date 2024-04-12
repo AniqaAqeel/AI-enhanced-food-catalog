@@ -5,9 +5,33 @@ import axios from "axios";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useAuth } from "../AuthContext";
+import { useRouter } from "next/navigation";
 import Alert from "@mui/material/Alert";
+import { useQuery } from "@tanstack/react-query";
 export function Customeraccount() {
-  const { setToken, setUser, user } = useAuth();
+  const fetchProfile = async () => {
+      const url = `${process.env.NEXT_PUBLIC_URL}`
+      axios.defaults.baseURL = url;
+      const response = await axios.get("/api/showProfile", {
+        params: {
+          token: token,
+          role: user?.role,
+        },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return await response.data;
+  }
+
+
+  const { setToken, setUser, user,token } = useAuth();
+  const {data,isLoading,error} = useQuery({
+    queryKey: ["profile"],
+    queryFn: fetchProfile,
+});
+
   return (
     <div>
       <NavBar />
@@ -16,13 +40,17 @@ export function Customeraccount() {
           <div className="text-primary text-3xl font-semibold text-left ">
             My Profile
           </div>
-
+          {error && (
+            <Alert severity="error">
+              {error.message}
+            </Alert>
+          )}
           <div className="flex flex-col justify-items-start pt-8 pr-72">
             <div className="text-secondary  font-semibold text-lg pb-3">
               Name:
             </div>
             <div className="bg-gray-50 border border-gray-300 text-secondary sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 ">
-              <span>{  user?.name}</span>
+              <span>{  data?.name}</span>
             </div>
           </div>
 
@@ -31,9 +59,40 @@ export function Customeraccount() {
               Email:
             </div>
             <div className="bg-gray-50 border border-gray-300 text-secondary sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 ">
-              <span>{user && user?.email}</span>
+              <span>{data?.email}</span>
             </div>
           </div>
+          {
+            user?.role=== "resowner" && <>
+            <div className="flex flex-col justify-items-start pt-8 pr-72">
+            <div className="text-secondary  font-semibold text-lg pb-3">
+              Phone Number:
+            </div>
+            <div className="bg-gray-50 border border-gray-300 text-secondary sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 ">
+              <span>{data?.phone_no}</span>
+            </div>
+          </div>
+
+          <div className="flex flex-col justify-items-start pt-8 pr-72">
+            <div className="text-secondary  font-semibold text-lg ">
+              
+              Desciption:
+            </div>
+            <InputField
+            
+                label="" 
+                placeholder="Enter Desciption"
+                className="mb-3"
+                required={true}
+                // type="password"
+                // value={password}
+              />
+            </div>
+            
+              </>
+          }
+          
+
           <div className="flex flex-col justify-items-start pt-8 pr-72">
             <div className="text-secondary  font-semibold text-lg ">
               {" "}
@@ -75,6 +134,7 @@ export function Customeraccount() {
               Reset password
             </button>
           </div>
+          
         </div>
       </div>
     </div>

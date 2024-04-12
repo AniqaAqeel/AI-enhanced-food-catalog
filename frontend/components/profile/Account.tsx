@@ -24,7 +24,7 @@ export const AccountDropdown = () => {
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
-  const { setToken, setUser, user} = useAuth();
+  const { setToken, setUser, user } = useAuth();
   const router = useRouter();
   const handleLogout = () => {
     setToken("");
@@ -78,75 +78,75 @@ export const AccountDropdown = () => {
         }}
         MenuListProps={{
           onMouseLeave: handleCloseNavMenu,
-          style: { width: "auto" , paddingRight: 10},
+          style: { width: "auto", paddingRight: 10 },
         }}
       >
         <div className="flex-direction: column justify-start  text-secondary">
-        <MenuItem>
-          <Link href="/account">
-          <div className="flex items-center gap-x-1 justify-between  text-secondary">
-          <PersonIcon className="text-secordary w-4 " />
+          <MenuItem>
+            <Link href="/account" prefetch={true}>
+              <div className="flex items-center gap-x-1 justify-between  text-secondary">
+                <PersonIcon className="text-secordary w-4 " />
 
-            <Typography textAlign="center">
-              My profile
-            </Typography>
-          </div>
-          </Link>
-        </MenuItem>
-        {
-            user?.role=== "resowner" && <>
-            <div className="flex-direction: column justify-start  text-secondary">
-            <MenuItem>
-                <Link href="/uploadcsv">
-                <div className="flex items-center gap-x-1 justify-between  text-secondary">
-                <FileUploadIcon className="justify-start text-secordary w-5 " />
-    
-                    <Typography textAlign="center">
-                    Upload CSV
-                    </Typography>
-                </div>
-                </Link>
-            </MenuItem> 
-            <MenuItem>
-                <Link href="/restaurantaccount">
-                <div className="flex items-center gap-x-1 justify-between  text-secondary">
-                <ImageIcon className="text-secordary w-4 " />
-    
-                    <Typography textAlign="center">
-                    Upload Image
-                    </Typography>
-                </div>
-                </Link>
-            </MenuItem> 
-            
+                <Typography textAlign="center">
+                  My profile
+                </Typography>
+              </div>
+            </Link>
+          </MenuItem>
+          {
+            user?.role === "resowner" && <>
+              <div className="flex-direction: column justify-start  text-secondary">
+                <MenuItem>
+                  <Link href="/uploadcsv" prefetch={true}>
+                    <div className="flex items-center gap-x-1 justify-between  text-secondary">
+                      <FileUploadIcon className="justify-start text-secordary w-5 " />
 
-            <MenuItem>
-                <Link href="/restaurantaccount">
-                <div className="flex items-center gap-x-1 justify-between  text-secondary">
-                <RestaurantMenuIcon className="justify-start text-secordary w-4 " />
-    
-                    <Typography textAlign="center">
-                    My Restaurant
-                    </Typography>
-                </div>
-                </Link>
-            </MenuItem> 
-            </div>
+                      <Typography textAlign="center">
+                        Upload CSV
+                      </Typography>
+                    </div>
+                  </Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link href="/restaurantaccount" prefetch={true}>
+                    <div className="flex items-center gap-x-1 justify-between  text-secondary">
+                      <ImageIcon className="text-secordary w-4 " />
+
+                      <Typography textAlign="center">
+                        Upload Image
+                      </Typography>
+                    </div>
+                  </Link>
+                </MenuItem>
+
+
+                <MenuItem>
+                  <Link href="/restaurantaccount" prefetch={true}>
+                    <div className="flex items-center gap-x-1 justify-between  text-secondary">
+                      <RestaurantMenuIcon className="justify-start text-secordary w-4 " />
+
+                      <Typography textAlign="center">
+                        My Restaurant
+                      </Typography>
+                    </div>
+                  </Link>
+                </MenuItem>
+              </div>
             </>
-        }
+          }
 
-        <MenuItem onClick={handleLogout}>
-          <div className="flex items-center gap-x-1 justify-between text-secondary">
-          <LogoutIcon className="text-secordary w-4 " />
+          <MenuItem onClick={handleLogout}>
+            <div className="flex items-center gap-x-1 justify-between text-secondary">
+              <LogoutIcon className="text-secordary w-4 " />
 
-            <Typography textAlign="center">
-              Log out
-            </Typography>
-          </div>
-        </MenuItem>
+              <Typography textAlign="center">
+                Log out
+              </Typography>
+            </div>
+          </MenuItem>
         </div>
       </Menu>
     </div>
-    
+
   );
 };
