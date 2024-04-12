@@ -4,10 +4,9 @@ const path = require("path");
 const fs = require('fs');
 const findUserIdFromToken = require("../utils/findUserIdFromToken")
 const { ResOwner } = require("../models/resowner");
-// const Images = require("./models/Images");
 
 const router = express.Router();
-const image_dir = path.join(__dirname, "../src/images/")
+const image_dir = path.join(__dirname, "../src/images/");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -15,44 +14,57 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now();
-    // console.log(imageName.split('.').pop())
     cb(null, "temp_" + file.originalname);
   },
 });
 
 const upload = multer({ storage: storage });
 
-router.post("/", upload.single("image"), async (req, res) => {
-  const imageName = req.file.filename;
+router.post("/", (req, res, next) => {
+  upload.single("image")(req, res, function (err) {
+    if (err instanceof multer.MulterError) {
+      // A Multer error occurred when uploading.
+      return res.status(500).json({ error: "Multer error: " + err.message });
+    } else if (err) {
+      // An unknown error occurred.
+      return res.status(500).json({ error: "Unknown error: " + err.message });
+    }
+    next();
+  });
+}, async (req, res) => {
   try {
+    if (!req.file) {
+      return res.status(400).json({ message: "No image uploaded" });
+    }
+
+    const imageName = req.file.filename;
     const token = req.body.token;
     const userId = findUserIdFromToken(token);
 
-    const resowner = await ResOwner.findOne({ "_id": userId })
+    const resowner = await ResOwner.findOne({ "_id": userId });
     
-    if (!resowner) 
-        return res.status(401).send({ message: "User not logged in" });
+    if (!resowner) {
+      return res.status(401).json({ message: "User not logged in" });
+    }
 
     const files = await fs.promises.readdir(image_dir)
     const tempFile = files.find(file => file.startsWith("temp_"));
 
     if (tempFile) {
-        const oldFilePath = path.join(image_dir, tempFile);
-        const newFileName = userId;
-        const newFilePath = path.join(image_dir, (newFileName + "." + imageName.split('.').pop()));
+      const oldFilePath = path.join(image_dir, tempFile);
+      const newFileName = userId;
+      const newFilePath = path.join(image_dir, (newFileName + "." + imageName.split('.').pop()));
 
-        await fs.promises.rename(oldFilePath, newFilePath);
+      await fs.promises.rename(oldFilePath, newFilePath);
 
-        const image = await fs.promises.readFile(newFilePath);
-        res.set('Content-Type', 'image/*'); 
-        res.send(image);
+      const image = await fs.promises.readFile(newFilePath);
+      res.set('Content-Type', 'image/*'); 
+      res.send(image);
     } else {
-      res.status(404).send({ message: "Image not found" });
+      res.status(404).json({ message: "Image not found" });
     }
-
-    // res.json({ status: "ok" });
   } catch (error) {
-    res.json({ status: error });
+    res.status(500).json({ error: error.message });
   }
 });
 
