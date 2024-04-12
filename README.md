@@ -38,3 +38,8 @@
 6. **CSV storing:** Stores CSV files for admins.
 7. **Conversational Chatbot:** Provides interactive food suggestions.
 8. **Text generation using CSV:** Automatically generates descriptions from uploaded CSV.
+
+
+### TO-EDIT-LATER:
+- Dummy values in resowners.js when adding new restaurant
+- Have to make validation function for resaurant collection

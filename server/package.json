@@ -11,15 +11,18 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@material-ui/core": "^4.12.4",
+    "@google/generative-ai": "^0.6.0",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
+    "csv-parser": "^3.0.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
+    "fs": "^0.0.1-security",
     "joi": "^17.5.0",
     "joi-password-complexity": "^5.1.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.1.2",
+    "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.13",
     "nodemon": "^2.0.15"
   }

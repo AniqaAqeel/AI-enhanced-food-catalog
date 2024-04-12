@@ -42,7 +42,7 @@ export function Restaurantaccount() {
         {
             
             name: "Food Item 1",
-            description: "Description of Food Item 1: This is a description of the food item. It is very delicious and tasty.",
+            description: "Description of Food Item 1: This is a description of the food item. It is very delicious and tasty. It is made Ok There is a special discount on this item. IT is a tyuj tyu frtgyhuj  tyu i dflasjfsd kjfasdkl fsdlkfjsdkl fsdkl fjksdl fhjldksfklasd  fjlafasdjkl   ",
             price: "$9.99",
         },
         {
@@ -76,9 +76,9 @@ export function Restaurantaccount() {
             <NavBar />
             <div className="w-full min-h-[94vh] base relative bg-accent">
 
-                <div className="flex flex-row justify-start px-20 py-5 gap-40 h-auto">
+                <div className="flex flex-row    justify-start px-20 py-5 gap-32 h-auto">
 
-                    <div className="flex flex-col item-center py-5 gap-5">
+                    <div className="flex flex-col min-w-48  justify-start py-5 gap-5 ">
                         {selectedImage && (
                             <div className="relative w-48 h-48">
                                 <Image
@@ -91,7 +91,7 @@ export function Restaurantaccount() {
                         )}
                         <label htmlFor="image-upload" className="cursor-pointer">
                             <Button
-                                className="text-accent bg-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                                className="text-accent bg-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center "
                                 component="span"
                                 variant="contained"
                                 startIcon={<ImageIcon />}
@@ -108,7 +108,7 @@ export function Restaurantaccount() {
                         />
                         <div >
                             <Button
-                                className="text-accent bg-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                                className="text-accent bg-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center "
                                 component="span"
                                 variant="contained"
                                 startIcon={<CloudUploadIcon />}
@@ -129,10 +129,10 @@ export function Restaurantaccount() {
                     {foodItems.map((item, index) => (
                         <div key={index} className="flex flex-row items-center bg-accent border border-gray-100 rounded-lg shadow md:flex-row md:max-w hover:bg-gray-100">
                             <Image className="object-cover w-full rounded-lg h-80 md:h-36 md:w-36 md:rounded-none md:rounded-s-lg " src={image} alt="" width={300} height={500} />
-                            <div className="flex flex-col justify-between px-4 leading-normal">
+                            <div className="flex flex-col flex-wrap  justify-between px-4 leading-normal">
                                 <h5 className="mb-2 text-1xl font-bold tracking-tight text-primary">{item.name}</h5>
-                                <p className="mb-3 font-normal text-secondary">{item.description}</p>
-                                <p className="mb-2 font-medium text-primary">{item.price}</p>
+                                <p className="mb-3 font-normal text-secondary text-wrap">{item.description}</p>
+                                <p className="mb-2 font-medium text-secondary">{item.price}</p>
                             </div>
                         </div>
                     ))}
