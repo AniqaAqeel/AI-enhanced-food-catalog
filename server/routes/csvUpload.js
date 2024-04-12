@@ -8,6 +8,11 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY);
 const mongoose = require('mongoose');
 
+const uploadDir = 'uploads/';
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true }); // Ensure the directory is created along with any necessary subdirectories
+}
+
 // Setting up multer for file storage
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
