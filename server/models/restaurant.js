@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
+const Joi = require("joi");
 
 const userSchema = new mongoose.Schema({
-    owner_id: {type: mongoose.Schema.Types.ObjectId, ref : 'res_owners'},
-	res_name: { type: String, required: true },
-	cuisine: { type: String, required: true, unique: true },
+    owner_id: {type: mongoose.Schema.Types.ObjectId, ref : 'res_owners', required: true},
+	res_name: { type: String, required: true, unique: true },
+	cuisine: { type: String, required: true, unique: false },
 	weighted_rating: { type: Number, required: true },
-	warning_msg: { type: String },
+	warning_msg: { type: String, required: true },
 });
 
 const Restaurant = mongoose.model("restaurants", userSchema);

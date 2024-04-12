@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-    user_id: {type: mongoose.Schema.Types.ObjectId, ref : 'users'},
-    res_id: {type: mongoose.Schema.Types.ObjectId, ref : 'restaurants'},
+    user_id: {type: mongoose.Schema.Types.ObjectId, ref : 'users', required: true},
+    res_id: {type: mongoose.Schema.Types.ObjectId, ref : 'restaurants', required: true},
 	order_date: { type: Date, required: true },
 	total_amount: { type: Number, required: true },
 });

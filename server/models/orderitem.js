@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-    order_id: {type: mongoose.Schema.Types.ObjectId, ref : 'orders'},
-    food_item_id: {type: mongoose.Schema.Types.ObjectId, ref : 'food_items'},
+    order_id: {type: mongoose.Schema.Types.ObjectId, ref : 'orders', required: true},
+    food_item_id: {type: mongoose.Schema.Types.ObjectId, ref : 'food_items', required: true},
 	quantity: { type: Number, required: true },
 	subtotal: { type: Number, required: true },
 });
