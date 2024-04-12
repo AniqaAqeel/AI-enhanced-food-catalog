@@ -15,10 +15,10 @@ export default function NavBar() {
     <div className="sticky top-0 inset-x-0 z-50 group">
       <header className="relative h-12 mx-auto border-b duration-200 bg-accent border-ui-border-base">
         <nav className="md:mx-auto md:px-20 flex justify-between w-full h-full text-small-regular">
-          <div className="flex-1 justify-between items-center self-center basis-0 text-secondary  hover:text-primary whitespace-nowrap hover:text-ui-fg-base">
+          <div className="flex-1 justify-between items-center self-center basis-0 text-secondary ">
             <Link
               href="/dashboard"
-              className="flex items-center h-full gap-x-1"
+              className="flex items-center h-full w-20 gap-x-1  hover:text-primary whitespace-nowrap hover:text-ui-fg-base"
             >
               <HomeIcon className="text-secordary w-5" />
               Home

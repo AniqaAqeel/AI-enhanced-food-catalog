@@ -107,7 +107,7 @@ export const AccountDropdown = () => {
                     </div>
                   </Link>
                 </MenuItem>
-                <MenuItem>
+                {/* <MenuItem>
                   <Link href="/restaurantaccount" prefetch={true}>
                     <div className="flex items-center gap-x-1 justify-between  text-secondary">
                       <ImageIcon className="text-secordary w-4 " />
@@ -117,7 +117,7 @@ export const AccountDropdown = () => {
                       </Typography>
                     </div>
                   </Link>
-                </MenuItem>
+                </MenuItem> */}
 
 
                 <MenuItem>
