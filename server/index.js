@@ -13,6 +13,7 @@ const showProfile = require("./routes/showProfile");
 const orderPlacement = require("./routes/orderPlacement");
 const viewMainPage = require("./routes/viewMainPage");
 const viewRestaurant = require("./routes/viewRestaurant");
+const rateRestaurant = require("./routes/rateRestaurant");
 
 
 const auth = require("./routes/auth");
@@ -33,6 +34,7 @@ app.use("/api/users/resetPassword", resetPassword);
 app.use("/api/users/orderPlacement", orderPlacement);
 app.use("/api/users/viewMainPage", viewMainPage);
 app.use("/api/users/viewRestaurant", viewRestaurant);
+app.use("/api/users/rateRestaurant", rateRestaurant);
 
 //resowners
 app.use("/api/resowners", resownerRoutes);

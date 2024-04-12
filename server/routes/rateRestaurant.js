@@ -19,16 +19,20 @@ router.post("/", async (req, res) => {
         // const testing = await FoodItem.find();
         // return res.status(200).send({ testing });
 
-        const food_items = await FoodItem.find({ "restaurantId": req.body.res_id });
-        if (!food_items)
-            return res.status(401).send({ message: "Could not find food items for restaurant" });
-
         const restaurantTemp = await Restaurant.findOne({ "_id": req.body.res_id });
         if (!restaurantTemp)
             return res.status(401).send({ message: "Could not find restaurant" });
 
-        const { warning_msg, __v, ...restaurant } = restaurantTemp.toObject();
+        const newRating = (restaurantTemp.weighted_rating + req.body.rating)/2
 
+        await Restaurant.findByIdAndUpdate(req.body.res_id, { weighted_rating: newRating });
+
+        const restaurantTemp2 = await Restaurant.findOne({ "_id": req.body.res_id });
+        const { warning_msg, __v, ...restaurant } = restaurantTemp2.toObject();
+        const food_items = await FoodItem.find({ "restaurantId": req.body.res_id });
+        if (!food_items)
+            return res.status(401).send({ message: "Could not find food items for restaurant" });
+        
         res.status(200).send({ 
             restaurant,
             food_items 
