@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import { useAuth } from "../AuthContext";
 import { useRouter } from "next/router"; // Changed to useRouter
 import Alert from "@mui/material/Alert";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Button from "@mui/material/Button";
 import IconButton from '@mui/material/IconButton';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
@@ -25,6 +25,7 @@ import Typography from '@mui/material/Typography';
 
 export function Restaurantaccount() {
     const [selectedImage, setSelectedImage] = useState<string | ArrayBuffer | null>(null);
+    const [error, setError] = useState("");
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -51,16 +52,54 @@ export function Restaurantaccount() {
                     Authorization: `Bearer ${token}`,
                 },
             }
-    );
+        );
 
         return await response.data;
     }
-    
+
+    const showImage = async () => {
+        const url = `${process.env.NEXT_PUBLIC_URL}`
+        axios.defaults.baseURL = url;
+        const response = await axios.get("/api/resowners/showImageRestaurant",
+            {
+                params: {
+                    token: token,
+
+                },
+                responseType: "blob",
+
+            });
+        return await response.data;
+    }
+    const queryClient = useQueryClient()
+    const { data, isLoading, error: DataError } = useQuery({
+        queryKey: ["showImage"],
+        queryFn: showImage,
+        refetchOnWindowFocus: true,
+        select(data) {
+            const reader = new FileReader();
+            reader.readAsDataURL(data);
+            reader.onload = () => {
+                setSelectedImage(reader.result);
+            };
+
+        },
+
+
+    });
 
     const mutation = useMutation({
         mutationFn: uploadimage,
         mutationKey: ["uploadimage"],
-        
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["showImage"],
+            
+            });
+        },
+        onError: (error: any) => {
+            setError(error.response.data.message);
+        },
 
     });
 
@@ -107,12 +146,17 @@ export function Restaurantaccount() {
 
                     <div className="flex flex-col min-w-48  justify-start py-5 gap-5 ">
                         {mutation.isError && (
-                            <Alert severity="error">Error uploading image</Alert>
+                            <Alert severity="error">{error}</Alert>
                         )}
                         {mutation.isSuccess && (
                             <Alert severity="success">Image uploaded successfully</Alert>
                         )}
-                        {selectedImage && (
+                        {
+                            mutation.isPending && (
+                                <Alert severity="info">Uploading image...</Alert>
+                            )
+                        }
+                        {selectedImage && !isLoading && (
                             <div className="relative w-48 h-48">
                                 <Image
                                     src={selectedImage.toString()} // Convert selectedImage to string
@@ -122,6 +166,7 @@ export function Restaurantaccount() {
                                 />
                             </div>
                         )}
+
                         <label htmlFor="image-upload" className="cursor-pointer">
                             <Button
                                 className="text-accent bg-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center "
@@ -137,6 +182,7 @@ export function Restaurantaccount() {
                             type="file"
                             accept="image/*"
                             className="hidden"
+
                             onChange={handleImageChange}
 
                         />
