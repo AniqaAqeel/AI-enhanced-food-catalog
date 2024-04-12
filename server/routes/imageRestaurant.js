@@ -42,9 +42,15 @@ router.post("/", upload.single("image"), async (req, res) => {
         const newFilePath = path.join(image_dir, (newFileName + "." + imageName.split('.').pop()));
 
         await fs.promises.rename(oldFilePath, newFilePath);
+
+        const image = await fs.promises.readFile(newFilePath);
+        res.set('Content-Type', 'image/*'); 
+        res.send(image);
+    } else {
+      res.status(404).send({ message: "Image not found" });
     }
 
-    res.json({ status: "ok" });
+    // res.json({ status: "ok" });
   } catch (error) {
     res.json({ status: error });
   }
