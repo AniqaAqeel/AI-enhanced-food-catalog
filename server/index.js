@@ -14,6 +14,7 @@ const orderPlacement = require("./routes/orderPlacement");
 const viewMainPage = require("./routes/viewMainPage");
 const viewRestaurant = require("./routes/viewRestaurant");
 const rateRestaurant = require("./routes/rateRestaurant");
+const imageRestaurant = require("./routes/imageRestaurant");
 
 
 const auth = require("./routes/auth");
@@ -39,6 +40,7 @@ app.use("/api/users/rateRestaurant", rateRestaurant);
 //resowners
 app.use("/api/resowners", resownerRoutes);
 app.use("/api/resowners/showProfile", showProfile);
+app.use("/api/resowners/imageRestaurant", imageRestaurant);
 
 
 //for both
