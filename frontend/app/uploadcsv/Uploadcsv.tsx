@@ -45,12 +45,11 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 70 },
-  { field: "item", headerName: "Item", width: 130, editable: true },
+  { field: "item", headerName: "Item", editable: true , width: 200},
   { field: "price", headerName: "Price", width: 130, type: "number",editable: true },
   {
     field: "tag",
-    headerName: "Tags",
-    width: 90,editable: true
+    headerName: "Tags",editable: true, width: 300
   },
 ];
 interface EnhancedTableToolbarProps {
@@ -100,7 +99,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 }
 
 const rows = [
-  { id: "100", item: "Apple", price: 1.2, tag: "Fruit" },
+  { id: "100", item: "Apple", price: 1.2, tag: "Fruitsssssssssssssssssssssssssssssssssssssssss" },
   { id: "200", item: "Banana", price: 0.5, tag: "Fruit" },
   { id: "300", item: "Carrot", price: 0.7, tag: "Vegetable" },
   { id: "400", item: "Broccoli", price: 1.1, tag: "Vegetable" },

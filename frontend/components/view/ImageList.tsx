@@ -37,7 +37,7 @@ export  function TitlebarImageList({
                 title={item.title}
                 subtitle={<span>by: {item.author}</span>}
                 position="below"
-                className='text-black'
+                className='text-secondary'
               />
             </ImageListItem>
           ))}
