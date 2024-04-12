@@ -1,4 +1,5 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
+const router = require('express').Router();
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY);
 
 async function generateDescription(item_name, item_tags) {
