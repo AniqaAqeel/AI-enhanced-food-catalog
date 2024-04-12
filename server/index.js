@@ -10,6 +10,7 @@ const resownerRoutes = require("./routes/resowners");
 const updatePassword = require("./routes/updatePassword");
 const resetPassword = require("./routes/resetPassword");
 const showProfile = require("./routes/showProfile");
+const csvUpload = require("./routes/csvUpload")
 // const showProfileResowners = require("./routes/showProfileResowner");
 
 
@@ -32,6 +33,7 @@ app.use("/api/users/resetPassword", resetPassword);
 //resowners
 app.use("/api/resowners", resownerRoutes);
 app.use("/api/resowners/showProfile", showProfile);
+app.use("/api/resowners/csvUpload", csvUpload)
 
 
 //for both
