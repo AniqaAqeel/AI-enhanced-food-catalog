@@ -10,7 +10,11 @@ const resownerRoutes = require("./routes/resowners");
 const updatePassword = require("./routes/updatePassword");
 const resetPassword = require("./routes/resetPassword");
 const showProfile = require("./routes/showProfile");
-// const showProfileResowners = require("./routes/showProfileResowner");
+const orderPlacement = require("./routes/orderPlacement");
+const viewMainPage = require("./routes/viewMainPage");
+const viewRestaurant = require("./routes/viewRestaurant");
+const rateRestaurant = require("./routes/rateRestaurant");
+const imageRestaurant = require("./routes/imageRestaurant");
 
 
 const auth = require("./routes/auth");
@@ -28,16 +32,20 @@ app.use(cors());
 app.use("/api/users", userRoutes);
 app.use("/api/users/updatePassword", updatePassword);
 app.use("/api/users/resetPassword", resetPassword);
+app.use("/api/users/orderPlacement", orderPlacement);
+app.use("/api/users/viewMainPage", viewMainPage);
+app.use("/api/users/viewRestaurant", viewRestaurant);
+app.use("/api/users/rateRestaurant", rateRestaurant);
 
 //resowners
 app.use("/api/resowners", resownerRoutes);
 app.use("/api/resowners/showProfile", showProfile);
+app.use("/api/resowners/imageRestaurant", imageRestaurant);
 
 
 //for both
 app.use("/api/users/auth", auth);
 app.use("/api/showProfile", showProfile);
-
 
 // junk
 // app.use("/api/users/auth", authUserRoutes);
