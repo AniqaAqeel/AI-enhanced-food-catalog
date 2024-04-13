@@ -79,7 +79,9 @@ export function Home() {
         src={image}
         alt="logo"
         style={{ marginTop: "0px" }}
-        className=" bg-cover bg-no-repeat h-[75vh] object-cover max-w-full "
+        className=" bg-cover bg-no-repeat h-[75vh] object-cover max-w-full"
+        width={1920}
+        height={1080}
         
     />
       <div className=" pl-20 items-start absolute inset-0 z-10 flex flex-col w-full justify-center text-center small:p-32 gap-6 ">

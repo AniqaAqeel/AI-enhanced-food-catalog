@@ -29,8 +29,8 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage: storage,
     fileFilter: function (req, file, cb) {
-        if (file.mimetype !== 'text/csv') {
-            return cb(new Error('Only CSV files are allowed!'), false);
+        if (file.mimetype !== 'text/csv' && file.mimetype !== 'application/vnd.ms-excel') {
+            return router.status(400).json({ message: 'Invalid file format. Please upload a CSV file.' });
         }
         cb(null, true);
     }
@@ -64,37 +64,48 @@ router.post('/', upload.single('file'), async (req, res) => {
         }
 
         // Immediate response after file upload
-        res.status(202).json({ message: 'File uploaded, processing started.' });
+        //res.status(202).json({ message: 'File uploaded, processing started.' });
 
         const fileStream = fs.createReadStream(req.file.path);
-        let promises = []; // Array to hold promises
+        const responses = [];
+
 
         fileStream.pipe(csvParser())
             .on('data', (row) => {
-                const promise = generateDescription(row.item, row.tags)
-                    .then(description => {
-                        return {
-                            restaurantId: mongoose.Types.ObjectId(userId),
-                            itemName: row.item,
-                            itemPrice: row.price,
-                            itemDescription: description,
-                            imageLink: '' // Assuming this is handled elsewhere or not provided in CSV
-                        };
-                    });
-                promises.push(promise);
+                // return {
+                //     item_name: row.item_name,
+                //     item_tags: row.item_tags,
+                //     price : row.price,
+                // };
+                if (!row.name || !row.tags || !row.price) {
+                    
+                    return res.status(400).json({ message: 'Invalid CSV file format. Should Include name,Tags,price' });
+                }
+                responses.push(
+                    {
+                        name: row.name,
+                        tag: row.tags,
+                        price: row.price,
+                    }
+                )
+
+                
             })
             .on('end', async () => {
                 try {
-                    const items = await Promise.all(promises);
-                    await FoodItem.insertMany(items);
-                    fs.unlinkSync(req.file.path); // Cleanup the uploaded file
-                    console.log('Menu uploaded and stored successfully.');
+                    // const items = await Promise.all(promises);
+                    // await FoodItem.insertMany(items);
+                    // fs.unlinkSync(req.file.path); // Cleanup the uploaded file
+                    // console.log('Menu uploaded and stored successfully.');
+                    res.status(200).json(responses);
                 } catch (error) {
-                    console.error('Error during processing or database operation:', error);
+                    //console.error('Error during processing or database operation:', error);
+                    res.status(500).send({ message: 'Internal Server Error' });
                 }
             })
             .on('error', (error) => {
                 console.error('Error processing the CSV file:', error);
+                res.status(500).send({ message: 'Internal Server Error' });
             });
     } catch (error) {
         console.error('Error in file upload or authentication:', error);
