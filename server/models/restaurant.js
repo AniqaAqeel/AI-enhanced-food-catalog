@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
 	res_name: { type: String, required: true, unique: true },
 	cuisine: { type: String, required: true, unique: false },
 	weighted_rating: { type: Number, required: true },
-	warning_msg: { type: String, required: true },
+	warning_msg: { type: String },
 });
 
 const Restaurant = mongoose.model("restaurants", userSchema);
