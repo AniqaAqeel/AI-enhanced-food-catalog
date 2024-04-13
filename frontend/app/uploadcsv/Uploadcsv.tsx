@@ -126,6 +126,7 @@ export function Uploadcsv() {
     setData(tabledata.filter((row) => !selectedRow.includes(row.id)));
   };
   const [error, setError] = useState<string | null>(null);
+  const[success, setSuccess] = useState<string | null>(null);
 
   const { token } = useAuth();
   const Uploadcsv = async (file: File) => {
@@ -155,6 +156,7 @@ export function Uploadcsv() {
     mutationKey: ["uploadcsv"],
     onSuccess: (data: Omit<UploadcsvProps[], "id">) => {
       setData(data.map((row, index) => ({ ...row, id: (index + 1) })));
+      setSuccess("CSV file uploaded successfully");
 
     },
     onError: (error: any) => {
@@ -162,6 +164,7 @@ export function Uploadcsv() {
     },
     onMutate: () => {
       setError(null);
+      setSuccess(null);
     }
 
   });
@@ -190,7 +193,40 @@ export function Uploadcsv() {
       const updatedData = tabledata.map((row, index) => {
         return { ...row, description: desc[index].description }
       });
+
       setData(updatedData);
+      setSuccess("Description generated successfully");
+    },
+    onError: (error: any) => {
+      setError(error.response.data.message);
+    },
+    onMutate: () => {
+      setError(null);
+      setSuccess(null);
+    }
+  });
+  
+
+  const savecsv = async (data: UploadcsvProps[]) => {
+    const url = `${process.env.NEXT_PUBLIC_URL}`
+    axios.defaults.baseURL = url;
+    const response = await axios.post("/api/resowners/saveItems", {
+      item_list: data,
+      token: token
+    });
+    return await response.data;
+  }
+
+  const saveMutation = useMutation({
+    mutationFn: savecsv,
+    mutationKey: ["savecsv"],
+    onSuccess: (data) => {
+      
+      setData([]);
+      setSuccess("Items saved successfully");
+      generateMutation.reset();
+      mutation.reset();
+      saveMutation.reset(); 
 
     },
     onError: (error: any) => {
@@ -198,9 +234,9 @@ export function Uploadcsv() {
     },
     onMutate: () => {
       setError(null);
+      setSuccess(null);
     }
   });
-
 
   return (
     <>
@@ -223,6 +259,10 @@ export function Uploadcsv() {
               onChange={(e) => {
                 const file = e.target.files?.[0];
                 if (file) {
+                  if (file.type !== "text/csv" && file.type !== "application/vnd.ms-excel"  ) {
+                    setError("Invalid file type, please upload a csv file");
+                    return;
+                  }
                   mutation.mutate(file);
 
                 }
@@ -252,15 +292,21 @@ export function Uploadcsv() {
             tabIndex={-1}
 
             startIcon={<CloudDoneIcon />}
+            onClick={() => saveMutation.mutate(tabledata)}
           >
             Submit
           </Button>
         </div>
         {/* <Divider orientation="horizontal" flexItem /> */}
         <div className="flex flex-row gap-5 px-20">
-          {mutation.isSuccess && (
+          {success && (
             <Alert severity="success">
-              Uploaded successfully
+              {success}
+            </Alert>
+          )}
+          {error && (
+            <Alert severity="error">
+              {error}
             </Alert>
           )}
         </div>
