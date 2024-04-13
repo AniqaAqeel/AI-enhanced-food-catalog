@@ -6,7 +6,7 @@ const { Restaurant, validateRestaurant } = require("../models/restaurant");
 const { FoodItem } = require("../models/fooditems");
 const Joi = require("joi");
 const findUserIdFromToken = require("../utils/findUserIdFromToken");
-const { ResOwner } = require("../models/resowner");
+// const { ResOwner } = require("../models/resowner");
 const fs = require('fs');
 const path = require("path");
 
