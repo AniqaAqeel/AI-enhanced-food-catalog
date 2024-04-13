@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const { User } = require("../models/user");
+const { ResOwner } = require("../models/resowner")
 const { Restaurant, validateRestaurant } = require("../models/restaurant");
 const { FoodItem } = require("../models/fooditems");
 const Joi = require("joi");
@@ -18,8 +19,9 @@ router.get("/", async (req, res) => {
         const userId = findUserIdFromToken(token);
 
 		const user = await User.findOne({ "_id": userId })
+		const resowner = await ResOwner.findOne({ "_id": userId })
 		
-		if (!user) 
+		if (!(user || resowner)) 
 			return res.status(401).send({ message: "User not logged in" });
 
         // const testing = await FoodItem.find();
