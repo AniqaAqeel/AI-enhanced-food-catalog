@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const { ResOwner, validate } = require("../models/resowner");
+const { User } = require("../models/user");
 const { Restaurant, validateRestaurant } = require("../models/restaurant");
 const Joi = require("joi");
 
@@ -12,8 +13,9 @@ router.post("/", async (req, res) => {
 		if (error) {
 			return res.status(400).send({ message: error.details[0].message });
 		}
-		const user = await ResOwner.findOne({ email: req.body.res_owner.email });
-		if (user)
+		const resowner = await ResOwner.findOne({ email: req.body.res_owner.email });
+		const user = await User.findOne({ email: req.body.res_owner.email });
+		if (resowner || user)
 			return res
 				.status(409)
 				.send({ message: "User with given email already Exist!" });
