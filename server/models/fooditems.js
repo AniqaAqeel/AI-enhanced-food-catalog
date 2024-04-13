@@ -7,6 +7,8 @@ const foodItemSchema = new Schema({
 	itemPrice: { type: Number, required: true },
 	itemDescription: { type: String, required: true },
 	imageLink: { type: String, required: false },
+	itemTags: { type: String, required: false },
+	generatedTags: {type: String, required: false }
 });
 
 const FoodItem = mongoose.model("food_items", foodItemSchema);
