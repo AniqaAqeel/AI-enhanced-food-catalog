@@ -29,6 +29,8 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
+import axios from 'axios';
+import { useAuth } from "../AuthContext";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -42,14 +44,21 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { useMutation } from "@tanstack/react-query";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 70 },
-  { field: "item", headerName: "Item", editable: true , width: 200},
-  { field: "price", headerName: "Price", width: 130, type: "number",editable: true },
+  { field: "name", headerName: "Item", editable: true, width: 200 },
+  { field: "price", headerName: "Price", width: 130, type: "number", editable: true },
   {
     field: "tag",
-    headerName: "Tags",editable: true, width: 300
+    headerName: "Tags", editable: true, width: 300
+  },
+  {
+    field: "description",
+    headerName: "Description", editable: true, width: 300,
+    flex: 1,
+
   },
 ];
 interface EnhancedTableToolbarProps {
@@ -98,31 +107,101 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   );
 }
 
-const rows = [
-  { id: "100", item: "Apple", price: 1.2, tag: "Fruitsssssssssssssssssssssssssssssssssssssssss" },
-  { id: "200", item: "Banana", price: 0.5, tag: "Fruit" },
-  { id: "300", item: "Carrot", price: 0.7, tag: "Vegetable" },
-  { id: "400", item: "Broccoli", price: 1.1, tag: "Vegetable" },
-  { id: "500", item: "Chicken", price: 5.0, tag: "Meat" },
-  { id: "600", item: "Beef", price: 7.0, tag: "Meat" },
-  { id: "700", item: "Milk", price: 2.0, tag: "Dairy" },
-  { id: "800", item: "Cheese", price: 3.0, tag: "Dairy" },
-  { id: "900", item: "Bread", price: 2.5, tag: "Grain" },
-];
+
 interface UploadcsvProps {
-  id: string;
+  id: number;
   item: string;
   price: number;
   tag: string;
+  description: string;
+}
+interface DescriptionProps {
+  id: string;
+  description: string;
 }
 export function Uploadcsv() {
-  const [file, setFile] = useState<File | null>(null);
-  const [filename, setFilename] = useState<string | null>(null);
-  const [data, setData] = useState<UploadcsvProps[]>(rows);
-  const [selectedRow, setSelectedRow] = useState<string[]>([]);
+  const [tabledata, setData] = useState<UploadcsvProps[]>([]);
+  const [selectedRow, setSelectedRow] = useState<Number[]>([]);
   const removeSelected = () => {
-    setData(data.filter((row) => !selectedRow.includes(row.id)));
+    setData(tabledata.filter((row) => !selectedRow.includes(row.id)));
   };
+  const [error, setError] = useState<string | null>(null);
+
+  const { token } = useAuth();
+  const Uploadcsv = async (file: File) => {
+    if (!file) {
+      console.log("No file selected");
+      console.log(file);
+      return;
+    }
+    const url = `${process.env.NEXT_PUBLIC_URL}`
+    axios.defaults.baseURL = url;
+    var formData = new FormData();
+    formData.append("file", file);
+    formData.append("token", token);
+    const response = await axios.post("/api/resowners/csvUpload", formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+
+        },
+      }
+    );
+    return await response.data;
+  }
+
+  const mutation = useMutation({
+    mutationFn: Uploadcsv,
+    mutationKey: ["uploadcsv"],
+    onSuccess: (data: Omit<UploadcsvProps[], "id">) => {
+      setData(data.map((row, index) => ({ ...row, id: (index + 1) })));
+
+    },
+    onError: (error: any) => {
+      setError(error.response.data.message);
+    },
+    onMutate: () => {
+      setError(null);
+    }
+
+  });
+
+  const GenerateDescription = async (data: UploadcsvProps[]) => {
+
+    const url = `${process.env.NEXT_PUBLIC_URL}`
+    axios.defaults.baseURL = url;
+    const response = await axios.post("/api/resowners/generateDescription", {
+
+      item_list: data,
+      token: token
+
+    });
+
+    console.log(response.data);
+    return await response.data;
+  }
+
+  const generateMutation = useMutation({
+    mutationFn: GenerateDescription,
+    mutationKey: ["generateDescription"],
+    onSuccess: (data) => {
+      //Iterate both arrat at the same time and update the description
+      const desc = data.item_descriptions as DescriptionProps[];
+      const updatedData = tabledata.map((row, index) => {
+        return { ...row, description: desc[index].description }
+      });
+      setData(updatedData);
+
+    },
+    onError: (error: any) => {
+      setError(error.response.data.message);
+    },
+    onMutate: () => {
+      setError(null);
+    }
+  });
+
+
   return (
     <>
       <NavBar />
@@ -133,6 +212,7 @@ export function Uploadcsv() {
             component="label"
             role={undefined}
             variant="contained"
+            disabled={mutation.isPending || generateMutation.isPending}
             tabIndex={-1}
             startIcon={<CloudUploadIcon />}
           >
@@ -143,20 +223,34 @@ export function Uploadcsv() {
               onChange={(e) => {
                 const file = e.target.files?.[0];
                 if (file) {
-                  setFile(file);
-                  setFilename(file.name);
+                  mutation.mutate(file);
+
                 }
               }}
             />
           </Button>
 
           <Button
-            className="mt-5 text-accent bg-primary  focus:ring-1 focus:outline-none focus:ring-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center "
-            disabled={!file}
+            className="mt-5 text-accent bg-primary   font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+            disabled={!tabledata || tabledata.length === 0 || !mutation.isSuccess || generateMutation.isPending}
             component="label"
             role={undefined}
             variant="contained"
             tabIndex={-1}
+            onClick={() => generateMutation.mutate(tabledata)}
+
+            startIcon={<CloudDoneIcon />}
+          >
+            Generate description
+          </Button>
+          <Button
+            className="mt-5 text-accent bg-primary   font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+            disabled={!tabledata || tabledata.length === 0 || !generateMutation.isSuccess}
+            component="label"
+            role={undefined}
+            variant="contained"
+            tabIndex={-1}
+
             startIcon={<CloudDoneIcon />}
           >
             Submit
@@ -164,12 +258,12 @@ export function Uploadcsv() {
         </div>
         {/* <Divider orientation="horizontal" flexItem /> */}
         <div className="flex flex-row gap-5 px-20">
-            {file && (
+          {mutation.isSuccess && (
             <Alert severity="success">
-              {filename} uploaded successfully
+              Uploaded successfully
             </Alert>
           )}
-          </div>
+        </div>
         <div
           style={{
             height: "auto",
@@ -177,6 +271,8 @@ export function Uploadcsv() {
             paddingLeft: 96,
             paddingRight: 96,
             paddingTop: 32,
+            paddingBottom: 32,
+
           }}
         >
           <EnhancedTableToolbar
@@ -184,18 +280,30 @@ export function Uploadcsv() {
             deleteSelected={removeSelected}
           />
           <DataGrid
-            rows={data}
 
+            rows={tabledata}
+            loading={mutation.isPending}
             columns={columns}
             initialState={{
               pagination: {
                 paginationModel: { page: 0, pageSize: 20 },
               },
             }}
+            editMode="row"
             pageSizeOptions={[20, 50, 100, { label: "All", value: -1 }]}
             onRowSelectionModelChange={(selectedRow) => {
-              setSelectedRow(selectedRow as string[]);
+              setSelectedRow(selectedRow as number[]);
             }}
+            onRowEditStop={(updatedRow) => {
+              const updatedData = tabledata.map((row) =>
+                row.id === updatedRow.id ? updatedRow.row : row
+
+              );
+              setData(updatedData);
+            }}
+            className="min-h-96"
+
+
             checkboxSelection
           />
         </div>
