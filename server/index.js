@@ -20,6 +20,7 @@ const showImageRestaurant = require("./routes/showImageRestaurant");
 const getMenu = require("./routes/getMenu");
 const generateDescription = require("./routes/generateDescription");
 const saveItems = require("./routes/saveItems");
+const search = require("./routes/search")
 
 const auth = require("./routes/auth");
 
@@ -56,6 +57,7 @@ app.use("/api/resowners/getMenu", getMenu)
 //for both
 app.use("/api/users/auth", auth);
 app.use("/api/showProfile", showProfile);
+app.use("/api/search", search)
 
 // junk
 // app.use("/api/users/auth", authUserRoutes);

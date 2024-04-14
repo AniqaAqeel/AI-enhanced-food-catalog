@@ -8,7 +8,7 @@ const foodItemSchema = new Schema({
 	itemDescription: { type: String, required: true },
 	imageLink: { type: String, required: false },
 	itemTags: { type: String, required: false },
-	generatedTags: {type: String, required: false }
+	embedding: { type: [Number], required: false} // Represent the vector embedding of the item description
 });
 
 const FoodItem = mongoose.model("food_items", foodItemSchema);
