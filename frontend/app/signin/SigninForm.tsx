@@ -6,39 +6,50 @@ import { useAuth } from "../AuthContext";
 import Alert from '@mui/material/Alert';
 import { useRouter } from "next/navigation";
 import { validateEmail } from "@/utils/validate";
+import { useMutation } from "@tanstack/react-query";
 
 export function SigninForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [success,setSucess] = useState("");
   const { setToken ,setUser} = useAuth();
   const router = useRouter();
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    try {
-      const url = "http://localhost:8080/api/users/auth";
-      const { data: res } = await axios.post(url, {
-        email:email,
-        password:password
-      });
-      console.log(res);
-      setToken(res.data.token);
-      setUser({
-        email: res.data.user.email,
-        name: res.data.user.name,
-        role: res.data.user.role,
-      });
-			
-		} catch (error:any) {
-			if (
-				error.response &&
-				error.response.status >= 400 &&
-				error.response.status <= 500
-			) {
-				setError(error.response.data.message);
-			}
+    mutation.mutate();
+    
 		}
-	};
+	
+  const login = async () => {
+    const url = process.env.NEXT_PUBLIC_URL;
+    axios.defaults.baseURL = url;
+    const response = await axios.post("/api/users/auth", {
+      email: email,
+      password: password,
+    });
+    return await response.data;
+  }
+  const mutation = useMutation({
+    mutationKey: ["login"],
+    mutationFn: login,
+    onError: (error: any) => {
+      setError(error.response.data.message?? "An error occured");
+    },
+    onSuccess: (data: any) => {
+      setToken(data.data.token);
+      setUser({
+        email: data.data.user.email,
+        name: data.data.user.name,
+        role: data.data.user.role,
+      });
+      router.push("/dashboard");
+    },
+    onMutate: () => {
+      setError("");
+      setSucess("");
+    }
+  });
   return (
     <section className="bg-gray-50 ">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -102,6 +113,7 @@ export function SigninForm() {
                 type="submit"
                 className="w-full text-white bg-primary  focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
                 onClick={handleSubmit}
+                disabled={mutation.isPending }
               >
                 Sign in
               </button>

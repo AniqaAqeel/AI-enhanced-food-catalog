@@ -31,6 +31,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import axios from 'axios';
 import { useAuth } from "../AuthContext";
+import AutoModeIcon from '@mui/icons-material/AutoMode';
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -279,7 +280,7 @@ export function Uploadcsv() {
             tabIndex={-1}
             onClick={() => generateMutation.mutate(tabledata)}
 
-            startIcon={<CloudDoneIcon />}
+            startIcon={<AutoModeIcon />}
           >
             Generate description
           </Button>

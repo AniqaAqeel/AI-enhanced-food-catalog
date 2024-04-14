@@ -14,6 +14,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import ImageIcon from '@mui/icons-material/Image';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
+import { useQueryClient } from "@tanstack/react-query";
 
 
 export const AccountDropdown = () => {
@@ -25,11 +26,14 @@ export const AccountDropdown = () => {
     setAnchorElNav(event.currentTarget);
   };
   const { setToken, setUser, user } = useAuth();
+  const queryClient = useQueryClient();
   const router = useRouter();
   const handleLogout = () => {
     setToken("");
     setUser(null);
     router.replace("/signin");
+    queryClient.resetQueries(); 
+    queryClient.clear();
   };
 
   return (
