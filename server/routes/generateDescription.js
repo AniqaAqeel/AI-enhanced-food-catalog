@@ -49,8 +49,7 @@ router.post('/', async (req, res) => {
             const description = generateDescription(item_name, item_tags).then((description) => {
                 item_descriptions.push({ id, description });
             }).catch((error) => {
-                console.log(error)
-                    return res.status(400).send({ message: 'Failed to generate description. ' });
+                throw new Error(`Error in promise for item with id ${id}: ${error.message}`);
             });
             promises.push(description);
             if (promises.length === 10 ) {
@@ -59,7 +58,7 @@ router.post('/', async (req, res) => {
                     promises = []; // Reset the promises array
                 } catch (error) {
                     console.error(error);
-                    return res.status(500).send({ message: 'Internal server error.' });
+                    return res.status(400).send({ message: 'Failed to generate description. ' + error });
                 }
             }
         }
@@ -69,7 +68,9 @@ router.post('/', async (req, res) => {
         }
         catch(error){
             console.error(error);
-            return res.status(500).send({ message: 'Internal server error.' });
+            
+
+            return res.status(400).send({ message: 'Failed to generate description. ' + error });
         }
         return res.status(200).send({ item_descriptions });
     } catch (error) {

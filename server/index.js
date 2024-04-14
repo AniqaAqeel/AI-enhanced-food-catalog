@@ -21,6 +21,8 @@ const getMenu = require("./routes/getMenu");
 const generateDescription = require("./routes/generateDescription");
 const saveItems = require("./routes/saveItems");
 const getResImage = require("./routes/getResImage");
+const postProductImage = require("./routes/postProductImage");
+const getProductImage = require("./routes/getProductImage");
 
 const auth = require("./routes/auth");
 
@@ -55,6 +57,8 @@ app.use("/api/resowners/generateDescription",generateDescription);//generate des
 app.use("/api/resowners/showImageRestaurant", showImageRestaurant);//show the image on my restaurant page
 app.use("/api/resowners/saveItems", saveItems);//save csv items to database
 app.use("/api/resowners/getMenu", getMenu)//to display item for restaurant on my restaurant page
+app.use("/api/resowner/saveProductImage",postProductImage); //upload image for product (food item)
+app.use("/api/resowner/getProductImage",getProductImage); //get image for product (food item
 
 //for both
 app.use("/api/users/auth", auth);
