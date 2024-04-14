@@ -4,7 +4,7 @@ const findUserIdFromToken = require("../utils/findUserIdFromToken");
 
 // Endpoint to get menu items by restaurant ID extracted from token
 router.get('/', async (req, res) => {
-    const token = req.body.token;
+    const token = req.query.token;
     
     if (!token) {
         return res.status(403).json({ message: 'Authentication token is required.' });

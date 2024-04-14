@@ -10,7 +10,7 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY);
 const mongoose = require('mongoose');
 const findUserIdFromToken = require("../utils/findUserIdFromToken");
-async function generateDescription(item_name, item_tags) {
+async function  generateDescription(item_name, item_tags) {
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
     const prompt = `Generate a 20 word description based on the following item name and item tags: ${item_name}, ${item_tags}`;
     const result = await model.generateContent(prompt);
@@ -48,9 +48,20 @@ router.post('/', async (req, res) => {
             const id = item_list[i].id;
             const description = generateDescription(item_name, item_tags).then((description) => {
                 item_descriptions.push({ id, description });
+            }).catch((error) => {
+                console.log(error)
+                    return res.status(400).send({ message: 'Failed to generate description. ' });
             });
-            
             promises.push(description);
+            if (promises.length === 10 ) {
+                try {
+                    await Promise.all(promises);
+                    promises = []; // Reset the promises array
+                } catch (error) {
+                    console.error(error);
+                    return res.status(500).send({ message: 'Internal server error.' });
+                }
+            }
         }
         try{
             await Promise.all(promises);
