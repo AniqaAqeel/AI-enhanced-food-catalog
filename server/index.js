@@ -54,7 +54,7 @@ app.use("/api/resowners/generateDescription",generateDescription);//generate des
 
 app.use("/api/resowners/showImageRestaurant", showImageRestaurant);//show the image on my restaurant page
 app.use("/api/resowners/saveItems", saveItems);//save csv items to database
-app.use("/api/resowners/getMenu", getMenu)
+app.use("/api/resowners/getMenu", getMenu)//to display item for restaurant on my restaurant page
 
 //for both
 app.use("/api/users/auth", auth);
