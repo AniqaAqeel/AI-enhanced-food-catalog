@@ -7,41 +7,46 @@ import IconButton from '@mui/material/IconButton';
 import InfoIcon from '@mui/icons-material/Info';
 import Image from 'next/image';
 import { Stack } from '@mui/material';
+import { Restaurant } from '@/app/dashboard/home';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { useAuth } from '@/app/AuthContext';
+import { HomeProduct } from './ProductComponent';
 
-export  function TitlebarImageList({
-    itemData
-}:{
-    itemData: {
-        img?: string,
-        title: string,
-        author?: string,
-        rows?: number,
-        cols?: number,
-        featured?: boolean
-    }[]
-}) {
-    return (
-        <ImageList sx={{ width: "auto", height: "auto" }} cols={4} gap={18} >
-          {itemData.map((item) => (
-            <ImageListItem key={item.img} >
-                
-              <Image
-                src={`${item.img}`}
-                alt={item.title}
-                loading="lazy"
-                className='rounded-lg'
-                width={500}
-                height={500}
-              />
-              <ImageListItemBar
-                title={item.title}
-                subtitle={<span>by: {item.author}</span>}
-                position="below"
-                className='text-secondary'
-              />
-            </ImageListItem>
-          ))}
-        </ImageList>
-      );
+export function TitlebarImageList() {
+  const viewmainpage = async () => {
+
+    const url = `${process.env.NEXT_PUBLIC_URL}`
+    axios.defaults.baseURL = url;
+    const response = await axios.get("/api/users/viewMainPage", {
+      params: {
+        token: token
+      },
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return await response.data.restaurants;
+  }
+  const {token }= useAuth();
+
+  const { data, isLoading, error } = useQuery<Restaurant[]>({
+    queryKey: ["mainpage"],
+    queryFn: viewmainpage,
+  
+
+  });
+  if (isLoading) return <div>Loading...</div>;  
+  if (!data) return <div>No data</div>;
+  return (
+    
+
+    <ImageList sx={{ width: "auto", height: "auto" }} cols={4} gap={18} >
+      {data.map((item) => (
+        <HomeProduct item={item} key={item._id} />
+      ))}
+    </ImageList>
+  
+  );
 }
 

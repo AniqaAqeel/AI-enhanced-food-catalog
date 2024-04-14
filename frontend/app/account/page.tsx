@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
-import { Customeraccount } from "./Customeraccount";
+import { Myprofile } from "./Myprofile";
 
 export default function Page()
 {
     return (
-        <Customeraccount />
+        <Myprofile />
     )
 }

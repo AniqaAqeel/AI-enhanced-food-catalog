@@ -8,7 +8,8 @@ import { useAuth } from "../AuthContext";
 import { useRouter } from "next/navigation";
 import Alert from "@mui/material/Alert";
 import { useMutation, useQuery } from "@tanstack/react-query";
-export function Customeraccount() {
+
+export function Myprofile() {
   const fetchProfile = async () => {
     const url = `${process.env.NEXT_PUBLIC_URL}`
     axios.defaults.baseURL = url;

@@ -20,6 +20,7 @@ const showImageRestaurant = require("./routes/showImageRestaurant");
 const getMenu = require("./routes/getMenu");
 const generateDescription = require("./routes/generateDescription");
 const saveItems = require("./routes/saveItems");
+const getResImage = require("./routes/getResImage");
 
 const auth = require("./routes/auth");
 
@@ -34,24 +35,26 @@ app.use(cors());
 
 //users
 app.use("/api/users", userRoutes);
-app.use("/api/users/updatePassword", updatePassword);
-app.use("/api/users/resetPassword", resetPassword);
+app.use("/api/users/updatePassword", updatePassword);//reset password
+app.use("/api/users/resetPassword", resetPassword);//forget password
 app.use("/api/users/orderPlacement", orderPlacement);
-app.use("/api/users/viewMainPage", viewMainPage);
+app.use("/api/users/viewMainPage", viewMainPage);//view restaurant images on main page
+
 app.use("/api/users/viewRestaurant", viewRestaurant);
 app.use("/api/users/rateRestaurant", rateRestaurant);
 
+app.use("/api/restaurant", getResImage);//show the image on restaurant page
 //resowners
 app.use("/api/resowners", resownerRoutes);
-app.use("/api/resowners/showProfile", showProfile);
-app.use("/api/resowners/imageRestaurant", imageRestaurant);
-app.use("/api/resowners/csvUpload", csvUpload);
-app.use("/api/resowners/generateDescription",generateDescription);
+app.use("/api/resowners/showProfile", showProfile);//show profile
+app.use("/api/resowners/imageRestaurant", imageRestaurant);//upload image
+app.use("/api/resowners/csvUpload", csvUpload);//upload csv
+app.use("/api/resowners/generateDescription",generateDescription);//generate description from csv
 
 
-app.use("/api/resowners/showImageRestaurant", showImageRestaurant);
-app.use("/api/resowners/saveItems", saveItems);
-app.use("/api/resowners/getMenu", getMenu)
+app.use("/api/resowners/showImageRestaurant", showImageRestaurant);//show the image on my restaurant page
+app.use("/api/resowners/saveItems", saveItems);//save csv items to database
+app.use("/api/resowners/getMenu", getMenu)//to display item for restaurant on my restaurant page
 
 //for both
 app.use("/api/users/auth", auth);
