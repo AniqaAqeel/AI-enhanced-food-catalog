@@ -23,33 +23,28 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { userAgent } from "next/server";
-import { Product } from "@/components/Product";
-
-
-
 
 const foodItems = [
     {
-
+        image: "https://via.placeholder.com/300",
         name: "Food Item 1",
         description: "Description of Food Item 1: This is a description of the food item. It is very delicious and tasty. It is made Ok There is a special discount on this item. IT is a tyuj tyu frtgyhuj  tyu i dflasjfsd kjfasdkl fsdlkfjsdkl fsdkl fjksdl fhjldksfklasd  fjlafasdjkl   ",
         price: "$9.99",
-        image: "https://via.placeholder.com/300",
     },
     {
-
+        image: "https://via.placeholder.com/300",
         name: "Food Item 2",
         description: "Description of Food Item 2 This is a description of the food item. It is very delicious and tasty.",
         price: "$12.99",
     },
     {
-
+        image: "https://via.placeholder.com/300",
         name: "Food Item 3",
         description: "Description of Food Item 3 This is a description of the food item. It is very delicious and tasty.",
         price: "$14.99",
     },
     {
-
+        image: "https://via.placeholder.com/300",
         name: "Food Item 4",
         description: "Description of Food Item 4 This is a description of the food item. It is very delicious and tasty.",
         price: "$19.99",
@@ -61,38 +56,23 @@ const foodItems = [
         price: "$24.99",
     },
 ];
+type ProductProps = {
+    name: string;
+    description: string;
+    price: string;
+    image?: string;
+};
+export function Product(item: ProductProps) {
+    return (
 
-export function Foodcatalog()
-{
-    const viewrestaurant = async () => {
-        const url = `${process.env.NEXT_PUBLIC_URL}`
-        axios.defaults.baseURL = url;
-        const response = await axios.get("/api/restaurants");
-        return await response.data;
-    }
-    
-    return(
-            <div>
-                <NavBar />
-                <div className="w-full min-h-[94vh] base relative bg-accent px-20 py-5">
-                
-                <div className="flex flex-col justify-start items-center py-5 gap-5">
-                        <div className="text-secondary text-2xl font-semibold"
-                        >
-                            Food Items
-                        </div>
+        <div className="flex flex-row items-center bg-accent border border-gray-100 rounded-lg shadow md:flex-row md:w-10/12 hover:bg-gray-100">
+            <Image className="object-cover w-full rounded-lg h-80 md:h-40 md:w-40 md:rounded-none md:rounded-s-lg " src={item.image || image} alt="" width={300} height={500} />
+            <div className="flex flex-col flex-wrap  justify-between px-4 leading-normal">
+                <h5 className="mb-2 text-1xl font-bold tracking-tight text-primary">{item.name}</h5>
+                <p className="mb-3 font-normal text-secondary text-wrap">{item.description}</p>
+                <p className="mb-2 font-medium text-secondary">{item.price}</p>
+            </div>
+        </div>
 
-
-                        <div className="flex flex-col items-center py-5 gap-5">
-                            {/* Map over the foodItems array to render each food item */}
-                            {foodItems.map((item, index) => (
-                                <Product key={index} {...item} />
-                            ))}
-
-                        </div>
-                    </div>
-                    </div>
-                    </div>
-           
     );
 }

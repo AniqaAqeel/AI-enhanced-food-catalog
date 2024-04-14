@@ -15,14 +15,17 @@ import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import ImageIcon from '@mui/icons-material/Image';
 import Image from 'next/image'; // Corrected import path
-import image from "@/src/img/homeImage.jpg";
+import { MyProduct } from "./MyProduct";
 
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-
+export type MenuItem = {
+    _id: string;
+    itemDescription: string;
+    itemName: string;
+    itemPrice: number;
+    itemTags: string;
+    restaurantId: string;
+    imageLink?: string;
+};
 export function Restaurantaccount() {
     const [selectedImage, setSelectedImage] = useState<string | ArrayBuffer | null>(null);
     const [error, setError] = useState("");
@@ -56,6 +59,7 @@ export function Restaurantaccount() {
 
         return await response.data;
     }
+    const { user } = useAuth();
 
     const showImage = async () => {
         const url = `${process.env.NEXT_PUBLIC_URL}`
@@ -68,6 +72,18 @@ export function Restaurantaccount() {
                 },
                 responseType: "blob",
 
+            });
+        return await response.data;
+    };
+    const getMenu = async () => {
+        const url = `${process.env.NEXT_PUBLIC_URL}`
+        axios.defaults.baseURL = url;
+        const response = await axios.get("/api/resowners/getMenu",
+            {
+                params: {
+                    token: token,
+
+                },
             });
         return await response.data;
     }
@@ -88,13 +104,18 @@ export function Restaurantaccount() {
 
     });
 
+    const { data: fooditem, isLoading: foodloading, error: fooderror } = useQuery<MenuItem[]>({
+        queryKey: ["getMenu"],
+        queryFn: getMenu,
+        refetchOnWindowFocus: true
+    });
     const mutation = useMutation({
         mutationFn: uploadimage,
         mutationKey: ["uploadimage"],
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: ["showImage"],
-            
+
             });
         },
         onError: (error: any) => {
@@ -104,38 +125,6 @@ export function Restaurantaccount() {
     });
 
     // Define an array of food items
-    const foodItems = [
-        {
-
-            name: "Food Item 1",
-            description: "Description of Food Item 1: This is a description of the food item. It is very delicious and tasty. It is made Ok There is a special discount on this item. IT is a tyuj tyu frtgyhuj  tyu i dflasjfsd kjfasdkl fsdlkfjsdkl fsdkl fjksdl fhjldksfklasd  fjlafasdjkl   ",
-            price: "$9.99",
-        },
-        {
-
-            name: "Food Item 2",
-            description: "Description of Food Item 2 This is a description of the food item. It is very delicious and tasty.",
-            price: "$12.99",
-        },
-        {
-
-            name: "Food Item 3",
-            description: "Description of Food Item 3 This is a description of the food item. It is very delicious and tasty.",
-            price: "$14.99",
-        },
-        {
-
-            name: "Food Item 4",
-            description: "Description of Food Item 4 This is a description of the food item. It is very delicious and tasty.",
-            price: "$19.99",
-        },
-        {
-
-            name: "Food Item 5",
-            description: "Description of Food Item 5 This is a description of the food item. It is very delicious and tasty.",
-            price: "$24.99",
-        },
-    ];
 
     return (
         <div>
@@ -201,20 +190,16 @@ export function Restaurantaccount() {
                     </div>
                     <div className="flex flex-col item-center py-5 gap-5">
                         <div className="text-secondary text-2xl font-semibold"
-                        >My Restaurant</div>
+                        >
+                            {user?.name}
+                        </div>
 
 
                         <div className="flex flex-col item-center py-5 gap-5">
                             {/* Map over the foodItems array to render each food item */}
-                            {foodItems.map((item, index) => (
-                                <div key={index} className="flex flex-row items-center bg-accent border border-gray-100 rounded-lg shadow md:flex-row md:max-w hover:bg-gray-100">
-                                    <Image className="object-cover w-full rounded-lg h-80 md:h-36 md:w-36 md:rounded-none md:rounded-s-lg " src={image} alt="" width={300} height={500} />
-                                    <div className="flex flex-col flex-wrap  justify-between px-4 leading-normal">
-                                        <h5 className="mb-2 text-1xl font-bold tracking-tight text-primary">{item.name}</h5>
-                                        <p className="mb-3 font-normal text-secondary text-wrap">{item.description}</p>
-                                        <p className="mb-2 font-medium text-secondary">{item.price}</p>
-                                    </div>
-                                </div>
+                            {fooditem && fooditem.map((item, index) => (
+
+                                <MyProduct key={index} item={item} />
                             ))}
 
                         </div>

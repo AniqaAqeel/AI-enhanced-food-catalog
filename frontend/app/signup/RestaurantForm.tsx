@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import Alert from '@mui/material/Alert';
 import { useRouter } from "next/navigation";
 import { validateEmail, validatePassword, validatePhone } from "@/utils/validate";
+import { useMutation } from "@tanstack/react-query";
 
 export  function RestaurantForm() {
   const [email, setEmail] = useState("");
@@ -14,41 +15,46 @@ export  function RestaurantForm() {
   const [phone,setphone] = useState("");
   const [error, setError] = useState("");
   const [success,setSucess] = useState("");
+  const [cuisine, setCuisine] = useState("");
   const router = useRouter();
   const handleSubmit = async (e:any) => {
 		e.preventDefault();
-		try {
-			console.log("ok")
-			const url = "http://localhost:8080/api/resowners";
-			const { data: res } = await axios.post(url, {
-        name: name,
-        email: email,
-        password: password,
-        phone_no: phone,
-      });
-			
-			console.log(res.message);
-      setSucess(res.message);
-      setError("");
-      //wait for 2 sec
-      setTimeout(() => {
-        router.push("/signin");
-      }, 2000);
-      
-			
-		} catch (error:any) {
-			if (
-				error.response &&
-				error.response.status >= 400 &&
-				error.response.status <= 500
-			) {
-				setError(error.response.data.message);
-			}
-      else{
-        setError("An error occured, please try again later");
-      }
-		}
+    mutation.mutate();
+		
 	};
+  const register = async () => {
+    const url = `${process.env.NEXT_PUBLIC_URL}`
+    axios.defaults.baseURL = url;
+    const response = await axios.post("/api/resowners", {
+      res_owner:{
+      name: name,
+      email: email,
+      phone_no: phone,
+      password: password
+      },
+      restaurant:{
+        res_name: name,
+        cuisine: cuisine
+      }
+    });
+    return await response.data;
+  }
+  const mutation = useMutation({
+    mutationKey: ["register"],
+    mutationFn: register,
+    onError: (error:any) => {
+      setError(error.response.data.message);
+    },
+    onSuccess: (data:any) => {
+      setSucess(data.message);
+      router.push("/signin");
+    },
+    onMutate: () => {
+      setError("");
+      setSucess("");
+    }
+  });
+
 
     return(
         <section className="bg-gray-50 ">
@@ -85,6 +91,13 @@ export  function RestaurantForm() {
                 OnChange={setphone}
                 value={phone}
                 validate={validatePhone}
+              />
+              <InputField
+                label="Cuisine:"
+                placeholder="Enter cuisine"
+                required={true}
+                OnChange={setCuisine}
+                value={cuisine}
               />
               <InputField
                 label="Email:"

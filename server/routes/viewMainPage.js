@@ -5,34 +5,34 @@ const { Restaurant, validateRestaurant } = require("../models/restaurant");
 const Joi = require("joi");
 const findUserIdFromToken = require("../utils/findUserIdFromToken")
 const path = require("path");
+const fs = require('fs');
 
 const image_dir = path.join(__dirname, "../src/images/");
 
-router.post("/", async (req, res) => {
+router.get("/", async (req, res) => {
 	try {
-        const token = req.body.token;
+        const token = req.query.token;
         const userId = findUserIdFromToken(token);
 
-		const user = await User.findOne({ "_id": userId })
-		
-		if (!user) 
-			return res.status(401).send({ message: "User not logged in" });
+		if (!userId) {
+			return res.status(401).send({ message: "Unauthorized" });
+		}
 
 
         const restaurants = await Restaurant.find();
 
 		const restaurantsWithImages = await Promise.all(restaurants.map(async restaurant => {
 			
-			const files = await fs.promises.readdir(image_dir)
-			const tempFile = files.find(file => file.startsWith(restaurant.owner_id.toString()));
-			
-			if (tempFile) {
-				const image = fs.readFileSync(path.join(image_dir, tempFile));
-				// Convert image to base64
-				const base64Image = Buffer.from(image).toString('base64');
-			} else {
-				const base64Image = "";
-			}
+			// const files = await fs.promises.readdir(image_dir)
+			// const tempFile = files.find(file => file.startsWith(restaurant.owner_id.toString()));
+			// let base64Image;
+			// if (tempFile) {
+			// 	const image = fs.readFileSync(path.join(image_dir, tempFile));
+			// 	// Convert image to base64
+			// 	base64Image = Buffer.from(image).toString('base64');
+			// } else {
+			// 	base64Image = "";
+			// }
 			
 			return {
 			  _id: restaurant._id,
@@ -41,7 +41,6 @@ router.post("/", async (req, res) => {
 			  cuisine: restaurant.cuisine,
 			  weighted_rating: restaurant.weighted_rating,
 			  warning_msg: restaurant.warning_msg,
-			  image: base64Image
 			};
 		  }));
 	  

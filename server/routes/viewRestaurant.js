@@ -1,35 +1,37 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const { User } = require("../models/user");
+const { ResOwner } = require("../models/resowner")
 const { Restaurant, validateRestaurant } = require("../models/restaurant");
 const { FoodItem } = require("../models/fooditems");
 const Joi = require("joi");
 const findUserIdFromToken = require("../utils/findUserIdFromToken");
-const { ResOwner } = require("../models/resowner");
+// const { ResOwner } = require("../models/resowner");
 const fs = require('fs');
 const path = require("path");
 
 
 const image_dir = path.join(__dirname, "../src/images/");
 
-router.post("/", async (req, res) => {
+router.get("/", async (req, res) => {
 	try {
-        const token = req.body.token;
+        const token = req.query.token;
         const userId = findUserIdFromToken(token);
 
 		const user = await User.findOne({ "_id": userId })
+		const resowner = await ResOwner.findOne({ "_id": userId })
 		
-		if (!user) 
+		if (!(user || resowner)) 
 			return res.status(401).send({ message: "User not logged in" });
 
         // const testing = await FoodItem.find();
         // return res.status(200).send({ testing });
 
-        const food_items = await FoodItem.find({ "restaurantId": req.body.res_id });
+        const food_items = await FoodItem.find({ "restaurantId": req.query.res_id });
         if (!food_items)
             return res.status(401).send({ message: "Could not find food items for restaurant" });
 
-        const restaurantTemp = await Restaurant.findOne({ "_id": req.body.res_id });
+        const restaurantTemp = await Restaurant.findOne({ "_id": req.query.res_id });
         if (!restaurantTemp)
             return res.status(401).send({ message: "Could not find restaurant" });
 
