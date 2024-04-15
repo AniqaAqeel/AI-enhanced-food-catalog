@@ -1,66 +1,65 @@
 const router = require("express").Router();
-const cors = require("cors");
-const multer = require("multer");
 const { ResOwner } = require("../models/resowner");
 const { FoodItem } = require("../models/fooditems");
-const fs = require("fs");
 const findUserIdFromToken = require("../utils/findUserIdFromToken");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+
+// Setup Google Generative AI API
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY);
+const model = genAI.getGenerativeModel({ model: "embedding-001" });
 
 router.post("/", async (req, res) => {
   try {
-    const token = req.body.token; // Extract token from Authorization header
+    const token = req.body.token;
     if (!token) {
-      return res
-        .status(403)
-        .send({ message: "No authentication token provided." });
+      return res.status(403).send({ message: "No authentication token provided." });
     }
     const userId = findUserIdFromToken(token);
     if (!userId) {
-      return res
-        .status(401)
-        .send({ message: "User not authenticated or does not exist." });
+      return res.status(401).send({ message: "User not authenticated or does not exist." });
     }
 
     const resowner = await ResOwner.findById(userId);
     if (!resowner) {
-      return res
-        .status(401)
-        .send({ message: "User not authenticated or does not exist." });
+      return res.status(401).send({ message: "User not authenticated or does not exist." });
     }
     const item_list = req.body.item_list;
     let promises = [];
-    //Save items to database
-    const item_descriptions = [];
+
     for (let i = 0; i < item_list.length; i++) {
-      const item_name = item_list[i].name;
-      const item_tags = item_list[i].tag;
-      const price = item_list[i].price;
-      const description = item_list[i].description;
-      console.log(item_name, item_tags, price, description);
-      const id = item_list[i].id;
-      if (!item_name || !item_tags || !price || !description) {
-        return res
-          .status(400)
-          .json({ message: `Item with ID:${id} was unsucessful.` });
+      const { name, tag, price, description } = item_list[i];
+      if (!name || !tag || !price || !description) {
+        return res.status(400).json({ message: `Item with ID:${item_list[i].id} was unsuccessful.` });
       }
+
+      // Generate embedding
+      let embedding;
+      try {
+        const result = await model.embedContent(description);
+        embedding = result.embedding.values;
+      } catch (err) {
+        console.error("Failed to generate embedding:", err);
+        continue; // Optionally handle error more gracefully
+      }
+
       const item = new FoodItem({
         restaurantId: userId,
-        itemName: item_name,
+        itemName: name,
         itemPrice: price,
         itemDescription: description,
-        itemTags: item_tags,
+        itemTags: tag,
+        embedding: embedding
       });
-      const savedItem = item.save();
-      promises.push(savedItem);
+      promises.push(item.save());
     }
+
     try {
       await Promise.all(promises);
-      return res.status(200).json({ message: "Items saved successfully." });
+      return res.status(200).json({ message: "Items saved successfully with embeddings." });
     } catch (error) {
       console.error(error);
       return res.status(500).send({ message: "Internal server error." });
     }
-
   } catch (error) {
     console.error(error);
     return res.status(500).send({ message: "Internal server error." });

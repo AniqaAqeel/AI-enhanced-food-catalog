@@ -48,12 +48,11 @@ async function generateDescription(item_name, item_tags) {
 
 router.post('/', upload.single('file'), async (req, res) => {
     try {
-        const token = req.body.token; // Extract token from Authorization header
+        const token = req.body.token;
         if (!token) {
             return res.status(403).send({ message: 'No authentication token provided.' });
         }
         const userId = findUserIdFromToken(token);
-
         const resowner = await ResOwner.findById(userId);
         if (!resowner) {
             return res.status(401).send({ message: 'User not authenticated or does not exist.' });
@@ -63,43 +62,33 @@ router.post('/', upload.single('file'), async (req, res) => {
             return res.status(400).json({ message: 'No file uploaded' });
         }
 
-        // Immediate response after file upload
-        //res.status(202).json({ message: 'File uploaded, processing started.' });
-
         const fileStream = fs.createReadStream(req.file.path);
         const responses = [];
-
+        let errors = [];
 
         fileStream.pipe(csvParser())
             .on('data', (row) => {
-                // return {
-                //     item_name: row.item_name,
-                //     item_tags: row.item_tags,
-                //     price : row.price,
-                // };
                 if (!row.name || !row.tags || !row.price) {
-                    
-                    return res.status(400).json({ message: 'Invalid CSV file format. Should Include name,Tags,price' });
+                    errors.push('Invalid CSV file format. Should Include name, tags, price.');
+                    return;
                 }
-                responses.push(
-                    {
-                        name: row.name,
-                        tag: row.tags,
-                        price: row.price,
-                    }
-                )
-
-                
+                responses.push({
+                    name: row.name,
+                    tag: row.tags,
+                    price: row.price,
+                });
             })
             .on('end', async () => {
+                if (errors.length > 0) {
+                    return res.status(400).json({ message: errors.join(', ') });
+                }
                 try {
-                    // const items = await Promise.all(promises);
-                    // await FoodItem.insertMany(items);
+                    // Process your data here (e.g., insert into database)
+                    // Uncomment and use if needed: await FoodItem.insertMany(responses);
                     // fs.unlinkSync(req.file.path); // Cleanup the uploaded file
-                    // console.log('Menu uploaded and stored successfully.');
                     res.status(200).json(responses);
                 } catch (error) {
-                    //console.error('Error during processing or database operation:', error);
+                    console.error('Error during processing or database operation:', error);
                     res.status(500).send({ message: 'Internal Server Error' });
                 }
             })

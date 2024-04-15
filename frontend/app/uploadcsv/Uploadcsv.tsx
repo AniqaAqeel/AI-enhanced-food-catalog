@@ -32,6 +32,7 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import axios from 'axios';
 import { useAuth } from "../AuthContext";
 import AutoModeIcon from '@mui/icons-material/AutoMode';
+import router from "next/router";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -45,7 +46,7 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 70 },
@@ -217,7 +218,7 @@ export function Uploadcsv() {
     });
     return await response.data;
   }
-
+  const queryClient = useQueryClient();
   const saveMutation = useMutation({
     mutationFn: savecsv,
     mutationKey: ["savecsv"],
@@ -228,6 +229,10 @@ export function Uploadcsv() {
       generateMutation.reset();
       mutation.reset();
       saveMutation.reset(); 
+      queryClient.invalidateQueries({
+        queryKey:["getMenu"]
+      })
+      router.push("/restaurantaccount"); 
 
     },
     onError: (error: any) => {
@@ -296,6 +301,7 @@ export function Uploadcsv() {
             onClick={() => saveMutation.mutate(tabledata)}
           >
             Submit
+            
           </Button>
         </div>
         {/* <Divider orientation="horizontal" flexItem /> */}
