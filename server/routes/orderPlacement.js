@@ -55,7 +55,6 @@ router.post("/", async (req, res) => {
         transformedArray.forEach(entry => {
             console.log(`Res ID: ${entry.res_id}`);
             let total_Amount = 0;
-          
             const orders = new Order({
               user_id: userId,
               res_id: entry.res_id,
@@ -67,6 +66,7 @@ router.post("/", async (req, res) => {
                 console.log(`Food ID: ${item.food_item_id}, Quantity: ${item.quantity}, itemPrice: ${item.itemPrice}`);
 
                 let subtotal = item.quantity * item.itemPrice
+                total_Amount += subtotal;
                 const order_item = new OrderItems({
                   order_id: orders._id,
                   food_item_id: item.food_item_id,
@@ -120,6 +120,7 @@ router.post("/", async (req, res) => {
       order_ids: returnJsonArray
     } );
 	} catch (error) {
+    console.log(error)
 		res.status(500).send({ message: "Internal Server Error" });
 	}
 });

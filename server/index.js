@@ -11,6 +11,7 @@ const updatePassword = require("./routes/updatePassword");
 const resetPassword = require("./routes/resetPassword");
 const showProfile = require("./routes/showProfile");
 const orderPlacement = require("./routes/orderPlacement");
+const orderCancellation = require("./routes/orderCancellation")
 const viewMainPage = require("./routes/viewMainPage");
 const viewRestaurant = require("./routes/viewRestaurant");
 const rateRestaurant = require("./routes/rateRestaurant");
@@ -39,10 +40,11 @@ app.use(cors());
 //users
 app.use("/api/users", userRoutes);
 app.use("/api/users/updatePassword", updatePassword);//reset password
-app.use("/api/users/resetPassword", resetPassword);//forget password
-app.use("/api/users/orderPlacement", orderPlacement);
+app.use("/api/users/resetPassword", resetPassword);  //forget password
+app.use("/api/users/orderPlacement", orderPlacement);   //checkout order placement
+app.use("/api/users/orderCancellation", orderCancellation); // cancelling orders
+                                                            // check my orders
 app.use("/api/users/viewMainPage", viewMainPage);//view restaurant images on main page
-
 app.use("/api/users/viewRestaurant", viewRestaurant);
 app.use("/api/users/rateRestaurant", rateRestaurant);
 
@@ -53,8 +55,8 @@ app.use("/api/resowners/showProfile", showProfile);//show profile
 app.use("/api/resowners/imageRestaurant", imageRestaurant);//upload image
 app.use("/api/resowners/csvUpload", csvUpload);//upload csv
 app.use("/api/resowners/generateDescription",generateDescription);//generate description from csv
-
-
+                                                                        // order cancellation
+                                                                        // check restaurant orders
 app.use("/api/resowners/showImageRestaurant", showImageRestaurant);//show the image on my restaurant page
 app.use("/api/resowners/saveItems", saveItems);//save csv items to database
 app.use("/api/resowners/getMenu", getMenu)//to display item for restaurant on my restaurant page
