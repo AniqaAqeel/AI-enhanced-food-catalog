@@ -11,7 +11,8 @@ const updatePassword = require("./routes/updatePassword");
 const resetPassword = require("./routes/resetPassword");
 const showProfile = require("./routes/showProfile");
 const orderPlacement = require("./routes/orderPlacement");
-const orderCancellation = require("./routes/orderCancellation")
+const orderCancellation = require("./routes/orderCancellation");
+const checkMyOrdersUser = require("./routes/checkMyOrdersUser");
 const viewMainPage = require("./routes/viewMainPage");
 const viewRestaurant = require("./routes/viewRestaurant");
 const rateRestaurant = require("./routes/rateRestaurant");
@@ -43,7 +44,7 @@ app.use("/api/users/updatePassword", updatePassword);//reset password
 app.use("/api/users/resetPassword", resetPassword);  //forget password
 app.use("/api/users/orderPlacement", orderPlacement);   //checkout order placement
 app.use("/api/users/orderCancellation", orderCancellation); // cancelling orders
-                                                            // check my orders
+app.use("/api/users/checkMyOrdersUser", checkMyOrdersUser);                                                            // check my orders
 app.use("/api/users/viewMainPage", viewMainPage);//view restaurant images on main page
 app.use("/api/users/viewRestaurant", viewRestaurant);
 app.use("/api/users/rateRestaurant", rateRestaurant);
