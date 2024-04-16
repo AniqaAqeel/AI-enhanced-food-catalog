@@ -25,6 +25,7 @@ const saveItems = require("./routes/saveItems");
 const getResImage = require("./routes/getResImage");
 const postProductImage = require("./routes/postProductImage");
 const getProductImage = require("./routes/getProductImage");
+const removeItem = require("./routes/removeItem");
 const search = require("./routes/search")
 
 const auth = require("./routes/auth");
@@ -56,6 +57,7 @@ app.use("/api/resowners/showProfile", showProfile);//show profile
 app.use("/api/resowners/imageRestaurant", imageRestaurant);//upload image
 app.use("/api/resowners/csvUpload", csvUpload);//upload csv
 app.use("/api/resowners/generateDescription",generateDescription);//generate description from csv
+app.use("/api/resowners/removeItem", removeItem); // to remove item once its uploaded
                                                                         // order cancellation
                                                                         // check restaurant orders
 app.use("/api/resowners/showImageRestaurant", showImageRestaurant);//show the image on my restaurant page
