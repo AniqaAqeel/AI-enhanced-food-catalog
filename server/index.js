@@ -51,6 +51,7 @@ app.use("/api/users/viewRestaurant", viewRestaurant);
 app.use("/api/users/rateRestaurant", rateRestaurant);
 
 app.use("/api/restaurant", getResImage);//show the image on restaurant page
+
 //resowners
 app.use("/api/resowners", resownerRoutes);
 app.use("/api/resowners/showProfile", showProfile);//show profile
@@ -58,7 +59,7 @@ app.use("/api/resowners/imageRestaurant", imageRestaurant);//upload image
 app.use("/api/resowners/csvUpload", csvUpload);//upload csv
 app.use("/api/resowners/generateDescription",generateDescription);//generate description from csv
 app.use("/api/resowners/removeItem", removeItem); // to remove item once its uploaded
-                                                                        // order cancellation
+app.use("/api/resowners/orderCancellation", orderCancellation); // cancelling orders for resowner
                                                                         // check restaurant orders
 app.use("/api/resowners/showImageRestaurant", showImageRestaurant);//show the image on my restaurant page
 app.use("/api/resowners/saveItems", saveItems);//save csv items to database

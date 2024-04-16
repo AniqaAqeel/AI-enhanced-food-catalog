@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const { User } = require("../models/user");
+const { ResOwner } = require("../models/resowner");
 const { FoodItem } = require("../models/fooditems");
 const { Order } = require("../models/order");
 const { OrderItems } = require("../models/orderitem");

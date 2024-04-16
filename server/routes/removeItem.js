@@ -2,10 +2,6 @@ const router = require("express").Router();
 // const { User } = require("../models/user");
 const { ResOwner } = require("../models/resowner");
 const { FoodItem } = require("../models/fooditems");
-const { Order } = require("../models/order");
-const { OrderItems } = require("../models/orderitem");
-const bcrypt = require("bcrypt");
-const Joi = require("joi");
 const findUserIdFromToken = require("../utils/findUserIdFromToken");
 
 router.post("/", async (req, res) => {
