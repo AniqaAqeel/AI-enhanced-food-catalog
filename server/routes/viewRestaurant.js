@@ -32,7 +32,7 @@ router.get("/", async (req, res) => {
         .send({ message: "Could not find food items for restaurant" });
       
 
-    const restaurantTemp = await Restaurant.findOne({ owner_id: req.query.res_id });
+    const restaurantTemp = await Restaurant.findOne({ _id: req.query.res_id});
     if (!restaurantTemp)
       return res.status(401).send({ message: "Could not find restaurant" });
 

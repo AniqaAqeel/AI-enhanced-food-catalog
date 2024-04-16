@@ -44,13 +44,16 @@ export function Home() {
         height={1080}
         
     />
-      <div className=" pl-20 items-start absolute inset-0 z-10 flex flex-col w-full justify-center text-center small:p-32 gap-6 ">
+      <div className=" pl-20 text-left items-start absolute inset-0 z-10 flex flex-col w-full justify-center small:p-32  ">
 
-        <div className="text-left text-5xl font-semibold text-secondary">What do you want to eat 
+        <div className="text-left text-5xl font-semibold text-secondary pb-2 pl-2">What do you want to eat 
         <br />
         today?</div>
+        <div className="text-left text-base font-normal text-secondary pb-3 pl-2">Explore dishes and cuisines with AI assistance...</div>
+        <div className="flex flex-row items-center justify-start">
         <SearchBar onChange={(e)=>setQuery(e.currentTarget.value)} value={query} />
-        <Button onClick={()=>router.push(`/aisearch?q=${query}`)} className="bg-primary text-secondary">Search</Button> 
+        <Button onClick={()=>router.push(`/aisearch?q=${query}`)} className="bg-primary h-10 text-accent hover:text-secondary">Search</Button> 
+        </div>
       
     </div>
     </div>

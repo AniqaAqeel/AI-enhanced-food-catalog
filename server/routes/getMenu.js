@@ -1,5 +1,6 @@
 const router = require('express').Router();
-const { FoodItem } = require('../models/fooditems')
+const { FoodItem } = require('../models/fooditems');
+const { Restaurant } = require('../models/restaurant');
 const findUserIdFromToken = require("../utils/findUserIdFromToken");
 
 // Endpoint to get menu items by restaurant ID extracted from token
@@ -15,8 +16,11 @@ router.get('/', async (req, res) => {
         if (!userId) {
             return res.status(401).json({ message: 'Invalid or expired token.' });
         }
-
-        const menuItems = await FoodItem.find({ restaurantId: userId });
+        const restaurant = await Restaurant.findOne({ owner_id: userId });
+        if (!restaurant) {
+            return res.status(404).json({ message: 'Restaurant not found.' });
+        }
+        const menuItems = await FoodItem.find({ restaurantId: restaurant._id });
         if (menuItems.length === 0) {
             return res.status(404).json({ message: 'No menu items found for this restaurant.' });
         }
