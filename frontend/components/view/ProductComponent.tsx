@@ -10,6 +10,7 @@ import { Restaurant } from '@/app/dashboard/home';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
+import Link from 'next/link';
 
 export const HomeProduct = ({
     item
@@ -49,7 +50,7 @@ export const HomeProduct = ({
         <>
 
             <ImageListItem key={item._id} >
-
+                <Link href={`/restaurant/${item.owner_id}`}>
                 <Image
                     src={image ? image : "https://placehold.co/600x400/png"}
                     alt={item.res_name}
@@ -66,6 +67,7 @@ export const HomeProduct = ({
                     </span>}
 
                 />
+                </Link>
             </ImageListItem>
         </>
 
