@@ -16,8 +16,6 @@ router.post("/", async (req, res) => {
 		
 		if (!user) 
 			return res.status(401).send({ message: "User not logged in" });
-
-        
         
     res.status(200).send( {
       message: "ok"
