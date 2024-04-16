@@ -11,6 +11,8 @@ import Image from "next/image";
 import image from "@/src/img/homeImage.jpg";
 import { Query, useQuery } from "@tanstack/react-query";
 import Alert from "@mui/material/Alert";
+import { useRouter } from "next/navigation";
+import { Button } from "@mui/material";
 export type Restaurant = {
   _id: string;
   cuisine: string;
@@ -22,62 +24,12 @@ export type Restaurant = {
 
 export function Home() {
   const { user, setToken, setUser ,token} = useAuth();
+  const router = useRouter();
   
   
     
 
-  const itemData = [
-    
-    {
-      img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
-      title: 'Burger',
-      
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
-      title: 'Camera',
-      
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
-      title: 'Coffee',
-      
-      cols: 2,
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
-      title: 'Hats',
-      cols: 2,
-    },
-   
-    {
-      img: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6',
-      title: 'Basketball',
-      
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',
-      title: 'Fern',
-      
-    },
-    
-    {
-      img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af',
-      title: 'Tomato basil',
-      
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1471357674240-e1a485acb3e1',
-      title: 'Sea star',
-      
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',
-      title: 'Bike',
-      
-      cols: 2,
-    },
-  ];
+  const [query, setQuery] = useState("");
   return (
     <div>
       <NavBar />
@@ -97,7 +49,8 @@ export function Home() {
         <div className="text-left text-5xl font-semibold text-secondary">What do you want to eat 
         <br />
         today?</div>
-        <SearchBar  />   
+        <SearchBar onChange={(e)=>setQuery(e.currentTarget.value)} value={query} />
+        <Button onClick={()=>router.push(`/aisearch?q=${query}`)} className="bg-primary text-secondary">Search</Button> 
       
     </div>
     </div>
