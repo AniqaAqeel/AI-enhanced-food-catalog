@@ -16,7 +16,7 @@ function cosineSimilarity(vecA, vecB) {
 }
 
 // Define a minimum score cutoff
-const MIN_SCORE_CUTOFF = 0.61;  // Set this to a suitable value
+const MIN_SCORE_CUTOFF = 0.01;  // Set this to a suitable value
 
 // Search API endpoint
 router.get("/", async (req, res) => {
@@ -43,10 +43,10 @@ router.get("/", async (req, res) => {
 
     // Format response
     const response = topItems.map(({ item, score }) => ({
-      name: item.itemName,
-      price: item.itemPrice,
-      description: item.itemDescription,
-      tags: item.itemTags,
+      itemName: item.itemName,
+      itemPrice: item.itemPrice,
+      itemDescription: item.itemDescription,
+      itemTags: item.itemTags,
       score: score.toFixed(2)
     }));
 
