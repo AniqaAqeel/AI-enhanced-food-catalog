@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const { ResOwner } = require("../models/resowner");
 const { FoodItem } = require("../models/fooditems");
+const { Restaurant} = require("../models/restaurant");
 const findUserIdFromToken = require("../utils/findUserIdFromToken");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
@@ -23,6 +24,12 @@ router.post("/", async (req, res) => {
     if (!resowner) {
       return res.status(401).send({ message: "User not authenticated or does not exist." });
     }
+
+    const restaurant = await Restaurant.findOne({ "owner_id": userId });
+    if (!restaurant) {
+      return res.status(401).send({ message: "Restaurant does not exist." });
+    }
+
     const item_list = req.body.item_list;
     let promises = [];
 
@@ -43,7 +50,7 @@ router.post("/", async (req, res) => {
       }
 
       const item = new FoodItem({
-        restaurantId: userId,
+        restaurantId: restaurant._id,
         itemName: name,
         itemPrice: price,
         itemDescription: description,
