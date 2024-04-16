@@ -58,7 +58,7 @@ export function Myprofile() {
     onError: (error: any) => {
       setError(error.response.data.message);
     },
-    
+
 
   });
 
@@ -104,25 +104,29 @@ export function Myprofile() {
                 </div>
               </div>
 
-              <div className="flex flex-col justify-items-start pt-8 pr-72">
-                <div className="text-secondary  font-semibold text-lg ">
 
-                  Desciption:
-                </div>
-                <InputField
-
-                  label=""
-                  placeholder="Enter Desciption"
-                  className="mb-3"
-                  required={true}
-
-                />
-              </div>
 
             </>
           }
+          {
+            user?.role === "user" && <>
+            <div className="flex flex-col justify-items-start pt-8 pr-72">
+            <div className="text-secondary  font-semibold text-lg ">
 
+              Desciption:
+            </div>
+            <InputField
 
+              label=""
+              placeholder="Enter Desciption"
+              className="mb-3"
+              required={true}
+
+            />
+          </div>
+          </>
+          }
+          
           <div className="flex flex-col justify-items-start pt-8 pr-72">
             {error && (
               <Alert severity="error">

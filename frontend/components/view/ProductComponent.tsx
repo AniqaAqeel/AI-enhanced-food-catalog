@@ -50,7 +50,7 @@ export const HomeProduct = ({
         <>
 
             <ImageListItem key={item._id} >
-                <Link href={`/restaurant/${item.owner_id}`}>
+                <Link href={`/restaurant/${item._id}`}>
                 <Image
                     src={image ? image : "https://placehold.co/600x400/png"}
                     alt={item.res_name}

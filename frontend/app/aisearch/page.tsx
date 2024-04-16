@@ -41,18 +41,18 @@ export default function Page() {
     <>
       <NavBar />
       <div className="min-h-screen bg-accent">
-        <div className="text-center text-4xl font-bold text-primary py-2">
-          Search for your favourite food
-        </div>
-        <div className="flex justify-center">
+      
+      <div className="text-center text-lg font-semibold text-secondary pr-24 pt-10 ">What are you craving today? Type it here...</div>
+        <div className="flex flex-row items-center justify-center py-4">
           <SearchBar value={query} onChange={(e)=>setQuery(e.currentTarget.value)} />
             <Button
-                className="bg-primary text-white p-2 rounded-lg ml-2"
+                className="bg-primary text-accent hover:text-secondary h-11 p-2 rounded-lg ml-2"
                 onClick={() => mutation.mutate()}
             >
                 Search
                 </Button>
           </div>
+          
           <div className="text-center text-2xl font-bold text-primary py-2">
             {mutation.isPending && <CircularProgress />}    
             </div>

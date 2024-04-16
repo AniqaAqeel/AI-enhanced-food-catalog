@@ -43,6 +43,7 @@ export function MyProduct({
             queryClient.invalidateQueries({
                 queryKey: [item._id],
             });
+
         },
     });
     const fetchProductImage = async () => {
@@ -69,6 +70,7 @@ export function MyProduct({
         queryKey: [item._id],
         queryFn: fetchProductImage,
         //enabled: item.imageLink !== undefined,
+        retry: 1,
     });
 
 
