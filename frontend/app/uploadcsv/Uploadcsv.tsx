@@ -8,7 +8,7 @@ import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import CloudDoneIcon from "@mui/icons-material/CloudDone";
-import { Divider } from "@mui/material";
+import { Divider, TextField } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
@@ -29,9 +29,9 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
-import axios from 'axios';
+import axios from "axios";
 import { useAuth } from "../AuthContext";
-import AutoModeIcon from '@mui/icons-material/AutoMode';
+import AutoModeIcon from "@mui/icons-material/AutoMode";
 import router from "next/router";
 
 const VisuallyHiddenInput = styled("input")({
@@ -48,21 +48,6 @@ const VisuallyHiddenInput = styled("input")({
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 70 },
-  { field: "name", headerName: "Item", editable: true, width: 200 },
-  { field: "price", headerName: "Price", width: 130, type: "number", editable: true },
-  {
-    field: "tag",
-    headerName: "Tags", editable: true, width: 300
-  },
-  {
-    field: "description",
-    headerName: "Description", editable: true, width: 300,
-    flex: 1,
-
-  },
-];
 interface EnhancedTableToolbarProps {
   numSelected: number;
   deleteSelected: () => void;
@@ -109,7 +94,6 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   );
 }
 
-
 interface UploadcsvProps {
   id: number;
   item: string;
@@ -128,7 +112,7 @@ export function Uploadcsv() {
     setData(tabledata.filter((row) => !selectedRow.includes(row.id)));
   };
   const [error, setError] = useState<string | null>(null);
-  const[success, setSuccess] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
   const { token } = useAuth();
   const Uploadcsv = async (file: File) => {
@@ -137,29 +121,25 @@ export function Uploadcsv() {
       console.log(file);
       return;
     }
-    const url = `${process.env.NEXT_PUBLIC_URL}`
+    const url = `${process.env.NEXT_PUBLIC_URL}`;
     axios.defaults.baseURL = url;
     var formData = new FormData();
     formData.append("file", file);
     formData.append("token", token);
-    const response = await axios.post("/api/resowners/csvUpload", formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-
-        },
-      }
-    );
+    const response = await axios.post("/api/resowners/csvUpload", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     return await response.data;
-  }
+  };
 
   const mutation = useMutation({
     mutationFn: Uploadcsv,
     mutationKey: ["uploadcsv"],
     onSuccess: (data: Omit<UploadcsvProps[], "id">) => {
-      setData(data.map((row, index) => ({ ...row, id: (index + 1) })));
+      setData(data.map((row, index) => ({ ...row, id: index + 1 })));
       setSuccess("CSV file uploaded successfully");
-
     },
     onError: (error: any) => {
       setError(error.response.data.message);
@@ -167,24 +147,20 @@ export function Uploadcsv() {
     onMutate: () => {
       setError(null);
       setSuccess(null);
-    }
-
+    },
   });
 
   const GenerateDescription = async (data: UploadcsvProps[]) => {
-
-    const url = `${process.env.NEXT_PUBLIC_URL}`
+    const url = `${process.env.NEXT_PUBLIC_URL}`;
     axios.defaults.baseURL = url;
     const response = await axios.post("/api/resowners/generateDescription", {
-
       item_list: data,
-      token: token
-
+      token: token,
     });
 
     console.log(response.data);
     return await response.data;
-  }
+  };
 
   const generateMutation = useMutation({
     mutationFn: GenerateDescription,
@@ -193,7 +169,7 @@ export function Uploadcsv() {
       //Iterate both arrat at the same time and update the description
       const desc = data.item_descriptions as DescriptionProps[];
       const updatedData = tabledata.map((row, index) => {
-        return { ...row, description: desc[index].description }
+        return { ...row, description: desc[index].description };
       });
 
       setData(updatedData);
@@ -205,35 +181,32 @@ export function Uploadcsv() {
     onMutate: () => {
       setError(null);
       setSuccess(null);
-    }
+    },
   });
-  
 
   const savecsv = async (data: UploadcsvProps[]) => {
-    const url = `${process.env.NEXT_PUBLIC_URL}`
+    const url = `${process.env.NEXT_PUBLIC_URL}`;
     axios.defaults.baseURL = url;
     const response = await axios.post("/api/resowners/saveItems", {
       item_list: data,
-      token: token
+      token: token,
     });
     return await response.data;
-  }
+  };
   const queryClient = useQueryClient();
   const saveMutation = useMutation({
     mutationFn: savecsv,
     mutationKey: ["savecsv"],
     onSuccess: (data) => {
-      
       setData([]);
       setSuccess("Items saved successfully");
       generateMutation.reset();
       mutation.reset();
-      saveMutation.reset(); 
+      saveMutation.reset();
       queryClient.invalidateQueries({
-        queryKey:["getMenu"]
-      })
-      router.push("/restaurantaccount"); 
-
+        queryKey: ["getMenu"],
+      });
+      router.push("/restaurantaccount");
     },
     onError: (error: any) => {
       setError(error.response.data.message);
@@ -241,8 +214,102 @@ export function Uploadcsv() {
     onMutate: () => {
       setError(null);
       setSuccess(null);
-    }
+    },
   });
+  const columns: GridColDef[] = [
+    { field: "id", headerName: "ID", width: 70 },
+    {
+      field: "name",
+      headerName: "Item",
+      editable: true,
+      width: 200,
+      renderEditCell: (params) => (
+        <TextField
+          value={params.value}
+          onChange={(e) => {
+            params.api.setEditCellValue({
+              id: params.id,
+              field: "name",
+              value: e.currentTarget.value,
+            });
+            handleEdit(params);
+          }}
+          className="w-full"
+          
+        />
+      ),
+    },
+    {
+      field: "price",
+      headerName: "Price",
+      width: 130,
+      type: "number",
+      editable: true,
+      renderEditCell: (params) => (
+        <TextField
+          value={params.value}
+          type="number"
+          className="w-full"
+          onChange={(e) => {
+            params.api.setEditCellValue({
+              id: params.id,
+              field: "price",
+              value: e.currentTarget.value,
+            });
+            handleEdit(params);
+          }}
+        />
+      ),
+    },
+    {
+      field: "tag",
+      headerName: "Tags",
+      editable: true,
+      width: 300,
+      renderEditCell: (params) => (
+        <TextField
+          value={params.value}
+          className="w-full"
+          onChange={(e) => {
+            params.api.setEditCellValue({
+              id: params.id,
+              field: "tag",
+              value: e.currentTarget.value,
+            });
+            handleEdit(params);
+          }}
+        />
+      ),
+    },
+    {
+      field: "description",
+      headerName: "Description",
+      editable: true,
+      width: 300,
+      flex: 1,
+      renderEditCell: (params) => (
+        <TextField
+          value={params.value}
+          className="w-full"
+          onChange={(e) => {
+            params.api.setEditCellValue({
+              id: params.id,
+              field: "description",
+              value: e.currentTarget.value,
+            });
+            handleEdit(params);
+          }}
+        />
+      ),
+    },
+    
+  ];
+  const handleEdit = (updatedRow: any) => {
+    const updatedData = tabledata.map((row) =>
+      row.id === updatedRow.id ? updatedRow.row : row
+    );
+    setData(updatedData);
+  };
 
   return (
     <>
@@ -265,12 +332,14 @@ export function Uploadcsv() {
               onChange={(e) => {
                 const file = e.target.files?.[0];
                 if (file) {
-                  if (file.type !== "text/csv" && file.type !== "application/vnd.ms-excel"  ) {
+                  if (
+                    file.type !== "text/csv" &&
+                    file.type !== "application/vnd.ms-excel"
+                  ) {
                     setError("Invalid file type, please upload a csv file");
                     return;
                   }
                   mutation.mutate(file);
-
                 }
               }}
             />
@@ -278,44 +347,42 @@ export function Uploadcsv() {
 
           <Button
             className="mt-5 text-accent bg-primary   font-medium rounded-lg text-sm px-5 py-2.5 text-center "
-            disabled={!tabledata || tabledata.length === 0 || !mutation.isSuccess || generateMutation.isPending}
+            disabled={
+              !tabledata ||
+              tabledata.length === 0 ||
+              !mutation.isSuccess ||
+              generateMutation.isPending
+            }
             component="label"
             role={undefined}
             variant="contained"
             tabIndex={-1}
             onClick={() => generateMutation.mutate(tabledata)}
-
             startIcon={<AutoModeIcon />}
           >
             Generate description
           </Button>
           <Button
             className="mt-5 text-accent bg-primary   font-medium rounded-lg text-sm px-5 py-2.5 text-center "
-            disabled={!tabledata || tabledata.length === 0 || !generateMutation.isSuccess}
+            disabled={
+              !tabledata ||
+              tabledata.length === 0 ||
+              !generateMutation.isSuccess
+            }
             component="label"
             role={undefined}
             variant="contained"
             tabIndex={-1}
-
             startIcon={<CloudDoneIcon />}
             onClick={() => saveMutation.mutate(tabledata)}
           >
             Submit
-            
           </Button>
         </div>
         {/* <Divider orientation="horizontal" flexItem /> */}
         <div className="flex flex-row gap-5 px-20">
-          {success && (
-            <Alert severity="success">
-              {success}
-            </Alert>
-          )}
-          {error && (
-            <Alert severity="error">
-              {error}
-            </Alert>
-          )}
+          {success && <Alert severity="success">{success}</Alert>}
+          {error && <Alert severity="error">{error}</Alert>}
         </div>
         <div
           style={{
@@ -325,7 +392,6 @@ export function Uploadcsv() {
             paddingRight: 96,
             paddingTop: 32,
             paddingBottom: 32,
-
           }}
         >
           <EnhancedTableToolbar
@@ -333,7 +399,6 @@ export function Uploadcsv() {
             deleteSelected={removeSelected}
           />
           <DataGrid
-
             rows={tabledata}
             loading={mutation.isPending}
             columns={columns}
@@ -347,16 +412,8 @@ export function Uploadcsv() {
             onRowSelectionModelChange={(selectedRow) => {
               setSelectedRow(selectedRow as number[]);
             }}
-            onRowEditStop={(updatedRow) => {
-              const updatedData = tabledata.map((row) =>
-                row.id === updatedRow.id ? updatedRow.row : row
-
-              );
-              setData(updatedData);
-            }}
+            onRowEditStop={(updatedRow) => {}}
             className="min-h-96"
-
-
             checkboxSelection
           />
         </div>
