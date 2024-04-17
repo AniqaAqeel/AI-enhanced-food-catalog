@@ -58,7 +58,7 @@ export default function NavBar() {
             {user?.role === "user" && (
               <>
                 {length > 0 && (
-                  <Tooltip title="Clear Cart" placement="bottom">
+                  
                     <div
                       onClick={() => setCart({})}
                       className="flex items-center h-full cursor-pointer gap-x-1"
@@ -66,10 +66,10 @@ export default function NavBar() {
                       <ClearIcon className="text-secordary w-4" />
                       <>Clear Cart</>
                     </div>
-                  </Tooltip>
+                  
                 )}
 
-                <Tooltip title={`Total:${total}`} placement="bottom">
+                
                   <Link
                     href="/cart"
                     className="hover:text-ui-fg-base flex gap-2 text-secondary  hover:text-primary"
@@ -79,7 +79,7 @@ export default function NavBar() {
                       <>Cart ({length})</>
                     </div>
                   </Link>
-                </Tooltip>
+                
               </>
             )}
             {user?.role === "resowner" && (<>
