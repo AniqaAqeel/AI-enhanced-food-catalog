@@ -46,10 +46,10 @@ app.use("/api/users/updatePassword", updatePassword);//reset password
 app.use("/api/users/resetPassword", resetPassword);  //forget password
 app.use("/api/users/orderPlacement", orderPlacement);   //checkout order placement
 app.use("/api/users/orderCancellation", orderCancellation); // cancelling orders
-app.use("/api/users/checkMyOrdersUser", checkMyOrdersUser);                                                            // check my orders
+app.use("/api/users/checkMyOrdersUser", checkMyOrdersUser); // check what orders has the user placed, it will also return status, if the order is cancelled, in-progress or open                                                       // check my orders
 app.use("/api/users/viewMainPage", viewMainPage);//view restaurant images on main page
-app.use("/api/users/viewRestaurant", viewRestaurant);
-app.use("/api/users/rateRestaurant", rateRestaurant);
+app.use("/api/users/viewRestaurant", viewRestaurant); //view menu, food items, products, restaurant image
+app.use("/api/users/rateRestaurant", rateRestaurant); // rate the restaurant
 
 app.use("/api/restaurant", getResImage);//show the image on restaurant page
 
@@ -61,7 +61,7 @@ app.use("/api/resowners/csvUpload", csvUpload);//upload csv
 app.use("/api/resowners/generateDescription",generateDescription);//generate description from csv
 app.use("/api/resowners/removeItem", removeItem); // to remove item once its uploaded
 app.use("/api/resowners/orderCancellation", orderCancellation); // cancelling orders for resowner
-app.use("/api/resowners/checkMyOrdersRes", checkMyOrdersRes) // view orders for restaurants                                                                          // check restaurant orders
+app.use("/api/resowners/checkMyOrdersRes", checkMyOrdersRes) // check orders that have been placed to resowner on his/her restaurants, this will also return order status                                                                     // check restaurant orders
 app.use("/api/resowners/showImageRestaurant", showImageRestaurant);//show the image on my restaurant page
 app.use("/api/resowners/saveItems", saveItems);//save csv items to database
 app.use("/api/resowners/getMenu", getMenu)//to display item for restaurant on my restaurant page
