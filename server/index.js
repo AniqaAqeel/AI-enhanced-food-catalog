@@ -25,7 +25,8 @@ const saveItems = require("./routes/saveItems");
 const getResImage = require("./routes/getResImage");
 const postProductImage = require("./routes/postProductImage");
 const getProductImage = require("./routes/getProductImage");
-const search = require("./routes/search")
+const search = require("./routes/search");
+const deleteProduct = require("./routes/deleteProduct");
 
 const auth = require("./routes/auth");
 
@@ -58,6 +59,7 @@ app.use("/api/resowners/csvUpload", csvUpload);//upload csv
 app.use("/api/resowners/generateDescription",generateDescription);//generate description from csv
                                                                         // order cancellation
                                                                         // check restaurant orders
+app.use("/api/resowners/deleteProduct", deleteProduct);//delete product                                                                        
 app.use("/api/resowners/showImageRestaurant", showImageRestaurant);//show the image on my restaurant page
 app.use("/api/resowners/saveItems", saveItems);//save csv items to database
 app.use("/api/resowners/getMenu", getMenu)//to display item for restaurant on my restaurant page

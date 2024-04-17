@@ -13,6 +13,10 @@ import Image from 'next/image';
 import { useAuth } from "../AuthContext";
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Button } from "@mui/material";
+import { Delete } from "@mui/icons-material";
+import { ConfirmDialog } from "@/components/Input";
+import { useState } from "react";
 
 export function MyProduct({
     item
@@ -72,7 +76,30 @@ export function MyProduct({
         //enabled: item.imageLink !== undefined,
         retry: 1,
     });
-
+    const deleteProduct = async () => {
+        const url = `${process.env.NEXT_PUBLIC_URL}`
+        axios.defaults.baseURL = url;
+        const response = await axios.delete("/api/resowners/deleteProduct", {
+            params:{
+                token:token,
+                product_id:item._id
+            }
+        });
+        return await response.data;
+    }
+    const mutationDelete = useMutation({
+        mutationFn: deleteProduct,
+        mutationKey: [item._id],
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: [item._id],
+            });
+            queryClient.refetchQueries({
+                queryKey: ["getMenu"],
+            });
+        },
+    });
+    const [open, setOpen] = useState(false);
 
     const { token } = useAuth();
     return (
@@ -93,7 +120,13 @@ export function MyProduct({
             <div className="flex flex-col flex-wrap w-11/12 justify-items-start px-4 leading-normal">
                 <h5 className="mb-2 text-1xl font-bold tracking-tight text-primary">{item.itemName}</h5>
                 <p className="mb-3 font-normal text-secondary text-wrap">{item.itemDescription}</p>
+                <div className="flex flex-row items-center justify-between w-full">
                 <p className="mb-2 font-medium text-secondary">Rs {item.itemPrice}</p>
+                <Button onClick={()=>setOpen(true)} className="bg-primary hover:bg-secondary text-white" startIcon={<Delete />} >
+                    Delete
+                </Button>
+                <ConfirmDialog title="Delete Product" text="Are you sure you want to delete this product?" OnAgree={() => mutationDelete.mutate()} open={open} setOpen={setOpen} />
+                </div>
             </div>
         </div>
     )
