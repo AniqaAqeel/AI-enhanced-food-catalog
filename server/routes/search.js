@@ -21,6 +21,7 @@ const MIN_SCORE_CUTOFF = 0.01;  // Set this to a suitable value
 // Search API endpoint
 router.get("/", async (req, res) => {
   try {
+    console.log(req.query);
     const { query } = req.query;
     if (!query) {
       return res.status(400).json({ message: "No query provided." });
@@ -29,6 +30,7 @@ router.get("/", async (req, res) => {
     // Generate embedding for the query
     const result = await model.embedContent(query);
     const queryEmbedding = result.embedding.values;
+
 
     // Retrieve all items and calculate their similarity
     const items = await FoodItem.find({});

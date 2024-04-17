@@ -14,6 +14,7 @@ router.post("/", async (req, res) => {
   // return
   try {
     const token = req.body.token;
+    const address = req.body.delivery_address;
     if (!token) 
       return res.status(403).send({ message: "No authentication token provided" })
 
@@ -65,6 +66,7 @@ router.post("/", async (req, res) => {
         order_date: new Date(),
         total_amount: 0,
         order_status: "open",
+        delivery_address: address,
       });
 
       entry.items.forEach((item) => {

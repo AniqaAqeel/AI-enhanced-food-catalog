@@ -31,6 +31,7 @@ router.get("/", async (req, res) => {
     const productFile = files.find(file => file.startsWith(product_id));
     if (productFile) {
         const filePath = path.join(image_dir, productFile);
+        
         const image = fs.readFileSync(filePath);
         res.writeHead(200, { 'Content-Type': 'image/png' });
         res.end(image, 'binary');
