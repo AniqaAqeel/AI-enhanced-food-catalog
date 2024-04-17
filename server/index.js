@@ -29,7 +29,6 @@ const getProductImage = require("./routes/getProductImage");
 const search = require("./routes/search");
 const deleteProduct = require("./routes/deleteProduct");
 const removeItem = require("./routes/removeItem");
-const search = require("./routes/search")
 
 const auth = require("./routes/auth");
 
