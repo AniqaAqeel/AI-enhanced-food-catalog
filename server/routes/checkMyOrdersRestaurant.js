@@ -11,8 +11,8 @@ const findUserIdFromToken = require("../utils/findUserIdFromToken");
 
 router.get("/", async (req, res) => {
 	try {
-        const token = req.body.token;
-        // const orderId = req.body.order_id;
+        const token = req.query.token;
+        // const orderId = req.query.order_id;
         const userId = findUserIdFromToken(token);
 
 		const user = await ResOwner.findOne({ "_id": userId });
