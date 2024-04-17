@@ -13,6 +13,9 @@ router.post("/", async (req, res) => {
         let orderItemJson;
         const token = req.body.token;
         const order_id = req.body.order_id;
+
+        if (!token) 
+            return res.status(403).send({ message: "No authentication token provided" })
         const userId = findUserIdFromToken(token);
 
 		const user = await User.findOne({ "_id": userId });

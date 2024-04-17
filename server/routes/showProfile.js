@@ -8,6 +8,9 @@ const findUserIdFromToken = require("../utils/findUserIdFromToken")
 router.get("/", async (req, res) => {
 	try {
         const token_temp = req.query.token;
+		if (!token_temp) {
+			return res.status(403).send({ message: "No authentication token provided." });
+		  }
         const userId = findUserIdFromToken(token_temp);
 		let person;
 		let outJson;

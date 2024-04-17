@@ -10,6 +10,9 @@ const image_dir = path.join(__dirname, "../src/images/");
 router.get("/", async (req, res) => {
   try {
     const token = req.query.token;
+    if (!token) {
+      return res.status(403).send({ message: "No authentication token provided." });
+    }
     const userId = findUserIdFromToken(token);
 
     const resowner = await ResOwner.findOne({ _id: userId });

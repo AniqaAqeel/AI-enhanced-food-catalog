@@ -11,8 +11,8 @@ router.post("/", async (req, res) => {
 	try {
         const token = req.body.token;
 
-        if (!token)
-            return res.status(400).send({ message: "Token not provided" });
+        if (!token) 
+            return res.status(403).send({ message: "No authentication token provided" })
         const userId = findUserIdFromToken(token);
 
 		const user = await User.findOne({ "_id": userId });

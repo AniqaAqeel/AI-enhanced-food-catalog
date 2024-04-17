@@ -8,6 +8,8 @@ router.post("/", async (req, res) => {
 	try {
         const food_item_id = req.body.food_item_id;
         const token = req.body.token;
+        if (!token) 
+            return res.status(403).send({ message: "No authentication token provided" })
         const userId = findUserIdFromToken(token);
 
 		const resowner = await ResOwner.findOne({ "_id": userId });

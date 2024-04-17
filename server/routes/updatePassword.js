@@ -10,6 +10,9 @@ const { ResOwner } = require("../models/resowner");
 router.post("/", async (req, res) => {
   try {
     const token = req.body.token;
+		if (!token) {
+			return res.status(403).send({ message: "No authentication token provided." });
+		  }
     const role = req.body.role;
     if (!token || !role)
       return res.status(400).send({ message: "Token or role not provided" });
