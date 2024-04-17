@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Suspense, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
@@ -13,8 +13,9 @@ import Tooltip from "@mui/material/Tooltip";
 import ClearIcon from "@mui/icons-material/Clear";
 
 export default function NavBar() {
-  const { cart:LocalCart, setCart } = useAuth();
-  const [cart,setClientCart] = useState<Cart>({});
+  const { cart: LocalCart, setCart, user: userData } = useAuth();
+  const [cart, setClientCart] = useState<Cart>({});
+  const [user, setUser] = useState(userData);
   const length = useMemo(() => Object.keys(cart).length ?? 0, [cart]);
   const total = useMemo(() => {
     let total = 0;
@@ -23,10 +24,10 @@ export default function NavBar() {
     }
     return total;
   }, [cart]);
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     setClientCart(LocalCart);
-  },[LocalCart]);
+  }, [LocalCart]);
 
   return (
     <div className="sticky top-0 inset-x-0 z-50 group">
@@ -53,29 +54,34 @@ export default function NavBar() {
           </div>
 
           <div className="flex items-center gap-x-8 h-full flex-1 text-black basis-0 justify-end">
-            {length > 0 && (
-              <Tooltip title="Clear Cart" placement="bottom">
-                <div
-                  onClick={() => setCart({})}
-                  className="flex items-center h-full cursor-pointer gap-x-1"
-                >
-                  <ClearIcon className="text-secordary w-4" />
-                  <>Clear Cart</>
-                </div>
-              </Tooltip>
+            {user?.role === "user" && (
+              <>
+                {length > 0 && (
+                  <Tooltip title="Clear Cart" placement="bottom">
+                    <div
+                      onClick={() => setCart({})}
+                      className="flex items-center h-full cursor-pointer gap-x-1"
+                    >
+                      <ClearIcon className="text-secordary w-4" />
+                      <>Clear Cart</>
+                    </div>
+                  </Tooltip>
+                )}
+
+                <Tooltip title={`Total:${total}`} placement="bottom">
+                  <Link
+                    href="/cart"
+                    className="hover:text-ui-fg-base flex gap-2 text-secondary  hover:text-primary"
+                  >
+                    <div className="flex items-center h-full gap-x-1">
+                      <LocalMallIcon className="text-secordary w-4" />
+                      <>Cart ({length})</>
+                    </div>
+                  </Link>
+                </Tooltip>
+              </>
             )}
 
-            <Tooltip title={`Total:${total}`} placement="bottom">
-              <Link
-                href="/cart"
-                className="hover:text-ui-fg-base flex gap-2 text-secondary  hover:text-primary"
-              >
-                <div className="flex items-center h-full gap-x-1">
-                  <LocalMallIcon className="text-secordary w-4" />
-                  <>Cart ({length})</>
-                </div>
-              </Link>
-            </Tooltip>
             <div className="flex items-center h-full gap-x-1 hover:text-primary">
               <AccountDropdown />
             </div>
