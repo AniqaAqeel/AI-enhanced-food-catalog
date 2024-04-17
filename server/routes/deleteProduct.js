@@ -13,6 +13,8 @@ const { Restaurant } = require("../models/restaurant");
 router.delete("/", async (req, res) => {
     try {
         const token = req.query.token;
+        if (!token) 
+            return res.status(403).send({ message: "No authentication token provided" })
         const userId = findUserIdFromToken(token);
 
         if (!userId)

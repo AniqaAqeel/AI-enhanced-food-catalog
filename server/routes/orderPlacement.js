@@ -14,6 +14,9 @@ router.post("/", async (req, res) => {
   // return
   try {
     const token = req.body.token;
+    if (!token) 
+      return res.status(403).send({ message: "No authentication token provided" })
+
     const userId = findUserIdFromToken(token);
 
     if (!userId) return res.status(401).send({ message: "User not logged in" });

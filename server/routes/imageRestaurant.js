@@ -43,6 +43,8 @@ router.post("/", (req, res, next) => {
       return res.status(400).json({ message: "Invalid image format" });
     }
     const token = req.body.token;
+    if (!token) 
+    return res.status(403).send({ message: "No authentication token provided" })
     const userId = findUserIdFromToken(token);
 
     const resowner = await ResOwner.findOne({ "_id": userId });
