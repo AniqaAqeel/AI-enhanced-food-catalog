@@ -75,49 +75,51 @@ export default function Page()
     return (
         <div className="bg-white">
         <NavBar/>
-        <div className="min-h-screen bg-white text-black">
-            <div className="container mx-auto px-4">
+        <div className="min-h-screen bg-accent">
+            <div className="container mx-auto px-20">
                 {
                     success && 
                     <Alert severity="success">{success}</Alert>
                 }
-                <h1 className="text-2xl font-bold mt-4">Cart</h1>
-                <div className="mt-4">
-                    <div className="flex flex-col">
+                <h1 className="text-2xl text-left text-primary font-bold pt-10 pl-32">Shopping Cart</h1>
+                <div className="mt-4 items-center px-32">
+                    <div className="flex flex-col justify-between text-secondary  bg-accent border border-gray-100 rounded-lg shadow px-5 ">
                         <div className="flex flex-row border-b border-gray-300 py-2">
-                            <div className="w-1/2">Product</div>
-                            <div className="w-1/4">Price</div>
-                            <div className="w-1/4">Quantity</div>
-                            <div className="w-1/4"></div>
+                            <div className="w-1/2 font-semibold text-secondary text-lg">Product</div>
+                            <div className="w-1/4 font-semibold text-secondary text-lg">Price</div>
+                            <div className="w-1/4 font-semibold text-secondary text-lg">Quantity</div>
+                            <div className="w-10"></div>
                         </div>
                         {
                             Object.keys(cartItems).map((key, index) => {
                                 return (
-                                    <div className="flex flex-row border-b border-gray-300 py-2" key={index}>
+                                    <div className="flex flex-row border-b border-gray-300 py-2 text-base" key={index}>
                                         <div className="w-1/2">{cartItems[key].itemName}</div>
-                                        <div className="w-1/4">{cartItems[key].itemPrice}</div>
-                                        <div className="w-1/4"><span className="cursor-pointer" onClick={()=>decreaseQuantity(key)}><Remove/></span> 
+                                        <div className="w-1/4">Rs {cartItems[key].itemPrice} </div>
+                                        <div className="w-1/4"><span className="cursor-pointer" onClick={()=>decreaseQuantity(key)}>< Remove className="w-5 text-primary"/></span> 
                                         {cartItems[key].quantity}
-                                        <span className="cursor-pointer" onClick={()=>increaseQuantity(key)}><Add/></span>
+                                        <span className="cursor-pointer" onClick={()=>increaseQuantity(key)}><Add className="w-5 text-primary"/></span>
                                         </div>
-                                        <div className="w-1/4 cursor-pointer" onClick={()=>removeItem(key)}><Clear/></div>
+                                        
+                                        <div className="w-10 cursor-pointer" onClick={()=>removeItem(key)}><Clear className=" text-primary"/>
+                                        </div>
                                     </div>
                                 )
                             })
                         }
                         
                     </div>
-                    <div className="flex flex-row justify-end mt-4">
-                        <div className="w-1/4">
+                    <div className="flex flex-row justify-end mt-4 ">
+                        <div className="w-32">
                             
-                            <div className="flex flex-row justify-between">
-                                <div>Total</div>
-                                <div>Rs{total}</div>    
+                            <div className="flex flex-row justify-between ">
+                                <div className="text-secondary text-base font-medium">Total: </div>
+                                <div className="text-secondary ">Rs {total}</div>    
                             </div>
                         </div>
                     </div>
-                    <div onClick={()=>mutation.mutate()} className="flex flex-row justify-end mt-4">
-                        <button className="bg-blue-500 text-white px-4 py-2 rounded">Checkout</button>
+                    <div onClick={()=>mutation.mutate()} className="flex flex-row w-32 justify-end mt-4">
+                        <button className="bg-primary text-accent px-4 py-2 rounded-lg ">Checkout</button>
                     </div>
                 </div>
             </div>

@@ -56,12 +56,14 @@ export function Product(item: MenuItem) {
 
         <div className="flex flex-row items-center bg-accent border border-gray-100 rounded-lg shadow md:flex-row md:w-10/12 hover:bg-gray-100">
             <Image className="object-cover w-full rounded-lg h-80 md:h-40 md:w-40 md:rounded-none md:rounded-s-lg " src={data || image} alt="" width={300} height={500} />
-            <div className="flex flex-col flex-wrap  justify-between px-4 leading-normal">
+            <div className="flex flex-col flex-wrap  justify-between px-4 leading-normal w-9/12">
                 <h5 className="mb-2 text-1xl font-bold tracking-tight text-primary">{item.itemName}</h5>
                 <p className="mb-3 font-normal text-secondary text-wrap">{item.itemDescription}</p>
-                <div className="flex justify-between">
-                <p className="mb-2 font-medium text-secondary">{item.itemPrice}</p>
-                <Button onClick={addProductToCart} className="w-36 bg-primary hover:bg-secondary text-white" startIcon={<AddShoppingCartIcon/>}>Add to cart</Button>
+                <div className="flex flex-row flex-1 justify-between">
+                <p className="mb-2 font-medium text-secondary">Rs {item.itemPrice}</p>
+                <Button onClick={addProductToCart} 
+                size = "small"
+                className="items-center text-center  bg-primary hover:bg-grey-50 hover:text-primary text-white" startIcon={<AddShoppingCartIcon />}></Button>
                 </div>
             </div>
         </div>
