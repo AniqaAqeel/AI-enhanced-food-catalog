@@ -55,9 +55,9 @@ export const HomeProduct = ({
                     src={image ? image : "https://placehold.co/600x400/png"}
                     alt={item.res_name}
                     loading="lazy"
-                    className='rounded-lg h-80 w-80'
-                    width={500}
-                    height={500}
+                    className='rounded-lg h-60 w-60 object-cover'
+                    width={250}
+                    height={250}
                 />
                 <ImageListItemBar
                     title={item.res_name}
