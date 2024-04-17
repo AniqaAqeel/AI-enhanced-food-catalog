@@ -41,7 +41,7 @@ export function TitlebarImageList() {
   return (
     
 
-    <ImageList sx={{ width: "auto", height: "auto" }} cols={4} gap={18} >
+    <ImageList sx={{ width: "auto", height: "auto" , paddingX: "20"}} cols={5} gap={18} >
       {data.map((item) => (
         <HomeProduct item={item} key={item._id} />
       ))}
