@@ -13,6 +13,8 @@ import Image from 'next/image';
 import { useAuth } from "../AuthContext";
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Button } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export function MyProduct({
     item
@@ -90,10 +92,20 @@ export function MyProduct({
                     <Image className="object-cover w-full rounded-lg h-80 md:h-36 md:w-36 md:rounded-none md:rounded-s-lg cursor-pointer" src={data || image} alt="" width={300} height={500} />
                 </label>
             </Tooltip>
-            <div className="flex flex-col flex-wrap w-11/12 justify-items-start px-4 leading-normal">
+            <div className="flex flex-col flex-wrap justify-items-start px-4 leading-normal w-10/12">
                 <h5 className="mb-2 text-1xl font-bold tracking-tight text-primary">{item.itemName}</h5>
                 <p className="mb-3 font-normal text-secondary text-wrap">{item.itemDescription}</p>
-                <p className="mb-2 font-medium text-secondary">Rs {item.itemPrice}</p>
+                <div className="flex flex-row items-center justify-between max-w">
+
+
+                    <p className="mb-2 font-medium text-sm text-secondary">Rs {item.itemPrice}</p>
+                    
+                    <Button className="text-primary font-semibold hover:text-primary hover:bg-grey-50 ">
+                        <DeleteIcon />
+                    </Button> 
+                    
+                    
+                </div>
             </div>
         </div>
     )
