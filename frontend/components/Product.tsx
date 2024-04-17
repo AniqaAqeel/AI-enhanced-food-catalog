@@ -63,7 +63,7 @@ export function Product(item: MenuItem) {
                 <p className="mb-2 font-medium text-secondary">Rs {item.itemPrice}</p>
                 <Button onClick={addProductToCart} 
                 size = "small"
-                className="items-center text-center  bg-primary hover:bg-grey-50 hover:text-primary text-white" startIcon={<AddShoppingCartIcon />}></Button>
+                className="items-center text-center  bg-primary hover:bg-grey-50 hover:text-primary text-accent" startIcon={<AddShoppingCartIcon />}></Button>
                 </div>
             </div>
         </div>

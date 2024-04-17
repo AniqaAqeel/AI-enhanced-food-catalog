@@ -118,8 +118,8 @@ export default function Page()
                             </div>
                         </div>
                     </div>
-                    <div onClick={()=>mutation.mutate()} className="flex flex-row w-32 justify-end mt-4">
-                        <button className="bg-primary text-accent px-4 py-2 rounded-lg ">Checkout</button>
+                    <div onClick={()=>mutation.mutate()} className="flex flex-row justify-end mt-4">
+                        <button className="bg-primary text-accent px-4 py-2 rounded-lg shadow-sm">Checkout</button>
                     </div>
                 </div>
             </div>

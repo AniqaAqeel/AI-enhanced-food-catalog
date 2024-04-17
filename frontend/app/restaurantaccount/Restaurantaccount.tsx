@@ -175,7 +175,7 @@ export function Restaurantaccount() {
                             onChange={handleImageChange}
 
                         />
-                        <div >
+                        <div>
                             <Button
                                 className="text-accent bg-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center "
                                 component="span"
