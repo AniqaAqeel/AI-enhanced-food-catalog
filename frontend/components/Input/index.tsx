@@ -1,3 +1,4 @@
 import InputField from "./InputField";
 import SearchBar from "./searchbar";
-export { InputField,SearchBar}
+import ConfirmDialog from "./confirmDialog";
+export { InputField,SearchBar,ConfirmDialog}

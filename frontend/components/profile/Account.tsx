@@ -15,7 +15,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import { useQueryClient } from "@tanstack/react-query";
-
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 
 export const AccountDropdown = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -93,6 +93,17 @@ export const AccountDropdown = () => {
 
                 <Typography textAlign="center">
                   My profile
+                </Typography>
+              </div>
+            </Link>
+          </MenuItem>
+          <MenuItem>
+            <Link href="/myorders" prefetch={true}>
+              <div className="flex items-center gap-x-1 justify-between  text-secondary">
+                <ShoppingBagIcon className="text-secordary w-4 " />
+
+                <Typography textAlign="center">
+                  My Orders
                 </Typography>
               </div>
             </Link>

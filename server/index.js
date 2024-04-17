@@ -26,8 +26,9 @@ const saveItems = require("./routes/saveItems");
 const getResImage = require("./routes/getResImage");
 const postProductImage = require("./routes/postProductImage");
 const getProductImage = require("./routes/getProductImage");
+const search = require("./routes/search");
+const deleteProduct = require("./routes/deleteProduct");
 const removeItem = require("./routes/removeItem");
-const search = require("./routes/search")
 
 const auth = require("./routes/auth");
 
@@ -62,6 +63,7 @@ app.use("/api/resowners/generateDescription",generateDescription);//generate des
 app.use("/api/resowners/removeItem", removeItem); // to remove item once its uploaded
 app.use("/api/resowners/orderCancellation", orderCancellation); // cancelling orders for resowner
 app.use("/api/resowners/checkMyOrdersRes", checkMyOrdersRes) // check orders that have been placed to resowner on his/her restaurants, this will also return order status                                                                     // check restaurant orders
+app.use("/api/resowners/deleteProduct", deleteProduct);//delete product                                                                        
 app.use("/api/resowners/showImageRestaurant", showImageRestaurant);//show the image on my restaurant page
 app.use("/api/resowners/saveItems", saveItems);//save csv items to database
 app.use("/api/resowners/getMenu", getMenu)//to display item for restaurant on my restaurant page
