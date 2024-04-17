@@ -82,13 +82,18 @@ export default function NavBar() {
                 </Tooltip>
               </>
             )}
-            <Link
+            {user?.role === "resowner" && (<>
+              <Link
               href="/uploadcsv"
               className="flex items-center h-full gap-x-1  hover:text-primary whitespace-nowrap hover:text-ui-fg-base"
             >
               <MenuBookIcon className="text-secordary w-1" />
               Add menu
             </Link>
+            </>
+            
+            )}
+            
 
             <div className="flex items-center h-full gap-x-1 hover:text-primary">
               <AccountDropdown />

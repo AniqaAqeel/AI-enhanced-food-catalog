@@ -67,33 +67,37 @@ export const RestaurantOrder = ({ order }: { order: Order }) => {
   })
   const {token} = useAuth();
   return (
-    <div className="flex flex-col justify-between text-secondary bg-accent border border-gray-100 rounded-lg shadow px-5 ">
+    <div className="flex flex-col justify-between text-secondary bg-accent border border-gray-100 rounded-lg shadow px-5 w-7/12">
+      <div className="flex flex-col text-medium">
       <List 
         subheader={
           <ListSubheader component="div" id="nested-list-subheader">
-            Orders # {order.order_id}
+            Order # {order.order_id}
           </ListSubheader>
         }
       >
-        <ListItem>
+        
+        <ListItem className="text-secondary text-base">
             <ListItemText primary= {"Restaurant:" +order.res_name} />
         </ListItem>
-        <ListItemButton onClick={()=>setOpen(!open)} className="flex  text-base font-medium py-2">
-          <ListItemText primary={"Items"} />
+        <ListItemButton onClick={()=>setOpen(!open)} className="flex justify-start text-sm font-normal py-2">
+          <ListItemText primary={"Items:"} />
           {open ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             {order.food_items.map((food, index) => (
-                <ListItem>
+                <ListItem key={index}>
                     <ListItemText primary={food.itemName} />
                 </ListItem>
             ))}
           </List>
         </Collapse>
       </List>
+      </div>
+      <div className="pl-4" >
       {order.order_status === "open" && 
-      <div>
+      <div className="flex flex-row pr-10">
         <Box
           sx={{
             width: 200,
@@ -124,11 +128,15 @@ export const RestaurantOrder = ({ order }: { order: Order }) => {
           {value !== null && (
             <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>
           )}
-          <Button onClick={()=>mutation.mutate()} className="bg-primary text-white hover:bg-secondary">
+          
+          <Button onClick={()=>mutation.mutate()} className="bg-primary text-accent hover:bg-grey-50 hover:text-primary">
             Submit
           </Button>
         </Box>
+        
       </div>}
+      </div>
     </div>
+    
   );
 };
