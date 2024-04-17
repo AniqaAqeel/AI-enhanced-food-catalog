@@ -50,7 +50,7 @@ app.use("/api/users/orderCancellation", orderCancellation); // cancelling orders
 app.use("/api/users/checkMyOrdersUser", checkMyOrdersUser); // check what orders has the user placed, it will also return status, if the order is cancelled, in-progress or open                                                       // check my orders
 app.use("/api/users/viewMainPage", viewMainPage);//view restaurant images on main page
 app.use("/api/users/viewRestaurant", viewRestaurant); //view menu, food items, products, restaurant image
-app.use("/api/users/rateRestaurant", rateRestaurant); // rate the restaurant
+app.use("/api/users/rateOrder", rateRestaurant); // rate the order 
 
 app.use("/api/restaurant", getResImage);//show the image on restaurant page
 
