@@ -40,7 +40,7 @@ const unaccessible_routes_during_login = ["/signin", "/signup","/forgetpassword"
 export const useAuth = () => useContext<TAuthContext>(AuthContext);
 
 
-export const AuthProvider = memo(({ children }: { children: ReactNode }) => {
+const AuthProviderComponent = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useLocalStorage<AuthUser | null>("user", null);
     const [token, setToken] = useLocalStorage<string | null>("token", null);
     const [loading, setLoading] = useState(true);
@@ -72,4 +72,6 @@ export const AuthProvider = memo(({ children }: { children: ReactNode }) => {
             </QueryClientProvider>
         </AuthContext.Provider>
     )
-});
+};
+
+export const AuthProvider = memo(AuthProviderComponent);
