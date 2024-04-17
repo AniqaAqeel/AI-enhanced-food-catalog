@@ -59,7 +59,8 @@ router.post("/", async (req, res) => {
               user_id: userId,
               res_id: entry.res_id,
               order_date: new Date(),
-              total_amount: 0
+              total_amount: 0,
+              order_status: "open"
             });
 
             entry.items.forEach(item => {

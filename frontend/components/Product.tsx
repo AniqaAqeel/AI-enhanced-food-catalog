@@ -7,6 +7,8 @@ import { MenuItem } from "@/app/restaurantaccount/Restaurantaccount";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useAuth } from "@/app/AuthContext";
+import { Button } from "@mui/material";
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 
 export function Product(item: MenuItem) {
@@ -29,13 +31,27 @@ export function Product(item: MenuItem) {
             };
         });
     }
+    const addProductToCart = async () => {
+        if (cart[item._id] === undefined) {
+            setCart({ ...cart, [item._id]: {
+                quantity: 1,
+                ...item                
+            } });
+        } else {
+            setCart({ ...cart, [item._id]: {
+                quantity: cart[item._id].quantity + 1,
+                ...item
+            } });
+        }
+
+    }
 
     const { data, isLoading, error: DataError } = useQuery({
         queryKey: [item._id],
         queryFn: fetchProductImage,
         enabled: item.imageLink !== undefined,
     });
-    const {token} = useAuth();
+    const {token,cart,setCart} = useAuth();
     return (
 
         <div className="flex flex-row items-center bg-accent border border-gray-100 rounded-lg shadow md:flex-row md:w-10/12 hover:bg-gray-100">
@@ -43,7 +59,10 @@ export function Product(item: MenuItem) {
             <div className="flex flex-col flex-wrap  justify-between px-4 leading-normal">
                 <h5 className="mb-2 text-1xl font-bold tracking-tight text-primary">{item.itemName}</h5>
                 <p className="mb-3 font-normal text-secondary text-wrap">{item.itemDescription}</p>
+                <div className="flex justify-between">
                 <p className="mb-2 font-medium text-secondary">{item.itemPrice}</p>
+                <Button onClick={addProductToCart} className="w-36 bg-primary hover:bg-secondary text-white" startIcon={<AddShoppingCartIcon/>}>Add to cart</Button>
+                </div>
             </div>
         </div>
 

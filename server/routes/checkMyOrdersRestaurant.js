@@ -12,21 +12,22 @@ const findUserIdFromToken = require("../utils/findUserIdFromToken");
 router.get("/", async (req, res) => {
 	try {
         const token = req.query.token;
-        // const orderId = req.body.order_id;
+        // const orderId = req.query.order_id;
         const userId = findUserIdFromToken(token);
 
-		const user = await User.findOne({ "_id": userId });
+		const user = await ResOwner.findOne({ "_id": userId });
 		
 		if (!user) 
 			return res.status(401).send({ message: "User not logged in" });
 
-		const order = await Order.find({ user_id: userId });
+		const restaurant = await Restaurant.findOne({ owner_id: userId });
+        const order = await Order.find({res_id: restaurant._id});
         if (!order)
             return res.status(400).send({ message: "No order" });
 
         orderArray = []
         for (const order_item of order) {
-            const restaurant = await Restaurant.findOne({ _id: order_item.res_id});
+            const user = await User.findOne({ _id: order_item.user_id});
             const order_items = await OrderItems.find({ order_id: order_item._id });
 
             let foodItems = [];
@@ -41,8 +42,9 @@ router.get("/", async (req, res) => {
             orderArray.push(
                 {
                     order_id: order_item._id,
-                    res_id: restaurant._id,
-                    res_name: restaurant.res_name,
+                    user_id: user._id,
+                    user_name: user.name,
+                    user_email: user.email,
                     order_status: order_item.order_status,
                     total_amount: order_item.total_amount,
                     food_items: foodItems
