@@ -32,7 +32,7 @@ export const AccountDropdown = () => {
     setToken("");
     setUser(null);
     router.replace("/signin");
-    queryClient.resetQueries(); 
+    queryClient.resetQueries();
     queryClient.clear();
   };
 
@@ -97,31 +97,26 @@ export const AccountDropdown = () => {
               </div>
             </Link>
           </MenuItem>
-          <MenuItem>
-            <Link href="/myorders" prefetch={true}>
-              <div className="flex items-center gap-x-1 justify-between  text-secondary">
-                <ShoppingBagIcon className="text-secordary w-4 " />
+          {user && user.role === "user" && <>
+            <MenuItem>
+              <Link href="/myorders" prefetch={true}>
+                <div className="flex items-center gap-x-1 justify-between  text-secondary">
+                  <ShoppingBagIcon className="text-secordary w-4 " />
 
-                <Typography textAlign="center">
-                  My Orders
-                </Typography>
-              </div>
-            </Link>
-          </MenuItem>
+                  <Typography textAlign="center">
+                    My Orders
+                  </Typography>
+                </div>
+              </Link>
+            </MenuItem>
+          </>
+
+          }
+
           {
             user?.role === "resowner" && <>
               <div className="flex-direction: column justify-start  text-secondary">
-                <MenuItem>
-                  <Link href="/uploadcsv" prefetch={true}>
-                    <div className="flex items-center gap-x-1 justify-between  text-secondary">
-                      <FileUploadIcon className="justify-start text-secordary w-5 " />
 
-                      <Typography textAlign="center">
-                        Upload CSV
-                      </Typography>
-                    </div>
-                  </Link>
-                </MenuItem>
                 {/* <MenuItem>
                   <Link href="/restaurantaccount" prefetch={true}>
                     <div className="flex items-center gap-x-1 justify-between  text-secondary">

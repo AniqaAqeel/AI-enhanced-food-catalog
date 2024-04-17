@@ -53,10 +53,10 @@ export default function Page() {
                 </Button>
           </div>
           
-          <div className="text-center text-2xl font-bold text-primary py-2">
+          <div className="text-center text-2xl font-bold text-primary py-2 ">
             {mutation.isPending && <CircularProgress />}    
             </div>
-        <div className="flex flex-col text-black items-center py-5 gap-5">
+        <div className="flex flex-col text-secondary items-center py-5 gap-5">
             {data.map((item) => (
                 <Product key={item._id} {...item} />
             ))}
