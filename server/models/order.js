@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
 	order_date: { type: Date, required: true },
 	total_amount: { type: Number, required: true },
     order_status: { type: String, required: true },
+    delivery_address: { type: String, required: true }
 });
 
 const Order = mongoose.model("orders", userSchema);

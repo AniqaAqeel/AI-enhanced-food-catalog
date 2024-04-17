@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { createContext, ReactNode, useContext, useEffect } from "react";
+import { createContext, memo, ReactNode, useContext, useEffect, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import {
     useQuery,
@@ -40,30 +40,36 @@ const unaccessible_routes_during_login = ["/signin", "/signup","/forgetpassword"
 export const useAuth = () => useContext<TAuthContext>(AuthContext);
 
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
+export const AuthProvider = memo(({ children }: { children: ReactNode }) => {
     const [user, setUser] = useLocalStorage<AuthUser | null>("user", null);
     const [token, setToken] = useLocalStorage<string | null>("token", null);
+    const [loading, setLoading] = useState(true);
     const [cart,setCart] = useLocalStorage<Cart>("cart",{});
     const pathname = usePathname();
     const router = useRouter();
     useEffect(() => {
+        setLoading(true)
         if (!token) {
             if (!unprotected_routes.includes(pathname)) {
                 router.replace("/signin");
             }
+            else
+                setLoading(false);
         }
         else if (token) {
             if (unaccessible_routes_during_login.includes(pathname)) {
                 router.replace("/dashboard");
             }
+            else
+                setLoading(false);
         }
     }, [user, token, pathname]);
 
     return (
         <AuthContext.Provider value={{ user, setUser, token, setToken,cart,setCart }}>
             <QueryClientProvider client={queryClient}>
-                {children}
+                {!loading && children}
             </QueryClientProvider>
         </AuthContext.Provider>
     )
-};
+});

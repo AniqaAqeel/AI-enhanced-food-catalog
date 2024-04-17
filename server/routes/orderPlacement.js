@@ -16,10 +16,16 @@ router.post("/", async (req, res) => {
     const token = req.body.token;
     if (!token) 
       return res.status(403).send({ message: "No authentication token provided" })
+    const delivery_address = req.body.delivery_address;
+    if (!delivery_address)
+      return res.status(400).send({ message: "No delivery address provided" });
 
     const userId = findUserIdFromToken(token);
 
     if (!userId) return res.status(401).send({ message: "User not logged in" });
+    const user = await User.findOne({ "_id": userId });
+    if (!user) return res.status(401).send({ message: "User not logged in" });
+
 
     // find res_id for each
     let ordersJson = req.body.order;
@@ -65,6 +71,7 @@ router.post("/", async (req, res) => {
         order_date: new Date(),
         total_amount: 0,
         order_status: "open",
+        delivery_address: delivery_address,
       });
 
       entry.items.forEach((item) => {
