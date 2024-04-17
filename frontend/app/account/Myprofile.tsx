@@ -120,7 +120,6 @@ export function Myprofile() {
               label=""
               placeholder="Enter Desciption"
               className="mb-3"
-              required={true}
 
             />
           </div>
