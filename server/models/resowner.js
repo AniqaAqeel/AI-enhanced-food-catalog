@@ -17,6 +17,13 @@ userSchema.methods.generateAuthToken = function () {
 	return token;
 };
 
+userSchema.methods.generateResetAuthToken = function () {
+	const token = jwt.sign({ _id: this._id }, process.env.JWTPRIVATEKEY, {
+		expiresIn: "20m",
+	});
+	return token;
+};
+
 const ResOwner = mongoose.model("res_owner", userSchema);
 
 const validate = (data) => {

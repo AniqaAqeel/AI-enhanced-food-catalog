@@ -12,6 +12,7 @@ const model = genAI.getGenerativeModel({ model: "embedding-001" });
 router.post("/", async (req, res) => {
   try {
     const token = req.body.token;
+    
     if (!token) {
       return res.status(403).send({ message: "No authentication token provided." });
     }

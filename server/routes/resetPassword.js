@@ -4,12 +4,12 @@ const { User } = require("../models/user");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
-const findUserIdFromToken = require("../utils/findUserIdFromToken")
+const findUserIdFromToken = require("../utils/findUserIdFromToken");
+const { ResOwner } = require("../models/resowner");
 
 const sendVerificationEmail = (email, OTP) => {
     let transporter = nodemailer.createTransport({
-        service: "Gmail",
-        host: "smtp.gmail.com",
+        host: process.env.EMAIL_HOST,
         port: 465,
         secure: true,
         auth: {
@@ -22,7 +22,7 @@ const sendVerificationEmail = (email, OTP) => {
         from: process.env.EMAIL_USERNAME,
         to: email,
         subject: "Test Email",
-        text: `This is a test email. ${OTP}`,
+        text: `This is a test email. http://localhost:3000/forgetpassword?otp=${OTP}&email=${email}`,
     };
 
     let info = transporter.sendMail(mailOptions);
@@ -33,24 +33,38 @@ const sendVerificationEmail = (email, OTP) => {
 
 router.post("/", async (req, res) => {
     try {
-
+        let isResOwner = false;
         if (req.body.email && req.body.otp && req.body.newPassword) {
             const userId = findUserIdFromToken(req.body.otp);
             user = await User.findOne({ "_id": userId });
+            if (!user) {
+                user = await ResOwner.findOne({"_id": userId});
+                isResOwner = true;
+            }
             
             if (user) {
                 if (user.email === req.body.email) {
                     const salt = await bcrypt.genSalt(Number(process.env.SALT));
                     const hashPassword = await bcrypt.hash(req.body.newPassword, salt);
             
-                    await User.findByIdAndUpdate(userId, { password: hashPassword });
+                    if (isResOwner) {
+                        await ResOwner.findByIdAndUpdate(userId, { password: hashPassword });
+                    }
+                    else {
+                        await User.findByIdAndUpdate(userId, { password: hashPassword });
+                    }
                     return res.status(200).send({ message: "Password updated successfully" });
                 }
             }
         }
 
         if (req.body.email) {
-            user = await User.findOne({ email: req.body.email })
+            user = await User.findOne({ email: req.body.email });
+            if (!user) {
+                user = await ResOwner.findOne({ email: req.body.email });
+            }
+
+
             if (user) {
                 const OTP = user.generateResetAuthToken()
                 sendVerificationEmail(req.body.email, OTP);
