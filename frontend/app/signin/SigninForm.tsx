@@ -37,6 +37,7 @@ export function SigninForm() {
       setError(error.response.data.message?? "An error occured");
     },
     onSuccess: (data: any) => {
+      console.log(data);
       setToken(data.data.token);
       setUser({
         email: data.data.user.email,
@@ -102,7 +103,7 @@ export function SigninForm() {
                   </label>
                 </div>
                 <Link
-                  href="/forget-password"
+                  href="/forgetpassword"
                   className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
                 >
                   Forgot your password?
