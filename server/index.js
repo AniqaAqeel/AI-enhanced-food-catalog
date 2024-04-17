@@ -13,6 +13,7 @@ const showProfile = require("./routes/showProfile");
 const orderPlacement = require("./routes/orderPlacement");
 const orderCancellation = require("./routes/orderCancellation");
 const checkMyOrdersUser = require("./routes/checkMyOrdersUser");
+const checkMyOrdersRes = require("./routes/checkMyOrdersRestaurant");
 const viewMainPage = require("./routes/viewMainPage");
 const viewRestaurant = require("./routes/viewRestaurant");
 const rateRestaurant = require("./routes/rateRestaurant");
@@ -60,7 +61,7 @@ app.use("/api/resowners/csvUpload", csvUpload);//upload csv
 app.use("/api/resowners/generateDescription",generateDescription);//generate description from csv
 app.use("/api/resowners/removeItem", removeItem); // to remove item once its uploaded
 app.use("/api/resowners/orderCancellation", orderCancellation); // cancelling orders for resowner
-                                                                        // check restaurant orders
+app.use("/api/resowners/checkMyOrdersRes", checkMyOrdersRes) // view orders for restaurants                                                                          // check restaurant orders
 app.use("/api/resowners/showImageRestaurant", showImageRestaurant);//show the image on my restaurant page
 app.use("/api/resowners/saveItems", saveItems);//save csv items to database
 app.use("/api/resowners/getMenu", getMenu)//to display item for restaurant on my restaurant page
