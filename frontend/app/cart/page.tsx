@@ -124,7 +124,7 @@ export default function Page() {
 
                         
                         <div className="flex flex-row justify-end mt-4 ">
-                            <div className="w-96">
+                            <div className="w-32">
 
                                 <div className="flex flex-row justify-between ">
                                     <div className="text-secondary text-base font-medium">Total: </div>
