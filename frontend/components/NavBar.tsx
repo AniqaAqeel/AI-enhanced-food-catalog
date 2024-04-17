@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { AccountDropdown } from "./profile/Account";
 import Tooltip from "@mui/material/Tooltip";
 import ClearIcon from "@mui/icons-material/Clear";
+import MenuBookIcon from '@mui/icons-material/MenuBook';
 
 export default function NavBar() {
   const { cart: LocalCart, setCart, user: userData } = useAuth();
@@ -53,7 +54,7 @@ export default function NavBar() {
             </Link>
           </div>
 
-          <div className="flex items-center gap-x-8 h-full flex-1 text-black basis-0 justify-end">
+          <div className="flex items-center gap-x-8 h-full flex-1 text-secondary basis-0 justify-end">
             {user?.role === "user" && (
               <>
                 {length > 0 && (
@@ -81,6 +82,13 @@ export default function NavBar() {
                 </Tooltip>
               </>
             )}
+            <Link
+              href="/uploadcsv"
+              className="flex items-center h-full gap-x-1  hover:text-primary whitespace-nowrap hover:text-ui-fg-base"
+            >
+              <MenuBookIcon className="text-secordary w-1" />
+              Add menu
+            </Link>
 
             <div className="flex items-center h-full gap-x-1 hover:text-primary">
               <AccountDropdown />
