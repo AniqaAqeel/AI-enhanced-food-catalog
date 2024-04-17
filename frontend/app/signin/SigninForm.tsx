@@ -104,10 +104,11 @@ export function SigninForm() {
                 </div>
                 <Link
                   href="/forgetpassword"
-                  className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  className="text-sm font-medium text-primary hover:underline dark:text-primary-500"
                 >
                   Forgot your password?
                 </Link>
+                
               </div>
 
               <button

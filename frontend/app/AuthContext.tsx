@@ -35,8 +35,8 @@ export interface Cart {
 }
 
 export const AuthContext = createContext<any>({});
-const unprotected_routes = ["/signin", "/signup", "/", "/forget-password"];
-const unaccessible_routes_during_login = ["/signin", "/signup"];
+const unprotected_routes = ["/signin", "/signup", "/", "/forget-password","/forgetpassword"];
+const unaccessible_routes_during_login = ["/signin", "/signup","/forgetpassword"];
 export const useAuth = () => useContext<TAuthContext>(AuthContext);
 
 
