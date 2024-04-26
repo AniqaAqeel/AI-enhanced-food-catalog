@@ -62,6 +62,7 @@ export default function Page() {
     });
     return await response.data;
   };
+  console.log(address);
   const { token } = useAuth();
   const mutation = useMutation({
     mutationKey: ["placeOrder"],
@@ -69,6 +70,7 @@ export default function Page() {
     onSuccess: (data: any) => {
       setCart({});
       setSuccess("Order placed successfully");
+      setAddress("");
     },
     onError: (error: any) => {
       setError(error.response.data.message);
@@ -76,7 +78,6 @@ export default function Page() {
     onMutate: () => {
       setError("");
       setSuccess("");
-      setAddress("");
     },
   });
 
