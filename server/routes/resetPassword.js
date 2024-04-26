@@ -22,7 +22,7 @@ const sendVerificationEmail = (email, OTP) => {
         from: process.env.EMAIL_USERNAME,
         to: email,
         subject: "Test Email",
-        text: `This is a test email. http://localhost:3000/forgetpassword?otp=${OTP}&email=${email}`,
+        text: `This is a test email. ${process.env.FRONTEND_URL}/forgetpassword?otp=${OTP}&email=${email}`,
     };
 
     let info = transporter.sendMail(mailOptions);
