@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import Alert from '@mui/material/Alert';
 import { useRouter } from "next/navigation";
 import { validateEmail, validatePassword } from "@/utils/validate";
+import { useMutation } from "@tanstack/react-query";
 
 export  function CustomerForm() {
   const [email, setEmail] = useState("");
@@ -16,36 +17,69 @@ export  function CustomerForm() {
   const router = useRouter();
   const handleSubmit = async (e:any) => {
 		e.preventDefault();
-		try {
-			console.log("ok")
-			const url = "http://localhost:8080/api/users";
-			const { data: res } = await axios.post(url, {
-        name: name,
-        email: email,
-        password: password,
-        desc: "customer"
-      });
+		// try {
+		// 	console.log("ok")
+		// 	const url = "http://localhost:8080/api/users";
+		// 	const { data: res } = await axios.post(url, {
+    //     name: name,
+    //     email: email,
+    //     password: password,
+    //     desc: "customer"
+    //   });
 			
-			console.log(res.message);
-      setSucess(res.message);
-      setError("");
-      setTimeout(() => {
-        router.push("/signin");
-      },500);
+		// 	console.log(res.message);
+    //   setSucess(res.message);
+    //   setError("");
+    //   setTimeout(() => {
+    //     router.push("/signin");
+    //   },500);
 			
-		} catch (error:any) {
-			if (
-				error.response &&
-				error.response.status >= 400 &&
-				error.response.status <= 500
-			) {
-				setError(error.response.data.message);
-			}
-      else{
-        setError("An error occured, please try again later");
-      }
-		}
+		// } catch (error:any) {
+		// 	if (
+		// 		error.response &&
+		// 		error.response.status >= 400 &&
+		// 		error.response.status <= 500
+		// 	) {
+		// 		setError(error.response.data.message);
+		// 	}
+    //   else{
+    //     setError("An error occured, please try again later");
+    //   }
+		// }
+    if (name === "" || email === "" || password === "") {
+      setError("Please fill all fields");
+      return;
+    }
+    mutation.mutate();
 	};
+  const register = async () => {
+    const url = `${process.env.NEXT_PUBLIC_URL}`
+    axios.defaults.baseURL = url;
+    const response = await axios.post("/api/users", {
+      
+      name: name,
+      email: email,
+      password: password,
+      desc:"customer"
+     
+    });
+    return await response.data;
+  }
+  const mutation = useMutation({
+    mutationKey: ["register"],
+    mutationFn: register,
+    onError: (error:any) => {
+      setError(error.response.data.message??"An error occured, please try again later");
+    },
+    onSuccess: (data:any) => {
+      setSucess(data.message);
+      router.push("/signin");
+    },
+    onMutate: () => {
+      setError("");
+      setSucess("");
+    }
+  });
 
     return(
         <section className="bg-accent ">
