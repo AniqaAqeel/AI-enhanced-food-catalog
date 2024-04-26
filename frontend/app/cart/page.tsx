@@ -62,7 +62,6 @@ export default function Page() {
     });
     return await response.data;
   };
-  console.log(address);
   const { token } = useAuth();
   const mutation = useMutation({
     mutationKey: ["placeOrder"],
