@@ -21,8 +21,8 @@ const sendVerificationEmail = (email, OTP) => {
     let mailOptions = {
         from: process.env.EMAIL_USERNAME,
         to: email,
-        subject: "Test Email",
-        text: `This is a test email. ${process.env.FRONTEND_URL}/forgetpassword?otp=${OTP}&email=${email}`,
+        subject: "Reset Password",
+        text: `Click on Link to reset password. ${process.env.FRONTEND_URL}/forgetpassword?otp=${OTP}&email=${email}`,
     };
 
     let info = transporter.sendMail(mailOptions);
