@@ -52,7 +52,12 @@ export function Home() {
         <div className="text-left text-base font-medium text-secondary pb-3 pl-2">Explore dishes and cuisines with AI assistance...</div>
         <div className="flex flex-row items-center justify-start">
         <SearchBar onChange={(e)=>setQuery(e.currentTarget.value)} value={query} />
-        <Button onClick={()=>router.push(`/aisearch?q=${query}`)} className="bg-primary h-10 text-accent hover:text-secondary">Search</Button> 
+        <div className="bg-primary text-accent hover:text-secondary rounded-lg hover:bg-transparent">
+        <Button className=" h-10" onClick={()=>router.push(`/aisearch?q=${query}`)} > 
+        <div className="text-accent hover:text-secondary">
+        Search
+        </div></Button> 
+        </div>
         </div>
       
     </div>
