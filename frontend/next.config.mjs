@@ -17,6 +17,10 @@ const nextConfig = {
           {
             protocol: "https",
             hostname: "placehold.co",
+          },
+          {
+            protocol: "https",
+            hostname : "ai-enhanced-food-catalog-ktth.onrender.com"
           }
           
         ],
